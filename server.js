@@ -2,8 +2,10 @@ const express = require("express");
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20');
 
+const keys = require("./config/keys");
+
 const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri = "mongodb+srv://bloguser:edxdo2BwnAMYLXeP@mern-blog-udemy.c6dl4tw.mongodb.net/?retryWrites=true&w=majority";
+const uri = keys.MongoURI;
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 
 const client = new MongoClient(uri, {
@@ -30,7 +32,7 @@ run().catch(console.dir);
 
 const app = express();
 
-passport.use(new GoogleStrategy());
+//passport.use(new GoogleStrategy());
 
 app.get('/users', (req, res) => {
   res.send('Hello World!');
