@@ -1,64 +1,31 @@
 const express = require("express");
+const keys = require('./config/keys');
+const mongoose = require('mongoose');
+const cookieSession = require('cookie-session');
 const passport = require('passport');
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
+require('./models/User');
+require('./services/passport');
 
-const keys = require("./config/keys");
+//Connect to MongoDB database
+mongoose.connect(keys.MongoURI);
 
-const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri = keys.MongoURI;
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
-
-const client = new MongoClient(uri, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  }
-});
-
-async function run() {
-  try {
-    // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
-    // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
-    console.log("Pinged your deployment. You successfully connected to MongoDB!");
-  } finally {
-    // Ensures that the client will close when you finish/error
-    await client.close();
-  }
-}
-run().catch(console.dir);
-
+//Create express object for route handling
 const app = express();
 
-passport.use(new GoogleStrategy({
-    clientID: keys.googleClientID,
-    clientSecret: keys.googleClientSecret,
-    callbackURL: '/auth/google/callback'
-  }, (accessToken, refreshToken, profile, done) => {
-    console.log('access token', accessToken);
-    console.log('refresh token', refreshToken);
-    console.log('profile:', profile);
+//Use cookieSession to generate 30-day cookies upon login and apply to passport
+app.use(
+  cookieSession({
+    maxAge: 30 * 24 * 60 * 60 * 1000,
+    keys: [keys.cookieKey]
   })
 );
+app.use(passport.initialize());
+app.use(passport.session());
 
-app.get('/auth/google', passport.authenticate('google', {
-  scope: ['profile', 'email']
-  })
-);
+//Import authentication routes
+require('./routes/authRoutes')(app);
 
-app.get('/auth/google/callback', passport.authenticate('google'));
-
-app.get('/users', (req, res) => {
-  res.send('Hello World!');
-});
-
-app.get('/user/:id', (req, res) => {
-  console.log(req.params.id);
-  res.send('Successful');
-});
-
+//Start server on port 5000
 app.listen(5000, () => {
   console.log("Server is up and running");
 });
