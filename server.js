@@ -12,7 +12,7 @@ mongoose.connect(keys.MongoURI);
 //Create express object for route handling
 const app = express();
 
-//Use cookieSession to generate 30-day cookies upon login and apply to passport
+//Use cookieSession and passport middleware to generate 30-day cookies upon login
 app.use(
   cookieSession({
     maxAge: 30 * 24 * 60 * 60 * 1000,
