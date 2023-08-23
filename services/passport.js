@@ -25,18 +25,16 @@ passport.use(new GoogleStrategy({
     clientSecret: keys.googleClientSecret,
     callbackURL: '/auth/google/callback',
     proxy: true
-  }, (accessToken, refreshToken, profile, done) => {
+  }, async (accessToken, refreshToken, profile, done) => {
     //Check if there is existing user
-    User.findOne({ googleId: profile.id })
+    const existingUser = await User.findOne({ googleId: profile.id });
       //If user exists return existing user, else create new user in mongoose/MongoDB
-      .then((existingUser) => {
-        if (existingUser) {
-          done(null, existingUser);
-        } else {
-          new User({ googleId: profile.id })
-            .save()
-            .then(user => done(null, user));
-        }
-      });    
-  })
+      if (existingUser) {
+        done(null, existingUser);
+      } else {
+          const user = await new User({ googleId: profile.id }).save()
+          done(null, user);
+      };    
+    }
+  )
 );
