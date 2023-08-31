@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node server.js",
     "server": "nodemon server.js",
-    "client": "npm run start --prefix client",
+    "build": "tsc -w --prefix client",
+    "client": "npm run start --prefix client/build",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "author": "",
