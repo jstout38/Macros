@@ -4,11 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node server.js",
-    "server": "nodemon server.js",
-    "build": "tsc -w --prefix client",
-    "client": "npm run start --prefix client/build",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "server": "nodemon build/server.js",
+    "client": "npm run ts-run --prefix ./client",
+    "dev": "concurrently \"tsc -w\" \"npm run server\" \"npm run client\""
   },
   "author": "",
   "license": "ISC",
