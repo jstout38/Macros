@@ -1,7 +1,8 @@
 //Endpoints for authentication processes via passport
-const passport = require('passport');
+import { Express } from 'express';
+import passport from 'passport';
 
-module.exports = (app) => {
+module.exports = (app: Express) => {
   //endpoint for using Google authentication via passport
   app.get('/auth/google', passport.authenticate('google', {
     scope: ['profile', 'email']
@@ -12,8 +13,11 @@ module.exports = (app) => {
   app.get('/auth/google/callback', passport.authenticate('google'));
 
   //endpoint for logging out
-  app.get('/api/logout', (req, res) => {
-    req.logout();
+  app.get('/api/logout', (req, res, next) => {
+    req.logout(function(err) {
+      if (err) { return next(err); }
+      res.redirect('/');
+    });
     res.send(req.user);
   });
 
