@@ -5,7 +5,7 @@ const Dashboard = () => React.createElement("h2", null, "Dashboard");
 const SurveyNew = () => React.createElement("h2", null, "SurveyNew");
 const Landing = () => React.createElement("h2", null, "Landing");
 const App = () => {
-    return (React.createElement("div", null,
+    return (React.createElement("div", { className: "container" },
         React.createElement(BrowserRouter, null,
             React.createElement("div", null,
                 React.createElement(Header, null),

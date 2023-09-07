@@ -9,7 +9,7 @@ const Landing: React.FC = () => <h2>Landing</h2>
 
 const App: React.FC = () => {
   return (
-    <div>
+    <div className="container">
       <BrowserRouter>
          <div>
           <Header />
