@@ -2,6 +2,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 class Header extends Component {
+  renderContent() {
+    switch (this.props.auth) {
+      case null: 
+        return 'Still deciding';
+      case false:
+        return 'imloggedout';
+      default;
+    }
+  }
   render() {
     console.log(this.props);
     return(
