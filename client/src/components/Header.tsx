@@ -1,16 +1,22 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-class Header extends Component {
+interface MyProps {
+  auth: any
+}
+
+class Header extends Component<MyProps> {
   renderContent() {
     switch (this.props.auth) {
       case null: 
         return 'Still deciding';
       case false:
-        return 'imloggedout';
-      default;
+        return 'im loggedout';
+      default:
+        return 'im logged in';
     }
   }
+
   render() {
     console.log(this.props);
     return(
@@ -21,7 +27,7 @@ class Header extends Component {
           </a>
           <ul className="right">
             <li>
-              <a>Login with Google</a>
+              {this.renderContent()};
             </li>
           </ul>
         </div>
