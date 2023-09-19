@@ -9,9 +9,7 @@ const SurveyNew: React.FC = () => <h2>SurveyNew</h2>
 const Landing: React.FC = () => <h2>Landing</h2>
 
 
-class App extends Component {    
-
-  render() {
+export default function App() {    
     return (
       <div className="container">
         <BrowserRouter>
@@ -24,7 +22,4 @@ class App extends Component {
         </BrowserRouter>
       </div>
     );
-    };
 };
-
-export default App;
