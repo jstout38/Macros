@@ -1,32 +1,36 @@
-import React, { Component } from 'react';
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
 import { useFetchUserQuery } from '../store';
 
 export default function Header() {
   const { data, error, isLoading } = useFetchUserQuery();
   
   function renderContent() {    
-    switch (data) {
-      case null: 
-        return 'Still deciding';
-      case false:
-        return 'im loggedout';
-      default:
-        return 'im logged in';
+    if (isLoading) {
+      return 'Still deciding';
+    } else if (error) {
+      return <div>Error logging in.</div>
+    } else {
+      if (!data) {
+        return <Nav.Link href="/auth/google">Login With Google</Nav.Link>;
+      } else {
+        return <Nav.Link href="/">Logout</Nav.Link>;
+      }
     }
   }
 
   return(
-      <div>
-        <div className="nav-wrapper">
-          <a className="left brand-logo">
-            Macros
-          </a>
-          <ul className="right">
-            <li>
+      <Navbar expand="lg" className="bg-body-tertiary">
+        <Container>
+          <Navbar.Brand href="/">Macros Tracker</Navbar.Brand>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="me-auto">
               {renderContent()}
-            </li>
-          </ul>
-        </div>
-      </div>
+            </Nav>
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
     );
 }

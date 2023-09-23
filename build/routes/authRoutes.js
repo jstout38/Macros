@@ -10,7 +10,10 @@ module.exports = (app) => {
         scope: ['profile', 'email']
     }));
     //endpoint for callback after Google authentication
-    app.get('/auth/google/callback', passport_1.default.authenticate('google'));
+    app.get('/auth/google/callback', passport_1.default.authenticate('google'), (req, res) => {
+        console.log(req);
+        res.redirect('/surveys');
+    });
     //endpoint for logging out
     app.get('/api/logout', (req, res, next) => {
         req.logout(function (err) {
