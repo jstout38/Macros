@@ -14,7 +14,6 @@ module.exports = (app: Express) => {
     '/auth/google/callback', 
     passport.authenticate('google'),
     (req, res) => {
-      console.log(req);
       res.redirect('/surveys');
     }
   );
@@ -25,7 +24,7 @@ module.exports = (app: Express) => {
       if (err) { return next(err); }
       res.redirect('/');
     });
-    res.send(req.user);
+    res.redirect('/');
   });
 
   //endpoint to show current user for testing

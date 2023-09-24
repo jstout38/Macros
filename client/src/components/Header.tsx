@@ -15,7 +15,7 @@ export default function Header() {
       if (!data) {
         return <Nav.Link href="/auth/google">Login With Google</Nav.Link>;
       } else {
-        return <Nav.Link href="/">Logout</Nav.Link>;
+        return <Nav.Link href="/api/logout">Logout</Nav.Link>;
       }
     }
   }

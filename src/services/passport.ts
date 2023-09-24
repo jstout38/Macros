@@ -25,7 +25,7 @@ passport.use(new GoogleStrategy({
     clientSecret: keys.googleClientSecret,
     callbackURL: '/auth/google/callback',
     proxy: true
-  }, async (accessToken, refreshToken, profile:any, done:any) => {
+  }, async (accessToken: any, refreshToken: any, profile:any, done:any) => {
     //Check if there is existing user
     const existingUser = await User.findOne({ googleId: profile.id });
       //If user exists return existing user, else create new user in mongoose/MongoDB
