@@ -1,6 +1,7 @@
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import Button from 'react-bootstrap/Button';
 import { useFetchUserQuery } from '../store';
 
 export default function Header() {
@@ -13,7 +14,12 @@ export default function Header() {
       return <div>Error logging in.</div>
     } else {
       if (!data) {
-        return <Nav.Link href="/auth/google">Login With Google</Nav.Link>;
+        return(
+          <Nav className="flex-row">
+            <Button className="mx-1 text-light" variant="success" href="/auth/google">Login With Google</Button>
+            <Button className="mx-1 text-light" variant="danger" href="/register">Register with Google</Button>
+          </Nav>
+        )
       } else {
         return <Nav.Link href="/api/logout">Logout</Nav.Link>;
       }
@@ -24,12 +30,9 @@ export default function Header() {
       <Navbar expand="lg" className="bg-body-tertiary">
         <Container>
           <Navbar.Brand href="/">Macros Tracker</Navbar.Brand>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="me-auto">
+          <Navbar.Text id="basic-navbar-nav">
               {renderContent()}
-            </Nav>
-          </Navbar.Collapse>
+          </Navbar.Text>
         </Container>
       </Navbar>
     );
