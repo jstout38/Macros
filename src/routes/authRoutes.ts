@@ -5,16 +5,19 @@ import passport from 'passport';
 module.exports = (app: Express) => {
   //endpoint for using Google authentication via passport
   app.get('/auth/google', passport.authenticate('google', {
+    failureRedirect: '/register',
     scope: ['profile', 'email']
-    })
+    }),
   );
 
   //endpoint for callback after Google authentication
   app.get(
     '/auth/google/callback', 
-    passport.authenticate('google'),
+    passport.authenticate('google', {
+      failureRedirect: '/register',
+    }),
     (req, res) => {
-      res.redirect('/surveys');
+      res.redirect('/');
     }
   );
 

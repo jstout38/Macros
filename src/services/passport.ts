@@ -24,7 +24,7 @@ passport.use(new GoogleStrategy({
     clientID: keys.googleClientID,
     clientSecret: keys.googleClientSecret,
     callbackURL: '/auth/google/callback',
-    proxy: true
+    proxy: true,    
   }, async (accessToken: any, refreshToken: any, profile:any, done:any) => {
     //Check if there is existing user
     const existingUser = await User.findOne({ googleId: profile.id });
@@ -32,8 +32,7 @@ passport.use(new GoogleStrategy({
       if (existingUser) {
         done(null, existingUser);
       } else {
-          const user = await new User({ googleId: profile.id }).save()
-          done(null, user);
+        done(null, null);
       };    
     }
   )

@@ -1,16 +1,37 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { userInfo } from 'os';
+
+export interface FormData {
+  formFirstName: string,
+  formLastName: string,
+  formEmail: string,
+  formWeight: string,
+  formHeight: string,
+  formDOB: string,
+}
 
 const authApi = createApi({
   reducerPath: 'auth',
   baseQuery: fetchBaseQuery({
-    baseUrl: '/api',
+    baseUrl: '/',
   }),
   endpoints(builder) {
     return {
+      addUser: builder.mutation<any, FormData>({
+        query: (formData) => {
+          return {
+            url: 'google/auth',
+            method: 'GET',
+            params: {
+              formData,
+            },
+          };
+        },
+      }),
       fetchUser: builder.query<any, void>({
         query: () => {
           return {
-            url: '/current_user',
+            url: 'api/current_user',
             method: 'GET'
           };
         }
@@ -19,5 +40,8 @@ const authApi = createApi({
   }
 });
 
-export const { useFetchUserQuery } = authApi;
+export const { 
+  useFetchUserQuery,
+  useAddUserMutation,
+} = authApi;
 export { authApi };

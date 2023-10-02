@@ -3,9 +3,11 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { useState } from 'react';
+import { useAddUserMutation } from '../store';
+import { FormData } from '../store/apis/authApi';
 
 export default function Register() {
-  const [fields, setFields] = useState({
+  const [fields, setFields] = useState<FormData>({
     formFirstName: '',
     formLastName: '',
     formEmail: '',
@@ -13,9 +15,14 @@ export default function Register() {
     formHeight: '',
     formDOB: ''
   });
+  const [addUser, results] = useAddUserMutation();
+
   const changeHandler = (e: any) => {
     setFields({...fields, [e.target.id]: e.target.value});
     console.log(e);
+  }
+  const handleRegister = () => {
+    addUser(fields);
   }
   return(
     <Form>
@@ -59,10 +66,8 @@ export default function Register() {
           </Form.Group>
         </Col>
       </Row>
-      <Button variant="primary" type="submit">Register</Button>
-      <div>
-        {fields.formFirstName + ' ' + fields.formLastName}
-      </div>
+      <Button onClick={handleRegister} variant="primary" type="submit">Register</Button>
+      {fields.formFirstName}
     </Form>
     
   )
