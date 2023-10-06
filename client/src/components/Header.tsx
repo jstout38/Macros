@@ -6,7 +6,7 @@ import { useFetchUserQuery } from '../store';
 
 export default function Header() {
   const { data, error, isLoading } = useFetchUserQuery();
-  
+    
   function renderContent() {    
     if (isLoading) {
       return 'Still deciding';
@@ -17,11 +17,15 @@ export default function Header() {
         return(
           <Nav className="flex-row">
             <Button className="mx-1 text-light" variant="success" href="/auth/google">Login With Google</Button>
-            <Button className="mx-1 text-light" variant="danger" href="/register">Register with Google</Button>
           </Nav>
         )
       } else {
-        return <Nav.Link href="/api/logout">Logout</Nav.Link>;
+        return (
+        <Nav className="flex-row">
+          <Nav.Link href="/update">My Account </Nav.Link>
+          <Nav.Link href="/api/logout">Logout</Nav.Link>
+        </Nav>
+        )
       }
     }
   }

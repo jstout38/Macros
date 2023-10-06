@@ -3,6 +3,7 @@ const keys = require('./config/keys');
 import mongoose from 'mongoose';
 import cookieSession from 'cookie-session';
 import passport from 'passport';
+import bodyParser from 'body-parser';
 require('./models/User');
 require('./services/passport');
 
@@ -21,6 +22,7 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(bodyParser.json());
 
 //Import authentication routes
 require('./routes/authRoutes')(app);

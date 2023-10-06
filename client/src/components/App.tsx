@@ -1,5 +1,5 @@
 import React from 'react';
-import Register from './Register';
+import Update from './Update';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import Header from './Header';
@@ -20,7 +20,7 @@ const App: React.FC = () => {
                 <Route path="/" element={<Landing />} />
                 <Route path="/surveys" element={<Dashboard />} />
                 <Route path="/surveys/new" element={<SurveyNew />} />
-                <Route path="/register" element={<Register />} />
+                <Route path="/update" element={<Update />} />
               </Routes>
             </BrowserRouter>
           </div>

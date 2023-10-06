@@ -8,7 +8,12 @@ export interface FormData {
   formWeight: string,
   formHeight: string,
   formDOB: string,
-}
+};
+
+export interface FormUpdate {
+  fields: FormData,
+  data: any
+};
 
 const authApi = createApi({
   reducerPath: 'auth',
@@ -17,14 +22,12 @@ const authApi = createApi({
   }),
   endpoints(builder) {
     return {
-      addUser: builder.mutation<any, FormData>({
-        query: (formData) => {
+      addUser: builder.mutation<void, FormUpdate>({
+        query: (formUpdate) => {
           return {
-            url: 'google/auth',
-            method: 'GET',
-            params: {
-              formData,
-            },
+            url: 'auth/user',
+            method: 'PUT',
+            body: formUpdate,
           };
         },
       }),
