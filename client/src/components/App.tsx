@@ -1,6 +1,7 @@
 import React from 'react';
 import Update from './Update';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Search from './Search';
 
 import Header from './Header';
 
@@ -21,6 +22,7 @@ const App: React.FC = () => {
                 <Route path="/surveys" element={<Dashboard />} />
                 <Route path="/surveys/new" element={<SurveyNew />} />
                 <Route path="/update" element={<Update />} />
+                <Route path="/search" element={<Search />} />
               </Routes>
             </BrowserRouter>
           </div>

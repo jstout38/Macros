@@ -27,6 +27,8 @@ app.use(bodyParser.json());
 //Import authentication routes
 require('./routes/authRoutes')(app);
 
+require('./routes/foodRoutes')(app);
+
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'));
 

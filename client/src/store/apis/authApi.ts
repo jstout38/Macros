@@ -1,18 +1,18 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { userInfo } from 'os';
 
-export interface FormData {
-  formFirstName: string,
-  formLastName: string,
-  formEmail: string,
-  formWeight: string,
-  formHeight: string,
-  formDOB: string,
+export type FormData = {
+  formFirstName: string;
+  formLastName: string;
+  formEmail: string;
+  formWeight: number;
+  formHeight: number;
+  formDOB: null | Date;
 };
 
-export interface FormUpdate {
-  fields: FormData,
-  data: any
+export type FormUpdate = {
+  fields: FormData;
+  data: any;
 };
 
 const authApi = createApi({

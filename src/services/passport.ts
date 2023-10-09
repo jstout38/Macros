@@ -42,7 +42,7 @@ passport.use(new GoogleStrategy({
           height: null,
           weight: null
         }).save();
-        done(null, null);
+        done(null, user);
         } 
       }    
   )
