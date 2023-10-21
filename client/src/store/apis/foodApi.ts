@@ -1,5 +1,4 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-const keys = require('../../config/dev');
 
 const foodApi = createApi({
   reducerPath: 'food',

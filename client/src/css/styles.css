@@ -1,0 +1,26 @@
+.searchResults {
+  list-style-type: none;
+  list-style-position: inside;
+  border: 1px solid;
+  border-collapse: collapse;
+}
+
+.searchResults:hover {
+  background-color: rgb(128, 164, 202);
+  color: white;
+}
+
+.searchImage {
+  height: 100px;
+  padding-right: 10px;
+}
+
+.searchContainer {
+  padding: 0px;
+  margin: 0px;
+}
+
+.searchBox {
+  margin: 0px;
+  padding: 0px;
+}

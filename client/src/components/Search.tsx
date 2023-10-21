@@ -4,6 +4,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { useState, useEffect } from 'react';
 import { useFetchFoodQuery } from '../store';
+import "../css/styles.css";
 
 export default function Search() {  
 
@@ -20,15 +21,59 @@ export default function Search() {
     console.log(data);
   }
 
+  const autoComplete = (searchData: any) => {
+    
+    if (isLoading || searchData.text === "") {
+      return;
+    } else {
+      
+      return (
+        <ul className="searchContainer">
+          {searchData.hints.slice(0, 5).map((food: any, index: any) => {        
+            var foodImage;
+            if (!food.food.image) {
+              foodImage = <img className="searchImage" src={require('../images/m.png')} />;
+            } else {
+              foodImage = <img className="searchImage" src={food.food.image} />;
+            }   
+            var calories = parseFloat(food.food.nutrients.ENERC_KCAL).toFixed(0);
+            var fat = parseFloat(food.food.nutrients.FAT).toFixed(2);
+            var protein = parseFloat(food.food.nutrients.PROCNT).toFixed(2);
+            var carbs = parseFloat(food.food.nutrients.CHOCDF).toFixed(2);
+            var fiber = parseFloat(food.food.nutrients.FIBTG).toFixed(2);  
+            return (
+            
+            <li className="searchResults" key={index}>
+              <Row xs="auto">
+                <Col>
+                  {foodImage}
+                </Col>
+                <Col>
+                  <div>{food.food.label}</div>
+                  <div>Calories: {calories} Protein: {protein} Fat: {fat} Carbs: {carbs} Fiber: {fiber}</div>
+                </Col>
+              </Row>
+            </li> 
+            )
+          })}
+      </ul>
+      );
+    }
+  }
+
   return(
-    <Form>
-      <Row className="align-items-center">        
-          <Form.Group className="mb-3" controlId="keyword">
-            <Form.Label>Search</Form.Label>
-            <Form.Control onChange={changeHandler} type="text"/>
-          </Form.Group>        
+    <Form onSubmit={handleSubmit}>
+      <Row className="align-items-center">                  
+          <Col>
+            <Form.Group className="searchBox" controlId="keyword">
+              <Form.Label>Search</Form.Label>
+              <Form.Control onChange={changeHandler} type="text"/>
+            </Form.Group>
+            {autoComplete(data)}
+          </Col>
       </Row>
-      <Button onClick={handleSubmit} variant="primary" type="submit">Register</Button>
+      
+      
     </Form>
     
   )
