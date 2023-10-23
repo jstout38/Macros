@@ -20,4 +20,4 @@ setupListeners(store.dispatch);
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 export { useFetchUserQuery, useAddUserMutation } from './apis/authApi';
-export { useFetchFoodQuery } from './apis/foodApi';
+export { useFetchFoodQuery, useAddFoodMutation } from './apis/foodApi';

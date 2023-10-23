@@ -1,5 +1,15 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
+export type FoodForm = {
+  formName: string;
+  formDescription: string;
+  formCals: number;
+  formProt: number;
+  formCarbs: number;
+  formFat: number;
+  formFiber: number;
+}
+
 const foodApi = createApi({
   reducerPath: 'food',
   baseQuery: fetchBaseQuery({
@@ -7,6 +17,15 @@ const foodApi = createApi({
   }),
   endpoints: (builder) => {
     return {
+      addFood: builder.mutation<void, FoodForm>({
+        query: (formUpdate) => {
+          return {
+            url: 'food/add',
+            method: 'PUT',
+            body: formUpdate,
+          };
+        },
+      }),
       fetchFood: builder.query<any, string>({
         query: (keyword) => {
           return {
@@ -24,5 +43,6 @@ const foodApi = createApi({
 
 export const { 
   useFetchFoodQuery,
+  useAddFoodMutation,
 } = foodApi;
 export { foodApi };

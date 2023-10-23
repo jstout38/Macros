@@ -8,7 +8,6 @@ export interface IFood {
   carbs: number;
   fat: number;
   fiber: number;
-  external_link: string;
 }
 
 //Create mongoose model for Users
@@ -20,8 +19,7 @@ const foodSchema = new Schema<IFood>({
   carbs: { type: Number, required: true },
   fat: { type: Number, required: true },
   fiber: { type: Number, required: true },
-  external_link: { type: String }
 });
 
 //Create model on require 
-module.exports = model<IFood>('users', foodSchema);
+module.exports = model<IFood>('foods', foodSchema);

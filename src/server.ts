@@ -5,6 +5,7 @@ import cookieSession from 'cookie-session';
 import passport from 'passport';
 import bodyParser from 'body-parser';
 require('./models/User');
+require('./models/Food');
 require('./services/passport');
 
 //Connect to MongoDB database

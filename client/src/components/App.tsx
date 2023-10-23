@@ -2,6 +2,7 @@ import React from 'react';
 import Update from './Update';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Search from './Search';
+import AddFood from './AddFood';
 
 import Header from './Header';
 
@@ -23,6 +24,7 @@ const App: React.FC = () => {
                 <Route path="/surveys/new" element={<SurveyNew />} />
                 <Route path="/update" element={<Update />} />
                 <Route path="/search" element={<Search />} />
+                <Route path="/addFood" element={<AddFood />} />
               </Routes>
             </BrowserRouter>
           </div>
