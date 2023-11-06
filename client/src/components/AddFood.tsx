@@ -2,11 +2,12 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { FoodForm } from '../store/apis/foodApi';
 import { useAddFoodMutation } from '../store';
+import { useLocation } from 'react-router-dom';
 
-export default function Register(props: any) {
+export default function AddFood() {
   
   const [fields, setFields] = useState<FoodForm>({
     formName: '',
@@ -17,18 +18,22 @@ export default function Register(props: any) {
     formFat: 0,
     formFiber: 0
     });
+  
+  const location = useLocation();
 
-  if (props.name) {
-    setFields({
-      formName: props.name,
-      formDescription: props.description,
-      formCals: props.cals,
-      formProt: props.prot,
-      formCarbs: props.carbs,
-      formFat: props.fat,
-      formFiber: props.fiber 
-    });
-  }
+  useEffect(() => {
+    if (location.state) {
+      setFields({
+        formName: location.state.name,
+        formDescription: '',
+        formCals: location.state.calories,
+        formProt: location.state.protein,
+        formCarbs: location.state.carbs,
+        formFat: location.state.fat,
+        formFiber: location.state.fiber 
+      });
+    }
+  }, []);
   
 
   const [addFood, results] = useAddFoodMutation();
@@ -37,7 +42,7 @@ export default function Register(props: any) {
     setFields({...fields, [e.target.id]: e.target.value});
   }
 
-  const handleRegister = (e: any) => {
+  const handleAddFood = (e: any) => {
     e.preventDefault();    
     addFood(fields);
   }
@@ -90,7 +95,7 @@ export default function Register(props: any) {
           </Form.Group>
         </Col>
       </Row>
-      <Button onClick={handleRegister} variant="primary" type="submit">Register</Button>
+      <Button onClick={handleAddFood} variant="primary" type="submit">Add Food</Button>
     </Form>
     
   )

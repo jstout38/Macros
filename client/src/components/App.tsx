@@ -1,14 +1,12 @@
 import React from 'react';
 import Update from './Update';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import Search from './Search';
 import AddFood from './AddFood';
 
 import Header from './Header';
 
-const Dashboard: React.FC = () => <h2>Dashboard</h2>
-const SurveyNew: React.FC = () => <h2>SurveyNew</h2>
-const Landing: React.FC = () => <h2>Landing</h2>
+const Landing: React.FC = () => <Link to={"/search"}><h2>Search for Foods!</h2></Link>
 
 
 const App: React.FC = () => {    
@@ -20,8 +18,6 @@ const App: React.FC = () => {
             <BrowserRouter>
               <Routes>
                 <Route path="/" element={<Landing />} />
-                <Route path="/surveys" element={<Dashboard />} />
-                <Route path="/surveys/new" element={<SurveyNew />} />
                 <Route path="/update" element={<Update />} />
                 <Route path="/search" element={<Search />} />
                 <Route path="/addFood" element={<AddFood />} />

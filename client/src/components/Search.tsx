@@ -4,6 +4,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { useState, useEffect } from 'react';
 import { useFetchFoodQuery } from '../store';
+import { Link } from 'react-router-dom';
 import "../css/styles.css";
 
 export default function Search() {  
@@ -42,7 +43,14 @@ export default function Search() {
             var carbs = parseFloat(food.food.nutrients.CHOCDF).toFixed(2);
             var fiber = parseFloat(food.food.nutrients.FIBTG).toFixed(2);  
             return (
-            
+            <Link key={index} to={ `/addFood`} state={{
+              name: food.food.label,
+              calories: calories,
+              fat: fat,
+              protein: protein,
+              carbs: carbs,
+              fiber: fiber
+            }}>
             <li className="searchResults" key={index}>
               <Row xs="auto">
                 <Col>
@@ -53,7 +61,8 @@ export default function Search() {
                   <div>Calories: {calories} Protein: {protein} Fat: {fat} Carbs: {carbs} Fiber: {fiber}</div>
                 </Col>
               </Row>
-            </li> 
+            </li>
+            </Link> 
             )
           })}
       </ul>
