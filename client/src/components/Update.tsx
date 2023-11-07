@@ -71,13 +71,13 @@ export default function Register() {
         <Col xs="auto">
           <Form.Group className="mb-3" controlId="formWeight">
             <Form.Label>Current Weight (in pounds)</Form.Label>
-            <Form.Control onChange={changeHandler} type="number" placeholder={fields.formWeight ? fields.formWeight.toString() : ''}/>
+            <Form.Control onChange={changeHandler} type="text" placeholder={fields.formWeight ? fields.formWeight.toString() : ''}/>
           </Form.Group>
         </Col>
         <Col xs="auto">
           <Form.Group className="mb-3" controlId="formHeight">
             <Form.Label>Current Height (in inches)</Form.Label>
-            <Form.Control onChange={changeHandler} type="number" placeholder={fields.formHeight ? fields.formHeight.toString() : ''}/>
+            <Form.Control onChange={changeHandler} type="text" placeholder={fields.formHeight ? fields.formHeight.toString() : ''}/>
           </Form.Group>
         </Col>
         <Col xs="auto">
