@@ -1,4 +1,4 @@
-//Determine which credentials to return
+//Determine which credentials to return based on dev or production
 if (process.env.NODE_ENV === 'production') {
   module.exports = require('./prod');
 } else {

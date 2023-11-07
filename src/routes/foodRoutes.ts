@@ -6,7 +6,7 @@ import mongoose from 'mongoose';
 const Food = mongoose.model("foods");
 
 module.exports = (app: Express) => {
-  //endpoint for using Google authentication via passport
+  //endpoint for calling the external food search API
   app.get('/food/search', (req, res) => {
    foodAPI(req.query.keyword)
     .then((response: any) => {
@@ -15,8 +15,10 @@ module.exports = (app: Express) => {
   }
   );
 
+  //endpoint for adding a new food
+  //TODO: add relationship to user
   app.put('/food/add', async (req, res) => {
-    const user = await new Food({ 
+    const food = await new Food({ 
       name: req.body.formName,
       description: req.body.formDescription,
       calories: req.body.formCals,
@@ -25,7 +27,7 @@ module.exports = (app: Express) => {
       fat: req.body.formFat,
       fiber: req.body.formFiber,
     }).save();
-    res.send(user);
+    res.send(food);
   });
 
 };

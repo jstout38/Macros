@@ -28,8 +28,11 @@ app.use(bodyParser.json());
 //Import authentication routes
 require('./routes/authRoutes')(app);
 
+//Import food routes
 require('./routes/foodRoutes')(app);
 
+//IMPORTANT CODE FOR PRODUCTION - if no route is found on React app calls backend route
+//TODO: Study this code
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'));
 

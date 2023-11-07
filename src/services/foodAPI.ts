@@ -1,6 +1,8 @@
 import axios from 'axios';
 const keys = require('../config/keys');
 
+//External API call for searching for foods
+
 module.exports = (keyword: any) => {
  return axios({
     method: 'get',

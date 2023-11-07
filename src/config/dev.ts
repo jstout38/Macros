@@ -1,3 +1,5 @@
+//Keys and secrets for development
+
 module.exports = {
   googleClientID: "58371793188-ru0ii7eka1q7h7vsh6fevspt829qke1f.apps.googleusercontent.com",
   googleClientSecret: "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",

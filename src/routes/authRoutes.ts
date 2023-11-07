@@ -34,6 +34,7 @@ module.exports = (app: Express) => {
     res.send(req.user);
   });
 
+  //endpoint for adding additional info for account on registration or on update  
   app.put('/auth/user', async (req, res) => {
     console.log(req.body);
     const user = await User.findOneAndUpdate({ googleId: req.body.data.googleId },  

@@ -8,6 +8,8 @@ import { useAddUserMutation } from '../store';
 import { FormData, FormUpdate } from '../store/apis/authApi';
 import { useFetchUserQuery } from '../store';
 
+//TODO: Production bug - height and weight and DOB not loading
+
 export default function Register() {
   
 

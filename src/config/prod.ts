@@ -1,3 +1,5 @@
+//Use environment variables server side in production
+
 module.exports = {
   googleClientID: process.env.GOOGLE_CLIENT_ID,
   googleClientSecret: process.env.GOOGLE_CLIENT_SECRET,
