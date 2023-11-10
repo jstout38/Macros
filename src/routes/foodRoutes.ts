@@ -2,8 +2,10 @@
 import { Express } from 'express';
 const foodAPI = require('../services/foodAPI');
 import mongoose from 'mongoose';
+import { IUser } from '../models/User';
 
 const Food = mongoose.model("foods");
+const User = mongoose.model("users");
 
 module.exports = (app: Express) => {
   //endpoint for calling the external food search API
@@ -18,6 +20,7 @@ module.exports = (app: Express) => {
   //endpoint for adding a new food
   //TODO: add relationship to user
   app.put('/food/add', async (req, res) => {
+    const currentUser = req.user as IUser;
     const food = await new Food({ 
       name: req.body.formName,
       description: req.body.formDescription,
@@ -27,7 +30,12 @@ module.exports = (app: Express) => {
       fat: req.body.formFat,
       fiber: req.body.formFiber,
     }).save();
-    res.send(food);
+    var user_record;
+    if (req.user) {
+      user_record = await User.findOne({ googleId: currentUser.googleId});
+    }
+    user_record.foods.push(food);
+    user_record.save();
   });
 
 };

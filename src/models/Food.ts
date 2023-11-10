@@ -13,8 +13,7 @@ export interface IFood {
 }
 
 //Create mongoose model for Users
-//TODO: Add relationship to user
-const foodSchema = new Schema<IFood>({
+export const foodSchema = new Schema<IFood>({
   name: { type: String, required: true },
   description: { type: String },
   calories: { type: Number, required: true },

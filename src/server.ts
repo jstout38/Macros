@@ -21,9 +21,9 @@ app.use(
     keys: [keys.cookieKey]
   })
 );
+app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(bodyParser.json());
 
 //Import authentication routes
 require('./routes/authRoutes')(app);

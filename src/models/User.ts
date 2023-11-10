@@ -1,4 +1,5 @@
 import { Schema, model }from 'mongoose';
+import { IFood, foodSchema } from './Food';
 
 export interface IUser {
   googleId: string;
@@ -8,6 +9,7 @@ export interface IUser {
   DoB: Date;
   weight: number;
   height: number;
+  foods: IFood[];
 }
 
 //Create mongoose model for Users
@@ -18,7 +20,8 @@ const userSchema = new Schema<IUser>({
   email: { type: String, required: true },
   DoB: { type: Date, required: false },
   weight: { type: Number, required: false },
-  height: { type: Number, required: false }
+  height: { type: Number, required: false },
+  foods: [new Schema<IFood>],
 });
 
 //Create model on require 
