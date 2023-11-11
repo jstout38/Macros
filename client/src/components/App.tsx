@@ -5,8 +5,8 @@ import Search from './Search';
 import AddFood from './AddFood';
 
 import Header from './Header';
+import Dashboard from './Dashboard';
 
-const Landing: React.FC = () => <Link to={"/search"}><h2>Search for Foods!</h2></Link>
 
 
 const App: React.FC = () => {    
@@ -17,7 +17,7 @@ const App: React.FC = () => {
             <Header />
             <BrowserRouter>
               <Routes>
-                <Route path="/" element={<Landing />} />
+                <Route path="/" element={<Dashboard />} />
                 <Route path="/update" element={<Update />} />
                 <Route path="/search" element={<Search />} />
                 <Route path="/addFood" element={<AddFood />} />

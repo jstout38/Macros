@@ -37,6 +37,14 @@ const foodApi = createApi({
           }
         }
       }),
+      fetchUserFood: builder.query<any, void>({
+        query: () => {
+          return {
+            url: 'food/foodlist',
+            method: 'GET',            
+          };
+        },
+      }),
     }
   }
 });
@@ -44,5 +52,6 @@ const foodApi = createApi({
 export const { 
   useFetchFoodQuery,
   useAddFoodMutation,
+  useFetchUserFoodQuery,
 } = foodApi;
 export { foodApi };

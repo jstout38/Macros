@@ -18,7 +18,7 @@ module.exports = (app: Express) => {
   );
 
   //endpoint for adding a new food
-  //TODO: add relationship to user
+  //TODO: add error handling
   app.put('/food/add', async (req, res) => {
     const currentUser = req.user as IUser;
     const food = await new Food({ 
@@ -31,11 +31,23 @@ module.exports = (app: Express) => {
       fiber: req.body.formFiber,
     }).save();
     var user_record;
-    if (req.user) {
+    if (currentUser) {
       user_record = await User.findOne({ googleId: currentUser.googleId});
     }
     user_record.foods.push(food);
     user_record.save();
+  });
+
+  app.get('/food/foodlist', async (req, res) => {
+    const currentUser = req.user as IUser;
+    var user_record;
+    if (currentUser) {
+      user_record = await User.findOne({ googleId: currentUser.googleId })
+      .populate('foods')
+      .exec();
+    }
+    console.log(user_record.foods);
+    res.send(user_record.foods);
   });
 
 };

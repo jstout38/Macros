@@ -1,4 +1,4 @@
-import { Schema, model }from 'mongoose';
+import { Schema, model } from 'mongoose';
 import { IFood, foodSchema } from './Food';
 
 export interface IUser {
@@ -9,7 +9,7 @@ export interface IUser {
   DoB: Date;
   weight: number;
   height: number;
-  foods: IFood[];
+  foods: [Schema];
 }
 
 //Create mongoose model for Users
@@ -21,7 +21,7 @@ const userSchema = new Schema<IUser>({
   DoB: { type: Date, required: false },
   weight: { type: Number, required: false },
   height: { type: Number, required: false },
-  foods: [new Schema<IFood>],
+  foods: {type: [Schema.Types.ObjectId], ref: "foods"},
 });
 
 //Create model on require 
