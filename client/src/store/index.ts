@@ -24,4 +24,4 @@ export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 export { useFetchUserQuery, useAddUserMutation } from './apis/authApi';
 export { useFetchFoodQuery, useAddFoodMutation, useFetchUserFoodQuery } from './apis/foodApi';
-export { useAddJournalMutation } from './apis/journalApi';
+export { useAddJournalMutation, useUpdateJournalMutation } from './apis/journalApi';

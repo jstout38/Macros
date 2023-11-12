@@ -4,7 +4,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 
-import { useAddJournalMutation } from '../store';
+import { useAddJournalMutation, useFetchUserFoodQuery } from '../store';
 
 import MealPicker from './MealPicker';
 
@@ -12,16 +12,26 @@ import MealPicker from './MealPicker';
 export default function Journal() {
   
   const [ currentDate, setCurrentDate ] = useState(new Date().toLocaleDateString('en-us', { weekday: "long", year: "numeric", month: "short", day:"numeric"}));  
-  const [ addMode, setAddMode ] = useState({"breakfast": false, "lunch": false, "dinner": false, "snacks": false})
 
   const [ addJournal, results ] = useAddJournalMutation();
+
+  const { data, error, isLoading } = useFetchUserFoodQuery();
+
+  function getMealPicker(meal: any) {
+    if (data) {
+      return <MealPicker foods={data} date={currentDate} meal={meal} />;
+    } else {
+      return <div>Loading...</div>;
+    }
+  }
 
   useEffect(() => {
     addJournal(currentDate);
   }, [currentDate]);
 
   const changeHandler = (e: any) => {
-    setCurrentDate(new Date(e.target.value).toLocaleDateString('en-us', { weekday: "long", year: "numeric", month: "short", day:"numeric"}));
+    var newDate = new Date(e.target.value);
+    setCurrentDate(new Date(newDate.getUTCFullYear(), newDate.getUTCMonth(), newDate.getUTCDate()).toLocaleDateString('en-us', { weekday: "long", year: "numeric", month: "short", day:"numeric"}));
   }
 
   return (
@@ -40,13 +50,13 @@ export default function Journal() {
       <Row>
         <Col>
           <h4>Breakfast</h4>
-            <MealPicker addMode={addMode.breakfast}/>
+            {getMealPicker('breakfast')}
           <h4>Lunch</h4>
-            <MealPicker addMode={addMode.lunch}/>
+            {getMealPicker('lunch')}
           <h4>Dinner</h4>
-            <MealPicker addMode={addMode.dinner}/>
+            {getMealPicker('dinner')}
           <h4>Snacks</h4>
-            <MealPicker addMode={addMode.snacks}/>
+            {getMealPicker('snacks')}
         </Col>
       </Row>
     </Container>

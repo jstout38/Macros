@@ -32,19 +32,21 @@ module.exports = (app: Express) => {
 
   app.put('/journal/update', async (req, res) => {
     const currentUser = req.user as IUser;
-    const entry = await new Journal({ 
-      date: req.body.formDate,
-      breakfast: req.body.breakfast,
-      lunch: req.body.lunch,
-      dinner: req.body.dinner,
-      snacks: req.body.snacks,
-    }).save();
     var user_record;
     if (currentUser) {
       user_record = await User.findOne({ googleId: currentUser.googleId});
     }
-    user_record.journal.push(entry);
-    user_record.save();
+    console.log(user_record);
+    console.log(req.body);
+    var currentJournal = await Journal.findOne({ user: user_record._id, date: req.body.input.date});
+    
+    var meals = ['breakfast', 'lunch', 'dinner', 'snacks'];
+    for (var i = 0; i < meals.length; i++) {
+      if (req.body.input[meals[i]]) {
+        currentJournal[meals[i]].push(req.body.input[meals[i]]);
+      }
+    }
+    currentJournal.save();
   });
 
 

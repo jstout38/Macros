@@ -1,5 +1,13 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
+export type FoodInput = {
+  date: string;
+  breakfast: string;
+  lunch: string;
+  dinner: string;
+  snacks: string;
+};
+
 const journalApi = createApi({
   reducerPath: 'journal',
   baseQuery: fetchBaseQuery({
@@ -17,12 +25,24 @@ const journalApi = createApi({
             },
           };
         },
-      }),      
+      }), 
+      updateJournal: builder.mutation<void, FoodInput>({
+        query: (input) => {
+          return {
+            url: 'journal/update',
+            method: 'PUT',
+            body: {
+              input: input
+            },
+          };
+        },
+      }),
     }
   }
 });
 
 export const {   
   useAddJournalMutation,
+  useUpdateJournalMutation,
 } = journalApi;
 export { journalApi };
