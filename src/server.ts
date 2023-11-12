@@ -6,6 +6,7 @@ import passport from 'passport';
 import bodyParser from 'body-parser';
 require('./models/User');
 require('./models/Food');
+require('./models/Journal');
 require('./services/passport');
 
 //Connect to MongoDB database
@@ -30,6 +31,9 @@ require('./routes/authRoutes')(app);
 
 //Import food routes
 require('./routes/foodRoutes')(app);
+
+//import journal routes
+require('./routes/journalRoutes')(app);
 
 //IMPORTANT CODE FOR PRODUCTION - if no route is found on React app calls backend route
 //TODO: Study this code

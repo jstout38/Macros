@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
+
+import { useAddJournalMutation } from '../store';
 
 import MealPicker from './MealPicker';
 
@@ -11,6 +13,12 @@ export default function Journal() {
   
   const [ currentDate, setCurrentDate ] = useState(new Date().toLocaleDateString('en-us', { weekday: "long", year: "numeric", month: "short", day:"numeric"}));  
   const [ addMode, setAddMode ] = useState({"breakfast": false, "lunch": false, "dinner": false, "snacks": false})
+
+  const [ addJournal, results ] = useAddJournalMutation();
+
+  useEffect(() => {
+    addJournal(currentDate);
+  }, [currentDate]);
 
   const changeHandler = (e: any) => {
     setCurrentDate(new Date(e.target.value).toLocaleDateString('en-us', { weekday: "long", year: "numeric", month: "short", day:"numeric"}));

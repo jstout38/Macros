@@ -10,6 +10,7 @@ export interface IUser {
   weight: number;
   height: number;
   foods: [Schema];
+  journal: [Schema];
 }
 
 //Create mongoose model for Users
@@ -22,6 +23,7 @@ const userSchema = new Schema<IUser>({
   weight: { type: Number, required: false },
   height: { type: Number, required: false },
   foods: {type: [Schema.Types.ObjectId], ref: "foods"},
+  journal: {type: [Schema.Types.ObjectId], ref: 'journal'},
 });
 
 //Create model on require 
