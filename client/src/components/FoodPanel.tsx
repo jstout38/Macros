@@ -9,13 +9,16 @@ export default function FoodPanel() {
 
   var display = '';
   
+  var foodList;
+
   if (data) {
-    display = data[0].name;
+    display = data.map((entry: any) => <li key={entry._id.toString()}>{entry.name}</li>)
   };
 
   return (
     <div>
-      {display}
+      <h3>Your Foods</h3>
+      <ul>{display}</ul>
     </div>
   )
   

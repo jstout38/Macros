@@ -24,3 +24,8 @@
   margin: 0px;
   padding: 0px;
 }
+
+.journalHeader {
+  text-align: center;
+  padding-top: 10px;
+}

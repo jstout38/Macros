@@ -46,8 +46,9 @@ module.exports = (app: Express) => {
       .populate('foods')
       .exec();
     }
-    console.log(user_record.foods);
-    res.send(user_record.foods);
+    if (user_record) {
+      res.send(user_record.foods);
+    };
   });
 
 };
