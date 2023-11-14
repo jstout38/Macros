@@ -10,12 +10,11 @@ export const store = configureStore({
     [foodApi.reducerPath]: foodApi.reducer,
     [journalApi.reducerPath]: journalApi.reducer,
   },
-  middleware: (getDefaultMiddleware) => {
-    return getDefaultMiddleware()
+  middleware: (getDefaultMiddleware) => 
+    getDefaultMiddleware()
       .concat(authApi.middleware)
       .concat(foodApi.middleware)
-      .concat(journalApi.middleware);
-  }
+      .concat(journalApi.middleware)
 });
 
 setupListeners(store.dispatch);
@@ -24,4 +23,4 @@ export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 export { useFetchUserQuery, useAddUserMutation } from './apis/authApi';
 export { useFetchFoodQuery, useAddFoodMutation, useFetchUserFoodQuery } from './apis/foodApi';
-export { useAddJournalMutation, useUpdateJournalMutation } from './apis/journalApi';
+export { useAddJournalMutation, useUpdateJournalMutation, useFetchJournalQuery } from './apis/journalApi';

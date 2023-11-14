@@ -36,17 +36,13 @@ module.exports = (app: Express) => {
     if (currentUser) {
       user_record = await User.findOne({ googleId: currentUser.googleId});
     }
-    console.log(user_record);
-    console.log(req.body);
-    var currentJournal = await Journal.findOne({ user: user_record._id, date: req.body.input.date});
-    
-    var meals = ['breakfast', 'lunch', 'dinner', 'snacks'];
-    for (var i = 0; i < meals.length; i++) {
-      if (req.body.input[meals[i]]) {
-        currentJournal[meals[i]].push(req.body.input[meals[i]]);
-      }
-    }
-    currentJournal.save();
+    var currentJournal = await Journal.findOne(
+      { user: user_record._id, date: req.body.input.date} 
+    ).then((journal) => {
+      journal[req.body.input.meal].push(req.body.input.food);
+      journal.save();
+    });
+    user_record.save();    
   });
 
 
@@ -54,12 +50,16 @@ module.exports = (app: Express) => {
     const currentUser = req.user as IUser;
     var user_record;
     if (currentUser) {
-      user_record = await User.findOne({ googleId: currentUser.googleId })
-      .populate('journal')
-      .exec();
+      user_record = await User.findOne({ googleId: currentUser.googleId });      
     }
-    if (user_record) {
-      res.send(user_record.journal);
+    var entries = await Journal.findOne({ user: user_record._id, date: req.query.date})
+    .populate('breakfast')
+    .populate('lunch')
+    .populate('dinner')
+    .populate('snacks')
+    .exec();
+    if (entries) {
+      res.send(entries);
     };
   });
 

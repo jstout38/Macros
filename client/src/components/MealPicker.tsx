@@ -1,22 +1,32 @@
 import Dropdown from 'react-bootstrap/Dropdown';
-import { useUpdateJournalMutation } from '../store';
+import { useUpdateJournalMutation, useFetchJournalQuery } from '../store';
 
 
 export default function MealPicker(props: any) {
   
   const [ updateJournal, results ] = useUpdateJournalMutation();
+  const { data, error, isLoading } = useFetchJournalQuery(props.date);
 
-  function clickHandler(e: any) {
+
+  async function clickHandler(e: any) {
+    console.log(e.target);
     var input = {
       date: props.date,
-      breakfast: props.meal === 'breakfast' ? e.target.id : '',
-      lunch: props.meal === 'lunch' ? e.target.id : '',
-      dinner: props.meal === 'dinner' ? e.target.id : '',
-      snacks: props.meal === 'snacks' ? e.target.id: '',
+      food: e.target.id,
+      meal: props.meal,
     }
-    console.log(input);
-    updateJournal(input);
+    await updateJournal(input);
   }
+
+  var food_list = <li>Start adding foods!</li>;
+
+  if (data) {
+    food_list = data[props.meal].map((entry: any) => {
+      return <li key={entry._id}>{entry.name}</li>
+    })
+  }
+  
+  console.log(data);
 
   var display = <Dropdown.Item>No foods added yet.</Dropdown.Item>;
 
@@ -28,6 +38,8 @@ export default function MealPicker(props: any) {
   } 
 
   return (
+    <div>
+    <ul>{food_list}</ul>
     <Dropdown>
       <Dropdown.Toggle variant="success">
         Add a food
@@ -37,5 +49,6 @@ export default function MealPicker(props: any) {
         {display}
       </Dropdown.Menu>
     </Dropdown>
+    </div>
   )
 }
