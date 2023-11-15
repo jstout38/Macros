@@ -17,10 +17,12 @@ module.exports = (app: Express) => {
       if (!existingEntry) {
         const entry = await new Journal({ 
           date: req.body.date,
-          breakfast: [],
-          lunch: [],
-          dinner: [],
-          snacks: [],
+          foods: {
+            breakfast: [],
+            lunch: [],
+            dinner: [],
+            snacks: [],
+          },
           user: user_record._id,
         }).save();
         user_record.journal.push(entry);
@@ -36,13 +38,12 @@ module.exports = (app: Express) => {
     if (currentUser) {
       user_record = await User.findOne({ googleId: currentUser.googleId});
     }
-    var currentJournal = await Journal.findOne(
-      { user: user_record._id, date: req.body.input.date} 
-    ).then((journal) => {
-      journal[req.body.input.meal].push(req.body.input.food);
-      journal.save();
-    });
-    user_record.save();    
+    var currentJournal = await Journal.findOne( { user: user_record._id, date: req.body.input.date} );
+    var newFoodList = currentJournal.foods;
+    newFoodList[req.body.input.meal].push(req.body.input.food);
+    currentJournal = await Journal.findOneAndUpdate( { user: user_record._id, date: req.body.input.date}, { foods: newFoodList })
+    currentJournal.save();
+    res.send(currentJournal);
   });
 
 
@@ -53,12 +54,25 @@ module.exports = (app: Express) => {
       user_record = await User.findOne({ googleId: currentUser.googleId });      
     }
     var entries = await Journal.findOne({ user: user_record._id, date: req.query.date})
-    .populate('breakfast')
-    .populate('lunch')
-    .populate('dinner')
-    .populate('snacks')
+    .populate({
+      path: "foods",
+      populate: { path: "breakfast" }
+    })
+    .populate({
+      path: "foods",
+      populate: { path: "lunch" }
+    })
+    .populate({
+      path: "foods",
+      populate: { path: "dinner" }
+    })
+    .populate({
+      path: "foods",
+      populate: { path: "snacks" }
+    })
     .exec();
     if (entries) {
+      console.log(entries);
       res.send(entries);
     };
   });

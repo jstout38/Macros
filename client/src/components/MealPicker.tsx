@@ -18,16 +18,18 @@ export default function MealPicker(props: any) {
     await updateJournal(input);
   }
 
-  var food_list = <li>Start adding foods!</li>;
+  var food_list = <div>Start adding foods!</div>;
 
   if (data) {
-    food_list = data[props.meal].map((entry: any) => {
-      return <li key={entry._id}>{entry.name}</li>
-    })
+    if (data.foods[props.meal].length > 0) {
+      food_list = data.foods[props.meal].map((entry: any) => {
+        return <li key={entry._id}>{entry.name}</li>
+      })
+    } else {
+      food_list = <div>Start adding foods!</div>
+    }
   }
   
-  console.log(data);
-
   var display = <Dropdown.Item>No foods added yet.</Dropdown.Item>;
 
   if (props.foods) {
