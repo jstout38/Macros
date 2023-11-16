@@ -7,26 +7,28 @@ export default function MealPicker(props: any) {
   const [ updateJournal, results ] = useUpdateJournalMutation();
   const { data, error, isLoading } = useFetchJournalQuery(props.date);
 
+  if (error) {
+    console.log(error);
+  }
 
   async function clickHandler(e: any) {
-    console.log(e.target);
     var input = {
       date: props.date,
       food: e.target.id,
       meal: props.meal,
     }
-    await updateJournal(input);
+    updateJournal(input);
   }
 
   var food_list = <div>Start adding foods!</div>;
 
-  if (data) {
+  if (data && data.foods) {
     if (data.foods[props.meal].length > 0) {
       food_list = data.foods[props.meal].map((entry: any) => {
-        return <li key={entry._id}>{entry.name}</li>
+        return <li key={entry._id}>{entry.name}</li>;
       })
     } else {
-      food_list = <div>Start adding foods!</div>
+      food_list = <div>Start adding foods!</div>;
     }
   }
   

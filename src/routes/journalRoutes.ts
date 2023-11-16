@@ -26,8 +26,13 @@ module.exports = (app: Express) => {
           user: user_record._id,
         }).save();
         user_record.journal.push(entry);
-        user_record.save();
+        user_record.save().then((user: any) => {
+          res.send(user);
+        });
+      } else {
+        res.send(existingEntry);
       }
+     
     }
     
   });
@@ -39,11 +44,15 @@ module.exports = (app: Express) => {
       user_record = await User.findOne({ googleId: currentUser.googleId});
     }
     var currentJournal = await Journal.findOne( { user: user_record._id, date: req.body.input.date} );
-    var newFoodList = currentJournal.foods;
-    newFoodList[req.body.input.meal].push(req.body.input.food);
-    currentJournal = await Journal.findOneAndUpdate( { user: user_record._id, date: req.body.input.date}, { foods: newFoodList })
-    currentJournal.save();
-    res.send(currentJournal);
+    if (currentJournal) {
+      var newFoodList = currentJournal.foods;
+      newFoodList[req.body.input.meal].push(req.body.input.food);
+      currentJournal = await Journal.findOneAndUpdate( { user: user_record._id, date: req.body.input.date}, { foods: newFoodList })
+      currentJournal.save();
+      res.send(currentJournal);
+    } else {
+      res.status(404);
+    }
   });
 
 
@@ -71,10 +80,7 @@ module.exports = (app: Express) => {
       populate: { path: "snacks" }
     })
     .exec();
-    if (entries) {
-      console.log(entries);
-      res.send(entries);
-    };
+    res.send(entries);
   });
 
 };

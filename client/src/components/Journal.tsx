@@ -25,13 +25,15 @@ export default function Journal() {
     }
   }
 
-  useEffect(() => {
+  useEffect(() => {   
     addJournal(currentDate);
-  }, [currentDate]);
+  }, []);
 
   const changeHandler = (e: any) => {
     var newDate = new Date(e.target.value);
-    setCurrentDate(new Date(newDate.getUTCFullYear(), newDate.getUTCMonth(), newDate.getUTCDate()).toLocaleDateString('en-us', { weekday: "long", year: "numeric", month: "short", day:"numeric"}));
+    var date_string = new Date(newDate.getUTCFullYear(), newDate.getUTCMonth(), newDate.getUTCDate()).toLocaleDateString('en-us', { weekday: "long", year: "numeric", month: "short", day:"numeric"});
+    addJournal(date_string);
+    setCurrentDate(date_string);
   }
 
   return (

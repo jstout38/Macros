@@ -15,6 +15,7 @@ const journalApi = createApi({
   endpoints: (builder) => {
     return {
       addJournal: builder.mutation<void, string>({
+        invalidatesTags: ['Journal'],
         query: (date) => {
           return {
             url: 'journal/add',
