@@ -13,6 +13,9 @@ module.exports = function (app) {
       "/journal/add",
       "/journal/update",
       "/journal/entries",
+      "/journal/delete",
+      "/food/delete",
+      "/food/update",
     ], 
     createProxyMiddleware({
       target: "http://localhost:5000",

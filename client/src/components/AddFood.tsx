@@ -4,7 +4,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { useState, useEffect } from 'react';
 import { FoodForm } from '../store/apis/foodApi';
-import { useAddFoodMutation } from '../store';
+import { useAddFoodMutation, useEditFoodMutation } from '../store';
 
 export default function AddFood(props: any) {
   
@@ -19,11 +19,12 @@ export default function AddFood(props: any) {
   });
 
   const [addFood, results] = useAddFoodMutation();
+  const [editFood, editResults] = useEditFoodMutation();
 
   useEffect(() => {
     setFields({
       formName: props.name ? props.name : '',
-      formDescription: '',
+      formDescription: props.description ? props.description : '',
       formCals: props.calories ? props.calories : 0,
       formProt: props.protein ? props.protein : 0,
       formCarbs: props.carbs ? props.carbs : 0,
@@ -38,7 +39,21 @@ export default function AddFood(props: any) {
 
   const handleAddFood = (e: any) => {
     e.preventDefault();    
-    addFood(fields);
+    if (props.edit) {
+      var input = {
+        formName: fields.formName,
+        formDescription: fields.formDescription,
+        formCals: fields.formCals,
+        formProt: fields.formProt,
+        formCarbs: fields.formCarbs,
+        formFat: fields.formCarbs,
+        formFiber: fields.formFiber,
+        id: props.edit,
+      }
+      editFood(input);
+    } else {
+      addFood(fields);
+    }
     if (props.submit) {
       props.submit();
     }
@@ -93,7 +108,7 @@ export default function AddFood(props: any) {
           </Form.Group>
         </Col>
       </Row>
-      <Button onClick={handleAddFood} variant="primary" type="submit">Add Food</Button>
+      <Button onClick={handleAddFood} variant="primary" type="submit">Save</Button>
     </Form>
     
   )

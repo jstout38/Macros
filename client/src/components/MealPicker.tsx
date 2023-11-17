@@ -1,10 +1,12 @@
 import Dropdown from 'react-bootstrap/Dropdown';
-import { useUpdateJournalMutation, useFetchJournalQuery } from '../store';
+import Button from 'react-bootstrap/Button';
+import { useUpdateJournalMutation, useFetchJournalQuery, useDeleteEntryMutation } from '../store';
 
 
 export default function MealPicker(props: any) {
   
   const [ updateJournal, results ] = useUpdateJournalMutation();
+  const [ deleteEntry, deleteResults ] = useDeleteEntryMutation();
   const { data, error, isLoading } = useFetchJournalQuery(props.date);
 
   if (error) {
@@ -20,12 +22,21 @@ export default function MealPicker(props: any) {
     updateJournal(input);
   }
 
+  function deleteFood(id: any) {
+    var input = {
+      date: props.date,
+      food: id,
+      meal: props.meal,
+    }
+    deleteEntry(input);
+  }
+
   var food_list = <div>Start adding foods!</div>;
 
   if (data && data.foods) {
     if (data.foods[props.meal].length > 0) {
       food_list = data.foods[props.meal].map((entry: any) => {
-        return <li key={entry._id}>{entry.name}</li>;
+        return <li key={entry._id}>{entry.name} <Button variant="danger" onClick={() => deleteFood(entry._id)} size="sm">X</Button></li>;
       })
     } else {
       food_list = <div>Start adding foods!</div>;

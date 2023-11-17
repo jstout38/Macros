@@ -50,6 +50,20 @@ const journalApi = createApi({
           };
         },        
       }),
+      deleteEntry: builder.mutation<void, FoodInput>({
+        invalidatesTags: ['Journal'],
+        query: (input) => {
+          return {
+            url: 'journal/delete',
+            method: 'DELETE',
+            params: {
+              date: input.date,
+              meal: input.meal,
+              food: input.food,
+            },
+          };
+        },
+      }),
     }
   }
 });
@@ -58,5 +72,6 @@ export const {
   useAddJournalMutation,
   useUpdateJournalMutation,
   useFetchJournalQuery,
+  useDeleteEntryMutation,
 } = journalApi;
 export { journalApi };

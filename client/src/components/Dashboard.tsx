@@ -9,7 +9,6 @@ export default function Dashboard() {
   return (
     <Row>
     <Col xs={9}>
-      <Link to={"/search"}><h2>Search for Foods!</h2></Link>
       <Journal />
     </Col>
     <Col>

@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { pathToFileURL } from 'url';
 
 export type FoodForm = {
   formName: string;
@@ -8,6 +9,17 @@ export type FoodForm = {
   formCarbs: number;
   formFat: number;
   formFiber: number;
+}
+
+type EditForm = {
+  formName: string;
+  formDescription: string;
+  formCals: number;
+  formProt: number;
+  formCarbs: number;
+  formFat: number;
+  formFiber: number;
+  id: string;
 }
 
 const foodApi = createApi({
@@ -48,6 +60,30 @@ const foodApi = createApi({
           };
         },
       }),
+      deleteFood: builder.mutation<void, string>({
+        invalidatesTags: ['Food'],
+        query: (food_id) => {
+          return {
+            url: 'food/delete',
+            method: 'DELETE',
+            params: {
+              food_id: food_id,
+            }
+          }
+        }
+      }),
+      editFood: builder.mutation<void, EditForm>({
+        invalidatesTags: ['Food'],
+        query: (input) => {
+          return {
+            url: 'food/update',
+            method: 'POST',
+            body: {
+              input,
+            }
+          }
+        }
+      }), 
     }
   }
 });
@@ -56,5 +92,7 @@ export const {
   useFetchFoodQuery,
   useAddFoodMutation,
   useFetchUserFoodQuery,
+  useDeleteFoodMutation,
+  useEditFoodMutation,
 } = foodApi;
 export { foodApi };

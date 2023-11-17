@@ -55,6 +55,20 @@ module.exports = (app: Express) => {
     }
   });
 
+  app.delete('/journal/delete', async (req, res) => {
+    const currentUser = req.user as IUser;
+    var user_record;
+    if (currentUser) {
+      user_record = await User.findOne({ googleId: currentUser.googleId });
+    }
+    var currentJournal: any = await Journal.findOne( { user: user_record._id, date: req.query.date} );
+    if (req.query.meal) {
+      currentJournal.foods[req.query.meal.toString()].pull(req.query.food);
+      currentJournal.save();
+    }    
+    res.send(currentJournal);
+  });
+
 
   app.get('/journal/entries', async (req, res) => {
     const currentUser = req.user as IUser;

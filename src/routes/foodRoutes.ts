@@ -41,6 +41,26 @@ module.exports = (app: Express) => {
 
   });
 
+  app.post('/food/update', async (req, res) => {
+    const currentUser = req.user as IUser;
+    var user_record;
+    if (currentUser) {
+      user_record = await User.findOne({ googleId: currentUser.googleId });
+    }
+    var currentFood = await Food.findOneAndUpdate({ _id: req.body.input.id }, {
+      name: req.body.input.formName,
+      description: req.body.input.formDescription,
+      calories: req.body.input.formCals,
+      protein: req.body.input.formProt,
+      carbs: req.body.input.formCarbs,
+      fat: req.body.input.formFat,
+      fiber: req.body.formFiber,
+    });
+    currentFood.save();
+    console.log(currentFood);
+    res.send(currentFood);
+  })
+
   app.get('/food/foodlist', async (req, res) => {
     const currentUser = req.user as IUser;
     var user_record = null;
@@ -52,4 +72,14 @@ module.exports = (app: Express) => {
     res.send(user_record);
   });
 
+  app.delete('/food/delete', async (req, res) => {
+    const currentUser = req.user as IUser;
+    var user_record;
+    if (currentUser) {
+      user_record = await User.findOne({ googleId: currentUser.googleId });
+    }
+    user_record.foods.pull(req.query.food_id);
+    user_record.save()
+    res.send(user_record);
+  });
 };
