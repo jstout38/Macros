@@ -15,9 +15,11 @@ const foodApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: '/',
   }),
+  tagTypes: ['Food'],
   endpoints: (builder) => {
     return {
       addFood: builder.mutation<void, FoodForm>({
+        invalidatesTags: ['Food'],
         query: (formUpdate) => {
           return {
             url: 'food/add',
@@ -38,6 +40,7 @@ const foodApi = createApi({
         }
       }),
       fetchUserFood: builder.query<any, void>({
+        providesTags: ['Food'],
         query: () => {
           return {
             url: 'food/foodlist',

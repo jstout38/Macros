@@ -5,9 +5,8 @@ import Col from 'react-bootstrap/Col';
 import { useState, useEffect } from 'react';
 import { FoodForm } from '../store/apis/foodApi';
 import { useAddFoodMutation } from '../store';
-import { useLocation } from 'react-router-dom';
 
-export default function AddFood() {
+export default function AddFood(props: any) {
   
   const [fields, setFields] = useState<FoodForm>({
     formName: '',
@@ -16,27 +15,22 @@ export default function AddFood() {
     formProt: 0,
     formCarbs: 0,
     formFat: 0,
-    formFiber: 0
-    });
-  
-  const location = useLocation();
-
-  useEffect(() => {
-    if (location.state) {
-      setFields({
-        formName: location.state.name,
-        formDescription: '',
-        formCals: location.state.calories,
-        formProt: location.state.protein,
-        formCarbs: location.state.carbs,
-        formFat: location.state.fat,
-        formFiber: location.state.fiber 
-      });
-    }
-  }, []);
-  
+    formFiber: 0,
+  });
 
   const [addFood, results] = useAddFoodMutation();
+
+  useEffect(() => {
+    setFields({
+      formName: props.name ? props.name : '',
+      formDescription: '',
+      formCals: props.calories ? props.calories : 0,
+      formProt: props.protein ? props.protein : 0,
+      formCarbs: props.carbs ? props.carbs : 0,
+      formFat: props.fat ? props.fat : 0,
+      formFiber: props.fiber ? props.fiber : 0,
+    });
+  }, [props]);
 
   const changeHandler = (e: any) => {
     setFields({...fields, [e.target.id]: e.target.value});
@@ -45,9 +39,13 @@ export default function AddFood() {
   const handleAddFood = (e: any) => {
     e.preventDefault();    
     addFood(fields);
+    if (props.submit) {
+      props.submit();
+    }
   }
 
   return(
+    
     <Form>
       <Row className="align-items-center">
         <Col xs="auto">

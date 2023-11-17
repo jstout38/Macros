@@ -19,7 +19,7 @@ export default function Journal() {
 
   function getMealPicker(meal: any) {
     if (data) {
-      return <MealPicker foods={data} date={currentDate} meal={meal} />;
+      return <MealPicker foods={data.foods} date={currentDate} meal={meal} />;
     } else {
       return <div>Loading...</div>;
     }

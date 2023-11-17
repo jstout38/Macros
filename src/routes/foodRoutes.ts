@@ -19,6 +19,7 @@ module.exports = (app: Express) => {
 
   //endpoint for adding a new food
   //TODO: add error handling
+  //TODO: This should be post, add put for updating foods
   app.put('/food/add', async (req, res) => {
     const currentUser = req.user as IUser;
     const food = await new Food({ 
@@ -36,19 +37,19 @@ module.exports = (app: Express) => {
     }
     user_record.foods.push(food);
     user_record.save();
+    res.send(user_record);
+
   });
 
   app.get('/food/foodlist', async (req, res) => {
     const currentUser = req.user as IUser;
-    var user_record;
+    var user_record = null;
     if (currentUser) {
       user_record = await User.findOne({ googleId: currentUser.googleId })
       .populate('foods')
       .exec();
     }
-    if (user_record) {
-      res.send(user_record.foods);
-    };
+    res.send(user_record);
   });
 
 };

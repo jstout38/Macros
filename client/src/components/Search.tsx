@@ -4,10 +4,10 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { useState, useEffect } from 'react';
 import { useFetchFoodQuery } from '../store';
-import { Link } from 'react-router-dom';
+import SearchResult from './SearchResult';
 import "../css/styles.css";
 
-export default function Search() {  
+export default function Search(props: any) {  
 
   const [keyword, setKeyword] = useState<string>('');
 
@@ -35,7 +35,13 @@ export default function Search() {
             if (!food.food.image) {
               foodImage = <img className="searchImage" src={require('../images/m.png')} />;
             } else {
-              foodImage = <img className="searchImage" src={food.food.image} />;
+              foodImage = <img 
+                className="searchImage"
+                onError={({ currentTarget }) => {
+                  currentTarget.onerror = null;
+                  currentTarget.src=require('../images/m.png');
+                }} 
+                src={food.food.image} />;
             }   
             var calories = parseFloat(food.food.nutrients.ENERC_KCAL).toFixed(0);
             var fat = parseFloat(food.food.nutrients.FAT).toFixed(2);
@@ -43,26 +49,16 @@ export default function Search() {
             var carbs = parseFloat(food.food.nutrients.CHOCDF).toFixed(2);
             var fiber = parseFloat(food.food.nutrients.FIBTG).toFixed(2);  
             return (
-            <Link key={index} to={ `/addFood`} state={{
-              name: food.food.label,
-              calories: calories,
-              fat: fat,
-              protein: protein,
-              carbs: carbs,
-              fiber: fiber
-            }}>
-            <li className="searchResults" key={index}>
-              <Row xs="auto">
-                <Col>
-                  {foodImage}
-                </Col>
-                <Col>
-                  <div>{food.food.label}</div>
-                  <div>Calories: {calories} Protein: {protein} Fat: {fat} Carbs: {carbs} Fiber: {fiber}</div>
-                </Col>
-              </Row>
-            </li>
-            </Link> 
+            //<Link key={index} to={ `/addFood`} state={{
+            //  name: food.food.label,
+            //   calories: calories,
+            //   fat: fat,
+            //   protein: protein,
+            //   carbs: carbs,
+            //   fiber: fiber
+            // }}>
+            <SearchResult key={index} selectFood={props.selectFood} label={food.food.label} foodImage={foodImage} calories={calories} fat={fat} protein={protein} carbs={carbs} fiber={fiber}/>
+            //</Link> 
             )
           })}
       </ul>
