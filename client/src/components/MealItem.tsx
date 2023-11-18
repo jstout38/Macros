@@ -13,9 +13,8 @@ export default function MealItem(props: any) {
   function deleteFood() {
     var input = {
       date: props.date,
-      food: props.food._id,
+      id: props.id,
       meal: props.meal,
-      quantity: currentQuantity,
     }
     deleteEntry(input);
   }

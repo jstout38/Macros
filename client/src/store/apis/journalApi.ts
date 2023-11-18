@@ -7,6 +7,12 @@ export type FoodInput = {
   quantity: number;
 };
 
+export type DeleteInput = {
+  date: string;
+  id: string;
+  meal: string;
+}
+
 const journalApi = createApi({
   reducerPath: 'journal',
   baseQuery: fetchBaseQuery({
@@ -51,7 +57,7 @@ const journalApi = createApi({
           };
         },        
       }),
-      deleteEntry: builder.mutation<void, FoodInput>({
+      deleteEntry: builder.mutation<void, DeleteInput>({
         invalidatesTags: ['Journal'],
         query: (input) => {
           return {
@@ -60,7 +66,7 @@ const journalApi = createApi({
             params: {
               date: input.date,
               meal: input.meal,
-              food: input.food,
+              id: input.id,
             },
           };
         },

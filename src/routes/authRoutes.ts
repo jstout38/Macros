@@ -43,7 +43,12 @@ module.exports = (app: Express) => {
       email: req.body.fields.formEmail,
       weight: req.body.fields.formWeight,
       height: req.body.fields.formHeight,
-      DoB: req.body.fields.formDOB
+      DoB: req.body.fields.formDOB,
+      protein: req.body.fields.formProtein,
+      carbs: req.body.fields.formCarbs,
+      fat: req.body.fields.formFat,
+      fiber: req.body.fields.formFiber,
+      calories: req.body.fields.formCalories,
     }
   );
   });

@@ -9,6 +9,11 @@ export interface IUser {
   DoB: Date;
   weight: number;
   height: number;
+  protein: number;
+  carbs: number;
+  calories: number;
+  fat: number;
+  fiber: number;
   foods: [Schema];
   journal: [Schema];
 }
@@ -22,6 +27,11 @@ const userSchema = new Schema<IUser>({
   DoB: { type: Date, required: false },
   weight: { type: Number, required: false },
   height: { type: Number, required: false },
+  protein: { type: Number, required: false },
+  carbs: { type: Number, required: false },
+  calories: { type: Number, required: false },
+  fat: { type: Number, required: false },
+  fiber: { type: Number, required: false },
   foods: {type: [Schema.Types.ObjectId], ref: "foods"},
   journal: {type: [Schema.Types.ObjectId], ref: 'journal'},
 });

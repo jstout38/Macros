@@ -64,12 +64,8 @@ module.exports = (app: Express) => {
     if (currentUser) {
       user_record = await User.findOne({ googleId: currentUser.googleId });
     }
-    var currentJournal: any = await Journal.findOne( { user: user_record._id, date: req.query.date} );
-    if (req.query.meal) {
-      currentJournal[req.query.meal.toString()] = currentJournal[req.query.meal.toString()].filter((entry: any) => entry.food !== req.body.input.food);
-      currentJournal.save();
-    }    
-    res.send(currentJournal);
+    await Entry.findOneAndDelete( {_id: req.query.id });    
+    res.status(200).send("Delete successful!");
   });
 
 

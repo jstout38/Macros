@@ -3,10 +3,18 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Button from 'react-bootstrap/Button';
 import { useFetchUserQuery } from '../store';
+import { useState } from 'react';
+import Modal from 'react-bootstrap/Modal';
+import Update from './Update';
 
 export default function Header() {
   const { data, error, isLoading } = useFetchUserQuery();
     
+  const [ show, setShow ] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   function renderContent() {    
     if (isLoading) {
       return 'Still deciding';
@@ -22,7 +30,7 @@ export default function Header() {
       } else {
         return (
         <Nav className="flex-row">
-          <Nav.Link href="/update">My Account </Nav.Link>
+          <Nav.Link onClick={handleShow}>My Account </Nav.Link>
           <Nav.Link href="/api/logout">Logout</Nav.Link>
         </Nav>
         )
@@ -31,6 +39,7 @@ export default function Header() {
   }
 
   return(
+      <>
       <Navbar expand="lg" className="bg-body-tertiary">
         <Container>
           <Navbar.Brand href="/">Macros Tracker</Navbar.Brand>
@@ -39,5 +48,15 @@ export default function Header() {
           </Navbar.Text>
         </Container>
       </Navbar>
-    );
+
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Update Your Account!</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Update />
+        </Modal.Body>        
+      </Modal>
+      </>
+  );
 }

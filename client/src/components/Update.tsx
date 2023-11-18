@@ -19,6 +19,11 @@ export default function Register() {
     formEmail: '',
     formWeight: 0,
     formHeight: 0,
+    formProtein: 0,
+    formCarbs: 0,
+    formFat: 0,
+    formFiber: 0,
+    formCalories: 0,
     formDOB: null
     });
 
@@ -32,7 +37,12 @@ export default function Register() {
       formEmail: data.email,
       formWeight: data.weight,
       formHeight: data.height,
-      formDOB: data.DoB
+      formDOB: data.DoB,
+      formProtein: data.protein,
+      formCarbs: data.carbs,
+      formFiber: data.fiber,
+      formCalories: data.calories,
+      formFat: data.fat,        
       })
     }}, [data]);
   
@@ -89,7 +99,41 @@ export default function Register() {
           </Form.Group>
         </Col>
       </Row>
-      <Button onClick={handleRegister} variant="primary" type="submit">Register</Button>
+      <Row>
+        <Col xs="auto">
+          <Form.Group className="mb-3" controlId="formProtein">
+            <Form.Label>Target Protein</Form.Label>
+            <Form.Control onChange={changeHandler} type="text" placeholder={fields.formProtein ? fields.formProtein.toString() : ''}/>
+          </Form.Group>
+        </Col>
+        <Col xs="auto">
+          <Form.Group className="mb-3" controlId="formCarbs">
+            <Form.Label>Target Carbs</Form.Label>
+            <Form.Control onChange={changeHandler} type="text" placeholder={fields.formCarbs ? fields.formCarbs.toString() : ''}/>
+          </Form.Group>
+        </Col>
+        <Col xs="auto">
+          <Form.Group className="mb-3" controlId="formFat">
+            <Form.Label>Target Fat</Form.Label>
+            <Form.Control onChange={changeHandler} type="text" placeholder={fields.formFat ? fields.formFat.toString() : ''}/>
+          </Form.Group>
+        </Col>
+      </Row>
+      <Row>
+        <Col xs="auto">
+          <Form.Group className="mb-3" controlId="formFiber">
+            <Form.Label>Target Fiber</Form.Label>
+            <Form.Control onChange={changeHandler} type="text" placeholder={fields.formFiber ? fields.formFiber.toString() : ''}/>
+          </Form.Group>
+        </Col>
+        <Col xs="auto">
+          <Form.Group className="mb-3" controlId="formCalories">
+            <Form.Label>Target Calories</Form.Label>
+            <Form.Control onChange={changeHandler} type="text" placeholder={fields.formCalories ? fields.formCalories.toString() : ''}/>
+          </Form.Group>
+        </Col>
+      </Row>
+      <Button onClick={handleRegister} variant="primary" type="submit">Update</Button>
     </Form>
     
   )

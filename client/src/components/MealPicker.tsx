@@ -29,6 +29,7 @@ export default function MealPicker(props: any) {
       food_list = data[props.meal].map((entry: any) => {
         return <MealItem 
           key={entry._id}
+          id={entry._id}
           date={props.date}
           food={entry.food}
           meal={props.meal}

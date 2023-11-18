@@ -8,6 +8,11 @@ export type FormData = {
   formWeight: number;
   formHeight: number;
   formDOB: null | Date;
+  formProtein: number;
+  formCarbs: number;
+  formFat: number;
+  formFiber: number;
+  formCalories: number;
 };
 
 export type FormUpdate = {
