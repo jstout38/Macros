@@ -4,6 +4,7 @@ export type FoodInput = {
   date: string;
   food: string;
   meal: string;
+  quantity: number;
 };
 
 const journalApi = createApi({

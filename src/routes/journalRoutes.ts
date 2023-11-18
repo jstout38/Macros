@@ -2,10 +2,12 @@
 import { Express } from 'express';
 import mongoose from 'mongoose';
 import { IUser } from '../models/User';
+import { ObjectId } from 'mongodb';
 
 const Food = mongoose.model("foods");
 const User = mongoose.model("users");
 const Journal = mongoose.model("journal");
+const Entry = mongoose.model("entry");
 
 module.exports = (app: Express) => {
   app.post('/journal/add', async (req, res) => {
@@ -17,12 +19,10 @@ module.exports = (app: Express) => {
       if (!existingEntry) {
         const entry = await new Journal({ 
           date: req.body.date,
-          foods: {
-            breakfast: [],
-            lunch: [],
-            dinner: [],
-            snacks: [],
-          },
+          breakfast: [],
+          lunch: [],
+          dinner: [],
+          snacks: [],
           user: user_record._id,
         }).save();
         user_record.journal.push(entry);
@@ -43,15 +43,18 @@ module.exports = (app: Express) => {
     if (currentUser) {
       user_record = await User.findOne({ googleId: currentUser.googleId});
     }
-    var currentJournal = await Journal.findOne( { user: user_record._id, date: req.body.input.date} );
-    if (currentJournal) {
-      var newFoodList = currentJournal.foods;
-      newFoodList[req.body.input.meal].push(req.body.input.food);
-      currentJournal = await Journal.findOneAndUpdate( { user: user_record._id, date: req.body.input.date}, { foods: newFoodList })
-      currentJournal.save();
-      res.send(currentJournal);
+    var existing = await Entry.findOne( { user: user_record._id, date: req.body.input.date, food: req.body.input.food, meal: req.body.input.meal} )      
+    if (existing) {
+      existing.quantity = req.body.input.quantity;
+      existing.save();
+      res.send(existing);
     } else {
-      res.status(404);
+      var newEntry = await new Entry({ food: req.body.input.food, quantity: req.body.input.quantity, date: req.body.input.date, meal: req.body.input.meal, user: user_record._id });
+      newEntry.save();
+      var currentJournal = await Journal.findOne( {user: user_record._id, date: req.body.input.date });
+      currentJournal[req.body.input.meal].push(newEntry._id);
+      currentJournal.save();
+      res.send(currentJournal);      
     }
   });
 
@@ -63,7 +66,7 @@ module.exports = (app: Express) => {
     }
     var currentJournal: any = await Journal.findOne( { user: user_record._id, date: req.query.date} );
     if (req.query.meal) {
-      currentJournal.foods[req.query.meal.toString()].pull(req.query.food);
+      currentJournal[req.query.meal.toString()] = currentJournal[req.query.meal.toString()].filter((entry: any) => entry.food !== req.body.input.food);
       currentJournal.save();
     }    
     res.send(currentJournal);
@@ -78,20 +81,20 @@ module.exports = (app: Express) => {
     }
     var entries = await Journal.findOne({ user: user_record._id, date: req.query.date})
     .populate({
-      path: "foods",
-      populate: { path: "breakfast" }
+      path: "breakfast",
+      populate: { path: "food" }
     })
     .populate({
-      path: "foods",
-      populate: { path: "lunch" }
+      path: "lunch",
+      populate: { path: "food" }
     })
     .populate({
-      path: "foods",
-      populate: { path: "dinner" }
+      path: "dinner",
+      populate: { path: "food" }
     })
     .populate({
-      path: "foods",
-      populate: { path: "snacks" }
+      path: "snacks",
+      populate: { path: "food" }
     })
     .exec();
     res.send(entries);
