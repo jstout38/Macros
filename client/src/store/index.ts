@@ -3,12 +3,14 @@ import { setupListeners } from '@reduxjs/toolkit/query';
 import { authApi } from './apis/authApi';
 import { foodApi } from './apis/foodApi';
 import { journalApi } from './apis/journalApi';
+import macroReducer from './slices/macroSlice';
 
 export const store = configureStore({
   reducer: {
     [authApi.reducerPath]: authApi.reducer,
     [foodApi.reducerPath]: foodApi.reducer,
     [journalApi.reducerPath]: journalApi.reducer,
+    macros: macroReducer,
   },
   middleware: (getDefaultMiddleware) => 
     getDefaultMiddleware()

@@ -3,6 +3,9 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import type { RootState } from '../store';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { useAddJournalMutation, useFetchUserFoodQuery } from '../store';
 
@@ -12,10 +15,28 @@ import MealPicker from './MealPicker';
 export default function Journal() {
   
   const [ currentDate, setCurrentDate ] = useState(new Date().toLocaleDateString('en-us', { weekday: "long", year: "numeric", month: "short", day:"numeric"}));  
-
+  
   const [ addJournal, results ] = useAddJournalMutation();
 
   const { data, error, isLoading } = useFetchUserFoodQuery();
+  
+  var displayCals = useSelector((state: RootState) => state.macros["breakfast"].calories);
+  console.log(displayCals);
+
+  var dailyTotals = useSelector((state: RootState) => state.macros);
+
+  type macroList = {
+    [index: string]: number
+  }
+
+  var macroTotals : macroList = {
+  "calories": Math.round(dailyTotals["breakfast"].calories + dailyTotals["lunch"].calories + dailyTotals["dinner"].calories + dailyTotals["snacks"].calories),
+  "protein": Math.round(dailyTotals["breakfast"].protein + dailyTotals["lunch"].protein + dailyTotals["dinner"].protein + dailyTotals["snacks"].protein),
+  "carbs": Math.round(dailyTotals["breakfast"].carbs + dailyTotals["lunch"].carbs + dailyTotals["dinner"].carbs + dailyTotals["snacks"].carbs),
+  "fat": Math.round(dailyTotals["breakfast"].fat + dailyTotals["lunch"].fat + dailyTotals["dinner"].fat + dailyTotals["snacks"].fat),
+  "fiber": Math.round(dailyTotals["breakfast"].fiber + dailyTotals["lunch"].fiber + dailyTotals["dinner"].fiber + dailyTotals["snacks"].fiber),
+  }
+  
 
   function getMealPicker(meal: any) {
     if (data) {
@@ -36,6 +57,27 @@ export default function Journal() {
     setCurrentDate(date_string);
   }
 
+  function makeMacroColumn () {
+    const macros = ['calories', 'protein', 'carbs', 'fat', 'fiber'];
+    const colors = ['bg-danger', 'bg-success', 'bg-primary', 'bg-warning', 'bg-secondary'];
+    const containers = [];
+    for (var i = 0; i < macros.length; i++) {
+      containers.push(
+        <Row key={i} className = {colors[i] + " text-light flex-grow-1 align-content-center"}>
+          <Col>
+            <Row className="align-content-center">
+              <h4 className="macro-item">Total {macros[i]}</h4>
+            </Row>
+            <Row className="align-content-center">
+              <h4 className="macro-item">{macroTotals[macros[i]]}</h4>
+            </Row>
+          </Col>
+        </Row>
+      );
+    }
+    return containers;
+  }
+
   return (
     <Container>
       <Row>
@@ -50,7 +92,8 @@ export default function Journal() {
         </Form>
       </Row>
       <Row>
-        <Col>
+        <Col xs={9}>
+          {displayCals}
           <h4>Breakfast</h4>
             {getMealPicker('breakfast')}
           <h4>Lunch</h4>
@@ -59,6 +102,9 @@ export default function Journal() {
             {getMealPicker('dinner')}
           <h4>Snacks</h4>
             {getMealPicker('snacks')}
+        </Col>
+        <Col className= "d-flex flex-column">
+          {makeMacroColumn()}
         </Col>
       </Row>
     </Container>

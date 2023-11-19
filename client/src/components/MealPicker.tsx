@@ -1,5 +1,9 @@
 import Dropdown from 'react-bootstrap/Dropdown';
 import { useUpdateJournalMutation, useFetchJournalQuery, useDeleteEntryMutation } from '../store';
+import { useEffect, useState } from 'react';
+import type { RootState } from '../store';
+import { useSelector, useDispatch } from 'react-redux';
+import { update } from '../store/slices/macroSlice';
 import MealItem from './MealItem';
 
 export default function MealPicker(props: any) {
@@ -8,10 +12,53 @@ export default function MealPicker(props: any) {
   const [ deleteEntry, deleteResults ] = useDeleteEntryMutation();
   const { data, error, isLoading } = useFetchJournalQuery(props.date);
 
+  const [ mealTotals, setMealTotals ] = useState<{[key: string]: number}>({
+    'calories': 0,
+    'fiber': 0,
+    'fat': 0,
+    'carbs': 0,
+    'protein': 0,
+  });
+
+  var totalCalories = useSelector((state: RootState) => state.macros[props.meal].calories);
+  var totalProtein = useSelector((state: RootState) => state.macros[props.meal].protein);
+  var totalCarbs = useSelector((state: RootState) => state.macros[props.meal].carbs);
+  var totalFat = useSelector((state: RootState) => state.macros[props.meal].fat);
+  var totalFiber = useSelector((state: RootState) => state.macros[props.meal].fiber);
+  const dispatch = useDispatch();
+      
+
+  useEffect(() => {
+    if (!isLoading && data[props.meal].length > 0) {
+    var calories = 0;
+      var fiber = 0;
+      var fat = 0;
+      var carbs = 0;
+      var protein = 0;
+      for (var i = 0; i < data[props.meal].length; i++) {
+        calories += data[props.meal][i].food.calories
+        fiber += data[props.meal][i].food.fiber
+        fat += data[props.meal][i].food.fat
+        carbs += data[props.meal][i].food.carbs
+        protein += data[props.meal][i].food.protein
+      }
+      console.log(mealTotals.calories + totalCalories);
+      dispatch(update({
+        meal: props.meal,
+        calories: calories + totalCalories,
+        protein: protein + totalProtein,
+        carbs: carbs + totalCarbs,
+        fat: fat + totalFat,
+        fiber: fiber + totalFiber,
+      }));
+      
+    }
+  }, [data]);
+
   if (error) {
     console.log(error);
   }
-
+  
   async function clickHandler(e: any) {
     var input = {
       date: props.date,
@@ -20,6 +67,7 @@ export default function MealPicker(props: any) {
       quantity: 1,
     }
     updateJournal(input);
+    
   }
 
   var food_list = <div>Start adding foods!</div>;
@@ -35,7 +83,8 @@ export default function MealPicker(props: any) {
           meal={props.meal}
           quantity={entry.quantity}
         />;
-      })
+      });
+      
     } else {
       food_list = <div>Start adding foods!</div>;
     }
@@ -62,6 +111,7 @@ export default function MealPicker(props: any) {
         {display}
       </Dropdown.Menu>
     </Dropdown>
+    <div>Meal Totals - Calories: {mealTotals.calories} Protein: {mealTotals.protein} Carbs: {mealTotals.carbs} Fat: {mealTotals.fat} Fiber: {mealTotals.fiber}</div>
     </div>
   )
 }
