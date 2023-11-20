@@ -20,38 +20,34 @@ export default function MealPicker(props: any) {
     'protein': 0,
   });
 
-  var totalCalories = useSelector((state: RootState) => state.macros[props.meal].calories);
-  var totalProtein = useSelector((state: RootState) => state.macros[props.meal].protein);
-  var totalCarbs = useSelector((state: RootState) => state.macros[props.meal].carbs);
-  var totalFat = useSelector((state: RootState) => state.macros[props.meal].fat);
-  var totalFiber = useSelector((state: RootState) => state.macros[props.meal].fiber);
+  
   const dispatch = useDispatch();
       
 
   useEffect(() => {
-    if (!isLoading && data[props.meal].length > 0) {
-    var calories = 0;
+    if (!isLoading) {
+      var calories = 0;
       var fiber = 0;
       var fat = 0;
       var carbs = 0;
       var protein = 0;
-      for (var i = 0; i < data[props.meal].length; i++) {
-        calories += data[props.meal][i].food.calories
-        fiber += data[props.meal][i].food.fiber
-        fat += data[props.meal][i].food.fat
-        carbs += data[props.meal][i].food.carbs
-        protein += data[props.meal][i].food.protein
+      if (data && data[props.meal].length > 0) {
+        for (var i = 0; i < data[props.meal].length; i++) {
+          calories += data[props.meal][i].food.calories
+          fiber += data[props.meal][i].food.fiber
+          fat += data[props.meal][i].food.fat
+          carbs += data[props.meal][i].food.carbs
+          protein += data[props.meal][i].food.protein
+        }
       }
-      console.log(mealTotals.calories + totalCalories);
       dispatch(update({
         meal: props.meal,
-        calories: calories + totalCalories,
-        protein: protein + totalProtein,
-        carbs: carbs + totalCarbs,
-        fat: fat + totalFat,
-        fiber: fiber + totalFiber,
+        calories: calories,
+        protein: protein,
+        carbs: carbs,
+        fat: fat,
+        fiber: fiber,
       }));
-      
     }
   }, [data]);
 
@@ -67,7 +63,6 @@ export default function MealPicker(props: any) {
       quantity: 1,
     }
     updateJournal(input);
-    
   }
 
   var food_list = <div>Start adding foods!</div>;

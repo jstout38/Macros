@@ -15,13 +15,20 @@ import MealPicker from './MealPicker';
 export default function Journal() {
   
   const [ currentDate, setCurrentDate ] = useState(new Date().toLocaleDateString('en-us', { weekday: "long", year: "numeric", month: "short", day:"numeric"}));  
+  const [ macroTotals, setMacroTotals ] = useState<macroList>({
+    "calories" : 0,
+    "protein": 0,
+    "carbs": 0,
+    "fat": 0,
+    "fiber": 0
+  });
   
   const [ addJournal, results ] = useAddJournalMutation();
 
   const { data, error, isLoading } = useFetchUserFoodQuery();
   
   var displayCals = useSelector((state: RootState) => state.macros["breakfast"].calories);
-  console.log(displayCals);
+
 
   var dailyTotals = useSelector((state: RootState) => state.macros);
 
@@ -29,18 +36,24 @@ export default function Journal() {
     [index: string]: number
   }
 
-  var macroTotals : macroList = {
-  "calories": Math.round(dailyTotals["breakfast"].calories + dailyTotals["lunch"].calories + dailyTotals["dinner"].calories + dailyTotals["snacks"].calories),
-  "protein": Math.round(dailyTotals["breakfast"].protein + dailyTotals["lunch"].protein + dailyTotals["dinner"].protein + dailyTotals["snacks"].protein),
-  "carbs": Math.round(dailyTotals["breakfast"].carbs + dailyTotals["lunch"].carbs + dailyTotals["dinner"].carbs + dailyTotals["snacks"].carbs),
-  "fat": Math.round(dailyTotals["breakfast"].fat + dailyTotals["lunch"].fat + dailyTotals["dinner"].fat + dailyTotals["snacks"].fat),
-  "fiber": Math.round(dailyTotals["breakfast"].fiber + dailyTotals["lunch"].fiber + dailyTotals["dinner"].fiber + dailyTotals["snacks"].fiber),
-  }
+  useEffect(() => {
+    var newTotals = {
+        "calories": Math.round(dailyTotals["breakfast"].calories + dailyTotals["lunch"].calories + dailyTotals["dinner"].calories + dailyTotals["snacks"].calories),
+        "protein": Math.round(dailyTotals["breakfast"].protein + dailyTotals["lunch"].protein + dailyTotals["dinner"].protein + dailyTotals["snacks"].protein),
+        "carbs": Math.round(dailyTotals["breakfast"].carbs + dailyTotals["lunch"].carbs + dailyTotals["dinner"].carbs + dailyTotals["snacks"].carbs),
+        "fat": Math.round(dailyTotals["breakfast"].fat + dailyTotals["lunch"].fat + dailyTotals["dinner"].fat + dailyTotals["snacks"].fat),
+        "fiber": Math.round(dailyTotals["breakfast"].fiber + dailyTotals["lunch"].fiber + dailyTotals["dinner"].fiber + dailyTotals["snacks"].fiber),
+    };
+    setMacroTotals(newTotals);  
+    
+  }, [dailyTotals]);
   
 
   function getMealPicker(meal: any) {
     if (data) {
+      
       return <MealPicker foods={data.foods} date={currentDate} meal={meal} />;
+      
     } else {
       return <div>Loading...</div>;
     }
@@ -93,7 +106,6 @@ export default function Journal() {
       </Row>
       <Row>
         <Col xs={9}>
-          {displayCals}
           <h4>Breakfast</h4>
             {getMealPicker('breakfast')}
           <h4>Lunch</h4>

@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { useDeleteEntryMutation, useUpdateJournalMutation } from '../store';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 
 export default function MealItem(props: any) {
@@ -54,16 +56,27 @@ export default function MealItem(props: any) {
 
   return (
     <li>
-      {foodName} Qty: {existingQuantity}
+      
+      
       <Form>
+        <Row>
+        <Col xs={5}>{foodName} Qty: {existingQuantity}</Col>
+        <Col xs={2}>
         <Form.Group>
           <Form.Control id="quantity" onChange={handleChange} type="number" placeholder={quantityString}></Form.Control>
         </Form.Group> 
+        </Col>
+        <Col xs={3}>
         <Button variant="primary" onClick={updateQuantity}>Update Quantity</Button>
+        </Col>
+        <Col xs={2}>
         <Button variant="danger" onClick={deleteFood} size="sm">
           X
         </Button>
+        </Col>
+        </Row>
       </Form>
+
     </li>
   );
 
