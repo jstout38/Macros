@@ -124,7 +124,7 @@ export default function FoodPanel() {
   }
 
   return (
-    <>
+    <div className=".foodPanel">
       <div>
         <Row>
           <Col>
@@ -152,7 +152,7 @@ export default function FoodPanel() {
           {modalDisplay}
         </Modal.Body>        
       </Modal>
-    </>
+    </div>
   )
   
 }

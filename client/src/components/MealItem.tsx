@@ -22,17 +22,18 @@ export default function MealItem(props: any) {
   }
 
   function updateQuantity() {
-    var input = {
-      date: props.date,
-      food: props.food._id,
-      meal: props.meal,
-      quantity: currentQuantity,
-    }
-    updateEntry(input);
+    
   }
 
   function handleChange(e: any) {
     setCurrentQuantity(e.target.value);
+    var input = {
+      date: props.date,
+      food: props.food._id,
+      meal: props.meal,
+      quantity: e.target.value,
+    }
+    updateEntry(input);
   }
 
   var foodName = '';
@@ -42,41 +43,25 @@ export default function MealItem(props: any) {
     foodName = props.food.name;
   }
 
-  if (props.quantity) {
-    existingQuantity = props.quantity;
-  }
-
-  var quantityString = "1";
-
-  if (currentQuantity) {
-    quantityString = currentQuantity.toString();
-  }
-
-
-
   return (
-    <li>
-      
-      
-      <Form>
-        <Row>
-        <Col xs={5}>{foodName} Qty: {existingQuantity}</Col>
+    <li className = "mealItem">
+      <Row>
         <Col xs={2}>
-        <Form.Group>
-          <Form.Control id="quantity" onChange={handleChange} type="number" placeholder={quantityString}></Form.Control>
-        </Form.Group> 
+          <Form>
+            <Form.Group>
+              <Form.Control id="quantity" onChange={handleChange} type="number" value={props.quantity}></Form.Control>
+            </Form.Group> 
+          </Form>
+        </Col>     
+        <Col xs={9}>
+          {foodName}
+        </Col>          
+        <Col>
+          <Button variant="danger" onClick={deleteFood} size="sm">
+            X
+          </Button>
         </Col>
-        <Col xs={3}>
-        <Button variant="primary" onClick={updateQuantity}>Update Quantity</Button>
-        </Col>
-        <Col xs={2}>
-        <Button variant="danger" onClick={deleteFood} size="sm">
-          X
-        </Button>
-        </Col>
-        </Row>
-      </Form>
-
+      </Row>
     </li>
   );
 

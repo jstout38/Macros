@@ -5,6 +5,8 @@ import type { RootState } from '../store';
 import { useSelector, useDispatch } from 'react-redux';
 import { update } from '../store/slices/macroSlice';
 import MealItem from './MealItem';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 export default function MealPicker(props: any) {
   
@@ -22,7 +24,8 @@ export default function MealPicker(props: any) {
 
   
   const dispatch = useDispatch();
-      
+  
+  var dailyTotals = useSelector((state: RootState) => state.macros);
 
   useEffect(() => {
     if (!isLoading) {
@@ -33,11 +36,11 @@ export default function MealPicker(props: any) {
       var protein = 0;
       if (data && data[props.meal].length > 0) {
         for (var i = 0; i < data[props.meal].length; i++) {
-          calories += data[props.meal][i].food.calories
-          fiber += data[props.meal][i].food.fiber
-          fat += data[props.meal][i].food.fat
-          carbs += data[props.meal][i].food.carbs
-          protein += data[props.meal][i].food.protein
+          calories += data[props.meal][i].food.calories * data[props.meal][i].quantity
+          fiber += data[props.meal][i].food.fiber * data[props.meal][i].quantity
+          fat += data[props.meal][i].food.fat * data[props.meal][i].quantity
+          carbs += data[props.meal][i].food.carbs * data[props.meal][i].quantity
+          protein += data[props.meal][i].food.protein * data[props.meal][i].quantity
         }
       }
       dispatch(update({
@@ -96,17 +99,27 @@ export default function MealPicker(props: any) {
 
   return (
     <div>
-    <ul>{food_list}</ul>
-    <Dropdown>
-      <Dropdown.Toggle variant="success">
-        Add a food
-      </Dropdown.Toggle>
-
-      <Dropdown.Menu>
-        {display}
-      </Dropdown.Menu>
-    </Dropdown>
-    <div>Meal Totals - Calories: {mealTotals.calories} Protein: {mealTotals.protein} Carbs: {mealTotals.carbs} Fat: {mealTotals.fat} Fiber: {mealTotals.fiber}</div>
+    <Row className="mealPickerHeader" xs="auto">      
+      <Col xs={2}>
+        <h4>{props.meal.charAt(0).toUpperCase() + props.meal.slice(1)}</h4>
+      </Col>      
+      <Col xs={8}>
+        <div>Calories: {dailyTotals[props.meal].calories} Protein: {dailyTotals[props.meal].protein} Carbs: {dailyTotals[props.meal].carbs} Fat: {dailyTotals[props.meal].fat} Fiber: {dailyTotals[props.meal].fiber}</div>
+      </Col>
+      <Col xs={2}>
+        <Dropdown>
+          <Dropdown.Toggle variant="success">
+            Add
+          </Dropdown.Toggle>
+          <Dropdown.Menu>
+            {display}
+          </Dropdown.Menu>
+        </Dropdown>
+      </Col>
+    </Row>
+    <ul className="mealPickerFoodList">{food_list}</ul>
+    
+    
     </div>
   )
 }

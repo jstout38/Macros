@@ -76,23 +76,23 @@ export default function Journal() {
     const containers = [];
     for (var i = 0; i < macros.length; i++) {
       containers.push(
-        <Row key={i} className = {colors[i] + " text-light flex-grow-1 align-content-center"}>
-          <Col>
+        <Col key={i} className = {colors[i] + " text-light flex-grow-1 align-content-center"}>
+          
             <Row className="align-content-center">
               <h4 className="macro-item">Total {macros[i]}</h4>
             </Row>
             <Row className="align-content-center">
               <h4 className="macro-item">{macroTotals[macros[i]]}</h4>
             </Row>
-          </Col>
-        </Row>
+          
+        </Col>
       );
     }
     return containers;
   }
 
   return (
-    <Container>
+    <Container className="journalContainer">
       <Row>
         <h4 className="journalHeader">{currentDate}</h4>
       </Row>
@@ -104,20 +104,17 @@ export default function Journal() {
           </Form.Group>
         </Form>
       </Row>
-      <Row>
-        <Col xs={9}>
-          <h4>Breakfast</h4>
-            {getMealPicker('breakfast')}
-          <h4>Lunch</h4>
-            {getMealPicker('lunch')}
-          <h4>Dinner</h4>
-            {getMealPicker('dinner')}
-          <h4>Snacks</h4>
-            {getMealPicker('snacks')}
-        </Col>
-        <Col className= "d-flex flex-column">
+      <Row className= "d-flex flex-row macroRow">
           {makeMacroColumn()}
-        </Col>
+      </Row>
+      
+        <Row className="mealPicker">
+          {getMealPicker('breakfast')}
+          {getMealPicker('lunch')}          
+          {getMealPicker('dinner')}
+          {getMealPicker('snacks')}
+      
+        
       </Row>
     </Container>
   )

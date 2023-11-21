@@ -1,3 +1,9 @@
+
+body, html {
+  margin: 0;
+  padding: 0;
+}
+
 .searchResults {
   list-style-type: none;
   list-style-position: inside;
@@ -11,7 +17,7 @@
 }
 
 .searchImage {
-  height: 100px;
+  height: 100%;
   padding-right: 10px;
 }
 
@@ -32,4 +38,37 @@
 
 .macro-item {
   text-align: center;
+}
+
+.macroRow {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.mealPickerHeader {
+  background-color: #9CD6E4;
+  vertical-align: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  display: flex;
+  align-items: center;
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+.mealPickerFoodList {
+  list-style-type: none;
+  background-color: #468499;
+  margin-left: 0;
+  width: 100%;
+  padding-left: 10px;
+  margin-left: 0px;
+}
+
+.mealItem {
+  padding-bottom: 5px;
+  padding-top: 5px;
+  margin-left: 0px;
+  padding-right: none;
+  width: 100%;
 }
