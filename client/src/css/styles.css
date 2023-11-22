@@ -72,3 +72,14 @@ body, html {
   padding-right: none;
   width: 100%;
 }
+
+.gaugeChart {
+  text-align: center;
+  align-content: center;
+  padding-top: 10px;
+  padding-left: 0px;
+  padding-right: 0px;
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-bottom: 20px;
+}

@@ -66,19 +66,19 @@ export default function AddFood(props: any) {
         <Col xs="auto">
           <Form.Group className="mb-3" controlId="formName">
             <Form.Label>Name</Form.Label>
-            <Form.Control onChange={changeHandler} type="text" placeholder={fields.formName}/>
+            <Form.Control onChange={changeHandler} type="text" value={fields.formName}/>
           </Form.Group>
         </Col>
         <Col xs="auto">
           <Form.Group className="mb-3" controlId="formDescription">
             <Form.Label>Description</Form.Label>
-            <Form.Control onChange={changeHandler} type="text" placeholder={fields.formDescription}/>
+            <Form.Control onChange={changeHandler} type="text" value={fields.formDescription}/>
           </Form.Group>
         </Col>
         <Col xs="auto">
           <Form.Group className="mb-3" controlId="formCals">
             <Form.Label>Calories</Form.Label>
-            <Form.Control onChange={changeHandler} type="number" placeholder={fields.formCals.toString()}/>
+            <Form.Control onChange={changeHandler} type="number" value={fields.formCals}/>
           </Form.Group>
         </Col>
       </Row>
@@ -86,25 +86,25 @@ export default function AddFood(props: any) {
         <Col xs="auto">
           <Form.Group className="mb-3" controlId="formProt">
             <Form.Label>Protein</Form.Label>
-            <Form.Control onChange={changeHandler} type="number" placeholder={fields.formProt.toString()}/>
+            <Form.Control onChange={changeHandler} type="number" value={fields.formProt}/>
           </Form.Group>
         </Col>
         <Col xs="auto">
           <Form.Group className="mb-3" controlId="formCarbs">
             <Form.Label>Carbs</Form.Label>
-            <Form.Control onChange={changeHandler} type="number" placeholder={fields.formCarbs.toString()}/>
+            <Form.Control onChange={changeHandler} type="number" value={fields.formCarbs}/>
           </Form.Group>
         </Col>
         <Col xs="auto">
           <Form.Group className="mb-3" controlId="formFat">
             <Form.Label>Fat</Form.Label>
-            <Form.Control onChange={changeHandler} type="number" placeholder={fields.formFat.toString()}/>
+            <Form.Control onChange={changeHandler} type="number" value={fields.formFat}/>
           </Form.Group>
         </Col>
         <Col xs="auto">
           <Form.Group className="mb-3" controlId="formFiber">
             <Form.Label>Fiber</Form.Label>
-            <Form.Control onChange={changeHandler} type="number" placeholder={fields.formFiber.toString()}/>
+            <Form.Control onChange={changeHandler} type="number" value={fields.formFiber}/>
           </Form.Group>
         </Col>
       </Row>

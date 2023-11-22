@@ -3,7 +3,9 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Button from 'react-bootstrap/Button';
 import { useFetchUserQuery } from '../store';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { setTargets } from '../store/slices/userSlice';
 import Modal from 'react-bootstrap/Modal';
 import Update from './Update';
 
@@ -14,6 +16,21 @@ export default function Header() {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (data && !isLoading) {
+      dispatch(setTargets({
+        "calories": data.calories,
+        "protein": data.protein,
+        "carbs": data.carbs,
+        "fat": data.fat,
+        "fiber": data.fiber,
+      }));
+    }
+  }, [data]);
+  
 
   function renderContent() {    
     if (isLoading) {
@@ -28,6 +45,7 @@ export default function Header() {
           </Nav>
         )
       } else {
+        
         return (
         <Nav className="flex-row">
           <Nav.Link onClick={handleShow}>My Account </Nav.Link>

@@ -4,7 +4,7 @@ import { JsxElement } from 'typescript';
 
 export default function SearchResult(props: any) {
   const submitFood = () => {    
-    props.selectFood(props.label, props.calories, props.protien, props.fat, props.carbs, props.protein);
+    props.selectFood(props.label, props.calories, props.protein, props.fat, props.carbs, props.fiber);
   }
 
   return (

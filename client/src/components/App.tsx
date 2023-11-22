@@ -1,8 +1,6 @@
 import React from 'react';
 import Update from './Update';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
-import Search from './Search';
-import AddFood from './AddFood';
 import "../css/styles.css";
 
 import { useFetchUserQuery } from '../store';

@@ -7,7 +7,7 @@ import { useFetchFoodQuery } from '../store';
 import SearchResult from './SearchResult';
 import "../css/styles.css";
 
-export default function Search(props: any) {  
+export default function SearchForm(props: any) {  
 
   const [keyword, setKeyword] = useState<string>('');
 

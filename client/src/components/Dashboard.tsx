@@ -6,8 +6,8 @@ import Col from 'react-bootstrap/Col';
 
 export default function Dashboard() {
   return (
-    <Row class="dashboard">
-      <Col class="journal" xs={9}>
+    <Row className="dashboard">
+      <Col className="journal" xs={9}>
         <Journal />
       </Col>
       <Col>

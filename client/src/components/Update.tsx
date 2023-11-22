@@ -63,19 +63,19 @@ export default function Register() {
         <Col xs="auto">
           <Form.Group className="mb-3" controlId="formFirstName">
             <Form.Label>First Name</Form.Label>
-            <Form.Control onChange={changeHandler} type="text" placeholder={fields.formFirstName}/>
+            <Form.Control onChange={changeHandler} type="text" value={fields.formFirstName}/>
           </Form.Group>
         </Col>
         <Col xs="auto">
           <Form.Group className="mb-3" controlId="formLastName">
             <Form.Label>Last Name</Form.Label>
-            <Form.Control onChange={changeHandler} type="text" placeholder={fields.formLastName}/>
+            <Form.Control onChange={changeHandler} type="text" value={fields.formLastName}/>
           </Form.Group>
         </Col>
         <Col xs="auto">
           <Form.Group className="mb-3" controlId="formEmail">
             <Form.Label>Email Address</Form.Label>
-            <Form.Control onChange={changeHandler} type="email" placeholder={fields.formEmail}/>
+            <Form.Control onChange={changeHandler} type="email" value={fields.formEmail}/>
           </Form.Group>
         </Col>
       </Row>
@@ -83,13 +83,13 @@ export default function Register() {
         <Col xs="auto">
           <Form.Group className="mb-3" controlId="formWeight">
             <Form.Label>Current Weight (in pounds)</Form.Label>
-            <Form.Control onChange={changeHandler} type="text" placeholder={fields.formWeight ? fields.formWeight.toString() : ''}/>
+            <Form.Control onChange={changeHandler} type="number" value={fields.formWeight}/>
           </Form.Group>
         </Col>
         <Col xs="auto">
           <Form.Group className="mb-3" controlId="formHeight">
             <Form.Label>Current Height (in inches)</Form.Label>
-            <Form.Control onChange={changeHandler} type="text" placeholder={fields.formHeight ? fields.formHeight.toString() : ''}/>
+            <Form.Control onChange={changeHandler} type="number" value={fields.formHeight}/>
           </Form.Group>
         </Col>
         <Col xs="auto">
@@ -103,19 +103,19 @@ export default function Register() {
         <Col xs="auto">
           <Form.Group className="mb-3" controlId="formProtein">
             <Form.Label>Target Protein</Form.Label>
-            <Form.Control onChange={changeHandler} type="text" placeholder={fields.formProtein ? fields.formProtein.toString() : ''}/>
+            <Form.Control onChange={changeHandler} type="number" value={fields.formProtein}/>
           </Form.Group>
         </Col>
         <Col xs="auto">
           <Form.Group className="mb-3" controlId="formCarbs">
             <Form.Label>Target Carbs</Form.Label>
-            <Form.Control onChange={changeHandler} type="text" placeholder={fields.formCarbs ? fields.formCarbs.toString() : ''}/>
+            <Form.Control onChange={changeHandler} type="number" value={fields.formCarbs}/>
           </Form.Group>
         </Col>
         <Col xs="auto">
           <Form.Group className="mb-3" controlId="formFat">
             <Form.Label>Target Fat</Form.Label>
-            <Form.Control onChange={changeHandler} type="text" placeholder={fields.formFat ? fields.formFat.toString() : ''}/>
+            <Form.Control onChange={changeHandler} type="number" value={fields.formFat}/>
           </Form.Group>
         </Col>
       </Row>
@@ -123,13 +123,13 @@ export default function Register() {
         <Col xs="auto">
           <Form.Group className="mb-3" controlId="formFiber">
             <Form.Label>Target Fiber</Form.Label>
-            <Form.Control onChange={changeHandler} type="text" placeholder={fields.formFiber ? fields.formFiber.toString() : ''}/>
+            <Form.Control onChange={changeHandler} type="number" value={fields.formFiber}/>
           </Form.Group>
         </Col>
         <Col xs="auto">
           <Form.Group className="mb-3" controlId="formCalories">
             <Form.Label>Target Calories</Form.Label>
-            <Form.Control onChange={changeHandler} type="text" placeholder={fields.formCalories ? fields.formCalories.toString() : ''}/>
+            <Form.Control onChange={changeHandler} type="number" value={fields.formCalories}/>
           </Form.Group>
         </Col>
       </Row>

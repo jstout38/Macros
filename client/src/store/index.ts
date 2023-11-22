@@ -4,6 +4,7 @@ import { authApi } from './apis/authApi';
 import { foodApi } from './apis/foodApi';
 import { journalApi } from './apis/journalApi';
 import macroReducer from './slices/macroSlice';
+import userReducer from './slices/userSlice';
 
 export const store = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ export const store = configureStore({
     [foodApi.reducerPath]: foodApi.reducer,
     [journalApi.reducerPath]: journalApi.reducer,
     macros: macroReducer,
+    targets: userReducer,
   },
   middleware: (getDefaultMiddleware) => 
     getDefaultMiddleware()

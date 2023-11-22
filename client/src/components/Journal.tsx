@@ -6,6 +6,8 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import type { RootState } from '../store';
 import { useSelector, useDispatch } from 'react-redux';
+import GaugeChart from 'react-gauge-chart';
+import '../css/styles.css';
 
 import { useAddJournalMutation, useFetchUserFoodQuery } from '../store';
 
@@ -22,6 +24,11 @@ export default function Journal() {
     "fat": 0,
     "fiber": 0
   });
+
+  const chartStyle = {
+    height: 50,
+    width: 125,
+  }
   
   const [ addJournal, results ] = useAddJournalMutation();
 
@@ -31,6 +38,8 @@ export default function Journal() {
 
 
   var dailyTotals = useSelector((state: RootState) => state.macros);
+
+  var targets = useSelector((state: RootState) => state.targets);
 
   type macroList = {
     [index: string]: number
@@ -74,16 +83,25 @@ export default function Journal() {
     const macros = ['calories', 'protein', 'carbs', 'fat', 'fiber'];
     const colors = ['bg-danger', 'bg-success', 'bg-primary', 'bg-warning', 'bg-secondary'];
     const containers = [];
+    console.log(targets);
     for (var i = 0; i < macros.length; i++) {
       containers.push(
         <Col key={i} className = {colors[i] + " text-light flex-grow-1 align-content-center"}>
           
+            <Row className="justify-content-center align-content-center">
+              <GaugeChart id={"gaugeChart-" + i}  className="gaugeChart" style={chartStyle}
+                nrOfLevels={2} 
+                percent={macroTotals[macros[i]] / targets[macros[i]]} 
+                arcsLength={[.95,.05]}
+              />
+            </Row>
             <Row className="align-content-center">
               <h4 className="macro-item">Total {macros[i]}</h4>
             </Row>
             <Row className="align-content-center">
               <h4 className="macro-item">{macroTotals[macros[i]]}</h4>
             </Row>
+            
           
         </Col>
       );

@@ -1,9 +1,11 @@
 import AddFood from './AddFood';
-import Search from './Search';
+import SearchForm from './SearchForm';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+
+import { PlusSquare, Search } from 'react-bootstrap-icons';
 
 import { useState, useEffect } from 'react';
 
@@ -27,7 +29,19 @@ export default function FoodPanel() {
     edit: null,
   })
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false);
+    setFoodTemplate({
+      name: '',
+      description: '',
+      calories: 0,
+      fat: 0,
+      protein: 0,
+      carbs: 0,
+      fiber: 0,
+      edit: null,
+    });
+  }
   const handleShow = () => setShow(true);
 
   var display = '';
@@ -68,16 +82,7 @@ export default function FoodPanel() {
   }
 
   function startSearch() {
-    setFoodTemplate({
-      name: '',
-      description: '',
-      calories: 0,
-      fat: 0,
-      protein: 0,
-      carbs: 0,
-      fiber: 0,
-      edit: null,
-    });
+    
     setModalSearch(true);
     handleShow();
   }
@@ -94,7 +99,7 @@ export default function FoodPanel() {
   }, []);
   
   if (modalSearch) {
-    modalDisplay = <Search selectFood={selectFood}/>
+    modalDisplay = <SearchForm selectFood={selectFood}/>
   } else {
     modalDisplay = <AddFood 
       submit={handleClose} 
@@ -109,7 +114,7 @@ export default function FoodPanel() {
     />
   }
 
-  function selectFood(name: string, calories: number, fat: number, protein: number, carbs: number, fiber: number) {   
+  function selectFood(name: string, calories: number, protein: number, fat: number, carbs: number, fiber: number) {   
     setFoodTemplate({
       name: name,
       description: '',
@@ -125,20 +130,18 @@ export default function FoodPanel() {
 
   return (
     <div className=".foodPanel">
-      <div>
-        <Row>
+      <div>        
+        <Row xs="auto">
           <Col>
-            <Button variant="primary" onClick={startAdd}>
-              Add a Custom Food
-            </Button>
+            <h3>Your Foods</h3>
           </Col>
           <Col>
-          <Button variant="secondary" onClick={startSearch}>
-            Search for Foods
-          </Button>
+            <PlusSquare onClick={startAdd} size={24}/>
+          </Col>
+          <Col>
+            <Search onClick={startSearch} size={24}/>
           </Col>
         </Row>
-        <h3>Your Foods</h3>
         <ul>{display}</ul>
         
         
