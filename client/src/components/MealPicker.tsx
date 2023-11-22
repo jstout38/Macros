@@ -98,7 +98,8 @@ export default function MealPicker(props: any) {
   } 
 
   return (
-    <div>
+    <div className="mealPicker">
+    
     <Row className="mealPickerHeader" xs="auto">      
       <Col xs={2}>
         <h4>{props.meal.charAt(0).toUpperCase() + props.meal.slice(1)}</h4>

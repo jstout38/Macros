@@ -46,7 +46,7 @@ export default function AddFood(props: any) {
         formCals: fields.formCals,
         formProt: fields.formProt,
         formCarbs: fields.formCarbs,
-        formFat: fields.formCarbs,
+        formFat: fields.formFat,
         formFiber: fields.formFiber,
         id: props.edit,
       }

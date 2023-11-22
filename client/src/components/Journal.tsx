@@ -17,46 +17,11 @@ import MealPicker from './MealPicker';
 export default function Journal() {
   
   const [ currentDate, setCurrentDate ] = useState(new Date().toLocaleDateString('en-us', { weekday: "long", year: "numeric", month: "short", day:"numeric"}));  
-  const [ macroTotals, setMacroTotals ] = useState<macroList>({
-    "calories" : 0,
-    "protein": 0,
-    "carbs": 0,
-    "fat": 0,
-    "fiber": 0
-  });
-
-  const chartStyle = {
-    height: 50,
-    width: 125,
-  }
+  
   
   const [ addJournal, results ] = useAddJournalMutation();
 
-  const { data, error, isLoading } = useFetchUserFoodQuery();
-  
-  var displayCals = useSelector((state: RootState) => state.macros["breakfast"].calories);
-
-
-  var dailyTotals = useSelector((state: RootState) => state.macros);
-
-  var targets = useSelector((state: RootState) => state.targets);
-
-  type macroList = {
-    [index: string]: number
-  }
-
-  useEffect(() => {
-    var newTotals = {
-        "calories": Math.round(dailyTotals["breakfast"].calories + dailyTotals["lunch"].calories + dailyTotals["dinner"].calories + dailyTotals["snacks"].calories),
-        "protein": Math.round(dailyTotals["breakfast"].protein + dailyTotals["lunch"].protein + dailyTotals["dinner"].protein + dailyTotals["snacks"].protein),
-        "carbs": Math.round(dailyTotals["breakfast"].carbs + dailyTotals["lunch"].carbs + dailyTotals["dinner"].carbs + dailyTotals["snacks"].carbs),
-        "fat": Math.round(dailyTotals["breakfast"].fat + dailyTotals["lunch"].fat + dailyTotals["dinner"].fat + dailyTotals["snacks"].fat),
-        "fiber": Math.round(dailyTotals["breakfast"].fiber + dailyTotals["lunch"].fiber + dailyTotals["dinner"].fiber + dailyTotals["snacks"].fiber),
-    };
-    setMacroTotals(newTotals);  
-    
-  }, [dailyTotals]);
-  
+  const { data, error, isLoading } = useFetchUserFoodQuery();  
 
   function getMealPicker(meal: any) {
     if (data) {
@@ -79,35 +44,7 @@ export default function Journal() {
     setCurrentDate(date_string);
   }
 
-  function makeMacroColumn () {
-    const macros = ['calories', 'protein', 'carbs', 'fat', 'fiber'];
-    const colors = ['bg-danger', 'bg-success', 'bg-primary', 'bg-warning', 'bg-secondary'];
-    const containers = [];
-    console.log(targets);
-    for (var i = 0; i < macros.length; i++) {
-      containers.push(
-        <Col key={i} className = {colors[i] + " text-light flex-grow-1 align-content-center"}>
-          
-            <Row className="justify-content-center align-content-center">
-              <GaugeChart id={"gaugeChart-" + i}  className="gaugeChart" style={chartStyle}
-                nrOfLevels={2} 
-                percent={macroTotals[macros[i]] / targets[macros[i]]} 
-                arcsLength={[.95,.05]}
-              />
-            </Row>
-            <Row className="align-content-center">
-              <h4 className="macro-item">Total {macros[i]}</h4>
-            </Row>
-            <Row className="align-content-center">
-              <h4 className="macro-item">{macroTotals[macros[i]]}</h4>
-            </Row>
-            
-          
-        </Col>
-      );
-    }
-    return containers;
-  }
+ 
 
   return (
     <Container className="journalContainer">
@@ -122,9 +59,7 @@ export default function Journal() {
           </Form.Group>
         </Form>
       </Row>
-      <Row className= "d-flex flex-row macroRow">
-          {makeMacroColumn()}
-      </Row>
+      
       
         <Row className="mealPicker">
           {getMealPicker('breakfast')}

@@ -10,7 +10,7 @@ export default function SearchResult(props: any) {
   return (
     <li className="searchResults" onClick={submitFood}>
       <Row xs="auto">
-          <Col>
+          <Col className="searchImage">
             {props.foodImage}
           </Col>
           <Col>

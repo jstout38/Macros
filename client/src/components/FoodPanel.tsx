@@ -5,7 +5,7 @@ import Modal from 'react-bootstrap/Modal';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-import { PlusSquare, Search } from 'react-bootstrap-icons';
+import { PlusSquare, Search, XSquareFill, PencilSquare } from 'react-bootstrap-icons';
 
 import { useState, useEffect } from 'react';
 
@@ -48,14 +48,18 @@ export default function FoodPanel() {
   
   if (data) {
     display = data.foods.map((entry: any) => (
-      <li key={entry._id.toString()}>
-        <div>
-          {entry.name}  
-        </div>
-        <div>
-          <Button variant="link" onClick={() => deleteUserFood(entry._id)}>Delete</Button> | 
-          <Button variant="link" onClick={() => editUserFood(entry._id)}>Edit</Button>
-        </div>
+      <li className="foodPanelItem" key={entry._id.toString()}>
+        <Row>
+          <Col xs={8}>
+            {entry.name}
+          </Col>
+          <Col xs={2}>          
+            <PencilSquare onClick={() => editUserFood(entry._id)} />
+          </Col>
+          <Col xs={2}>
+            <XSquareFill onClick={() => deleteUserFood(entry._id)} />          
+          </Col>
+        </Row>
       </li>)
     )
   };
@@ -131,7 +135,7 @@ export default function FoodPanel() {
   return (
     <div className=".foodPanel">
       <div>        
-        <Row xs="auto">
+        <Row className="foodHeader" xs="auto">
           <Col>
             <h3>Your Foods</h3>
           </Col>
@@ -142,7 +146,7 @@ export default function FoodPanel() {
             <Search onClick={startSearch} size={24}/>
           </Col>
         </Row>
-        <ul>{display}</ul>
+        <ul className="foodPanelList">{display}</ul>
         
         
       </div>

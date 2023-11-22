@@ -2,6 +2,7 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Button from 'react-bootstrap/Button';
+import Row from 'react-bootstrap/Row';
 import { useFetchUserQuery } from '../store';
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
@@ -57,8 +58,8 @@ export default function Header() {
   }
 
   return(
-      <>
-      <Navbar expand="lg" className="bg-body-tertiary">
+      <Row className="header">
+      <Navbar expand="lg" className="header bg-body-tertiary">
         <Container>
           <Navbar.Brand href="/">Macros Tracker</Navbar.Brand>
           <Navbar.Text id="basic-navbar-nav">
@@ -75,6 +76,6 @@ export default function Header() {
           <Update />
         </Modal.Body>        
       </Modal>
-      </>
+      </Row>
   );
 }

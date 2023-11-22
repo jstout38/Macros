@@ -1,7 +1,18 @@
+body, html, #root, .app, .dashboard, .macroColumn, .journal, .foodPanel {
+  height: 100%;
+}
 
-body, html {
-  margin: 0;
-  padding: 0;
+.app { 
+  margin-left: 50px;
+  margin-right: 50px;
+}
+
+.dashboard {
+  overflow: hidden;
+}
+
+.journal {
+  overflow-y: auto;
 }
 
 .searchResults {
@@ -17,7 +28,7 @@ body, html {
 }
 
 .searchImage {
-  height: 100%;
+  width: 100px;
   padding-right: 10px;
 }
 
@@ -43,6 +54,16 @@ body, html {
 .macroRow {
   margin-left: 0;
   margin-right: 0;
+  padding-left: 0;
+  padding-right: 0;
+  display: flex;
+}
+
+.macroItem {
+  margin-right: 0;
+  margin-left: 0;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .mealPickerHeader {
@@ -82,4 +103,30 @@ body, html {
   margin-left: 0px;
   margin-right: 0px;
   margin-bottom: 20px;
+}
+
+.foodPanelItem {
+  background-color:#468499;
+  padding: 20px;
+  margin-left: 0px;
+  border-bottom: black;
+  border-left: 0px;
+  border-right: 0px;
+  border-top: 0px;
+  border-style: solid;
+}
+
+.foodPanelList {
+  list-style-type: none;
+  margin-left: 0;
+  padding-left: 0;
+}
+
+.foodHeader {
+  background-color: #9CD6E4;
+  margin-left: 0;
+  margin-right: 0;
+  padding-top: 10px;
+  align-content: center;
+  display: flex;
 }

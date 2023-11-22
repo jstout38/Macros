@@ -47,6 +47,7 @@ module.exports = (app: Express) => {
     if (currentUser) {
       user_record = await User.findOne({ googleId: currentUser.googleId });
     }
+    console.log(req.body.input);
     var currentFood = await Food.findOneAndUpdate({ _id: req.body.input.id }, {
       name: req.body.input.formName,
       description: req.body.input.formDescription,
@@ -54,7 +55,7 @@ module.exports = (app: Express) => {
       protein: req.body.input.formProt,
       carbs: req.body.input.formCarbs,
       fat: req.body.input.formFat,
-      fiber: req.body.formFiber,
+      fiber: req.body.input.formFiber,
     });
     currentFood.save();
     console.log(currentFood);

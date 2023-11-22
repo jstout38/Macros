@@ -29,7 +29,7 @@ const App: React.FC = () => {
   };
 
     return (
-      <div className="container app">          
+      <div className="app">          
             <Header />
             {displayApp}
       </div>
