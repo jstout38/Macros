@@ -102,11 +102,11 @@ export default function MealPicker(props: any) {
     <Row className="mealPicker">
     <Col>
     <Row className="mealPickerHeader" xs="auto">      
-      <Col xs={10}>
+      <Col xs={8} lg={10}>
         <h4>{props.meal.charAt(0).toUpperCase() + props.meal.slice(1)}</h4>
       </Col>      
       
-      <Col xs={2}>
+      <Col xs={4} lg={2}>
         <Dropdown>
           <Dropdown.Toggle variant="success">
             Add

@@ -78,14 +78,14 @@ export default function MealItem(props: any) {
   return (
     <li className = "mealItem">
       <Row>
-        <Col xs={2}>
+        <Col xs={3} lg={2}>
           <Form>
             <Form.Group>
               <Form.Control id="quantity" onChange={handleChange} type="number" value={props.quantity}></Form.Control>
             </Form.Group> 
           </Form>
         </Col>     
-        <Col xs={8}>
+        <Col xs={7} lg={8}>
           <OverlayTrigger placement="right" overlay={popover}>
             <span>{foodName}</span>
           </OverlayTrigger>
