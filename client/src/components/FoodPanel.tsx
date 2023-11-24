@@ -133,16 +133,16 @@ export default function FoodPanel() {
   }
 
   return (
-    <div className=".foodPanel">
+    <div className="foodPanel">
       <div>        
-        <Row className="foodHeader" xs="auto">
-          <Col>
+        <Row className="foodHeader align-items-center" xs="auto">
+          <Col xs={8}>
             <h3>Your Foods</h3>
           </Col>
-          <Col>
+          <Col xs={2} className="align-items-right">
             <PlusSquare onClick={startAdd} size={24}/>
           </Col>
-          <Col>
+          <Col xs={2} className="align-items-right">
             <Search onClick={startSearch} size={24}/>
           </Col>
         </Row>

@@ -5,6 +5,9 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
+import { XSquareFill } from 'react-bootstrap-icons';
+
+
 
 export default function MealItem(props: any) {
 
@@ -53,13 +56,12 @@ export default function MealItem(props: any) {
             </Form.Group> 
           </Form>
         </Col>     
-        <Col xs={9}>
+        <Col xs={8}>
           {foodName}
         </Col>          
         <Col>
-          <Button variant="danger" onClick={deleteFood} size="sm">
-            X
-          </Button>
+          <XSquareFill onClick={deleteFood} />
+            
         </Col>
       </Row>
     </li>

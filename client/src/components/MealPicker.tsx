@@ -5,6 +5,7 @@ import type { RootState } from '../store';
 import { useSelector, useDispatch } from 'react-redux';
 import { update } from '../store/slices/macroSlice';
 import MealItem from './MealItem';
+import MealTotals from './MealTotals';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
@@ -98,15 +99,13 @@ export default function MealPicker(props: any) {
   } 
 
   return (
-    <div className="mealPicker">
-    
+    <Row className="mealPicker">
+    <Col xs={9}>
     <Row className="mealPickerHeader" xs="auto">      
-      <Col xs={2}>
+      <Col xs={10}>
         <h4>{props.meal.charAt(0).toUpperCase() + props.meal.slice(1)}</h4>
       </Col>      
-      <Col xs={8}>
-        <div>Calories: {dailyTotals[props.meal].calories} Protein: {dailyTotals[props.meal].protein} Carbs: {dailyTotals[props.meal].carbs} Fat: {dailyTotals[props.meal].fat} Fiber: {dailyTotals[props.meal].fiber}</div>
-      </Col>
+      
       <Col xs={2}>
         <Dropdown>
           <Dropdown.Toggle variant="success">
@@ -118,9 +117,14 @@ export default function MealPicker(props: any) {
         </Dropdown>
       </Col>
     </Row>
+    
     <ul className="mealPickerFoodList">{food_list}</ul>
+    </Col>
+      
+    <Col xs={3}>
+    <MealTotals calories={dailyTotals[props.meal].calories} protein={dailyTotals[props.meal].protein} carbs={dailyTotals[props.meal].carbs} fat={dailyTotals[props.meal].fat} fiber={dailyTotals[props.meal].fiber} />
+    </Col>
     
-    
-    </div>
+    </Row>
   )
 }

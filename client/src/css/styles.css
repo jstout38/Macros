@@ -1,14 +1,75 @@
-body, html, #root, .app, .dashboard, .macroColumn, .journal, .foodPanel {
+html {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
+  font-family: 'Raleway';
+}
+
+body, html, #root, .app , .dashboard-row, .dashboard, .journal, .foodPanel {
   height: 100%;
 }
 
-.app { 
-  margin-left: 50px;
-  margin-right: 50px;
+.app {  
+  margin-left: 0px;
+  margin-right: 0px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.header {
+  padding-right: 20px;  
+  margin-bottom: 0px;
+  background-color: coral;
+  margin-bottom: 0px;
+  padding-left: 0px;
+  margin-left: 10px;
+}
+
+.header-row{
+  padding-left: 0px;
+  margin-left: 0px;
+  margin-right: 0px;
+  width: 100%;
+}
+
+
+.foodPanel {
+  overflow-y: auto;
+  overflow: auto;
+  margin: 0px;
+  padding-right: 15px;
+  background-color: coral;
+}
+
+.dashboard, .macroColumn {
+  overflow: hidden;
+  display: flex;
+  position: relative;
+  margin-top: 0px;
+  margin-left: 0px;
+  padding-left: 0px;
+}
+
+.macroColumn {
+  padding-left: 10px;
+  padding-right: 10px;
+  background-color: lightgray;
 }
 
 .dashboard {
-  overflow: hidden;
+  padding-bottom: 70px;
+  padding-right: 10px;
+}
+
+.dashboard-row {
+  margin-left: 0px;
+  padding-left: 0px;
 }
 
 .journal {
@@ -45,6 +106,8 @@ body, html, #root, .app, .dashboard, .macroColumn, .journal, .foodPanel {
 .journalHeader {
   text-align: center;
   padding-top: 10px;
+  background-color: lightgray;
+  margin-bottom: 10px;
 }
 
 .macro-item {
@@ -57,6 +120,7 @@ body, html, #root, .app, .dashboard, .macroColumn, .journal, .foodPanel {
   padding-left: 0;
   padding-right: 0;
   display: flex;
+  position: relative;
 }
 
 .macroItem {
@@ -64,10 +128,11 @@ body, html, #root, .app, .dashboard, .macroColumn, .journal, .foodPanel {
   margin-left: 0;
   padding-left: 0;
   padding-right: 0;
+  
 }
 
 .mealPickerHeader {
-  background-color: #9CD6E4;
+  background-color: coral;
   vertical-align: center;
   padding-top: 10px;
   padding-bottom: 10px;
@@ -79,9 +144,7 @@ body, html, #root, .app, .dashboard, .macroColumn, .journal, .foodPanel {
 
 .mealPickerFoodList {
   list-style-type: none;
-  background-color: #468499;
   margin-left: 0;
-  width: 100%;
   padding-left: 10px;
   margin-left: 0px;
 }
@@ -91,7 +154,7 @@ body, html, #root, .app, .dashboard, .macroColumn, .journal, .foodPanel {
   padding-top: 5px;
   margin-left: 0px;
   padding-right: none;
-  width: 100%;
+
 }
 
 .gaugeChart {
@@ -106,27 +169,33 @@ body, html, #root, .app, .dashboard, .macroColumn, .journal, .foodPanel {
 }
 
 .foodPanelItem {
-  background-color:#468499;
-  padding: 20px;
+  background-color:coral;
   margin-left: 0px;
-  border-bottom: black;
-  border-left: 0px;
-  border-right: 0px;
-  border-top: 0px;
-  border-style: solid;
+  margin-right: 0px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+ 
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .foodPanelList {
   list-style-type: none;
-  margin-left: 0;
+  margin-left: 20px;
   padding-left: 0;
 }
 
 .foodHeader {
-  background-color: #9CD6E4;
   margin-left: 0;
   margin-right: 0;
   padding-top: 10px;
   align-content: center;
   display: flex;
+}
+
+
+
+.mealPicker {
+  margin-bottom: 20px;
 }

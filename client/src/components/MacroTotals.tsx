@@ -45,8 +45,8 @@ export default function MacroTotals() {
   const containers = [];
   for (var i = 0; i < macros.length; i++) {
     containers.push(
-      <Row key={i} className = {colors[i] + " text-light align-content-center macroItem"}>       
-        <Row className="justify-content-center align-content-center macroItem">
+      <Row key={i} className = {colors[i] + " position-relative text-light align-content-center macroItem"}>       
+        <Row className="justify-content-center align-content-center macroItem position-relative">
           <GaugeChart id={"gaugeChart-" + i}  className="gaugeChart" style={chartStyle}
             nrOfLevels={2} 
             percent={macroTotals[macros[i]] / targets[macros[i]]} 
@@ -64,7 +64,7 @@ export default function MacroTotals() {
   };
 
   return (
-    <Col className= "d-flex flex-column justify-content flex-grow-1 fluid macroRow">
+    <Col className= "flex-column justify-content-evenly g-0 m-0 p-0 macroRow">
         {containers}
     </Col>
   )

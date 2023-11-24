@@ -1,6 +1,8 @@
 import React from 'react';
 import Update from './Update';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import "../css/styles.css";
 
 import { useFetchUserQuery } from '../store';
@@ -29,10 +31,14 @@ const App: React.FC = () => {
   };
 
     return (
-      <div className="app">          
-            <Header />
-            {displayApp}
-      </div>
+      <Col className="app d-flex flex-column">          
+            <Row classname="header-row">
+              <Header />
+            </Row>
+            <Row className="dashboard-row"> 
+              {displayApp}
+            </Row>
+      </Col>
     );
 };
 

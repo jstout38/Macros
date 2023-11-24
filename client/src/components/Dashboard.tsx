@@ -8,17 +8,26 @@ import MacroTotals from './MacroTotals';
 export default function Dashboard() {
   return (
     
-    <Row className="dashboard">
-      <Col className= "macroColumn d-flex flex-column" xs={2}>
+    <Row className="dashboard position-relative g-0">
+       
+       <Col xs={2} className="foodPanel g-0">
+        <FoodPanel />
+      </Col>
+
+      <Col className= "macroColumn d-flex flex flex-column" xs={2}>
         <MacroTotals />
       </Col>
+      
       <Col className="journal" xs={8}>
         <Journal />
       </Col>
+
+  
+
       
-      <Col xs={2} className="foodPanel">
-        <FoodPanel />
-      </Col>
+      
+
+     
     </Row>
     );
 }

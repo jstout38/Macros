@@ -48,16 +48,17 @@ export default function Journal() {
 
   return (
     <Container className="journalContainer">
-      <Row>
-        <h4 className="journalHeader">{currentDate}</h4>
-      </Row>
-      <Row>
+      <Row className="journalHeader">
+        <h4 >{currentDate}</h4>
         <Form>
           <Form.Group className="mb-3" controlId="DOB">
-            <Form.Label>Jump to Day</Form.Label>
+            
             <Form.Control onChange={changeHandler} type="Date" />
           </Form.Group>
         </Form>
+      </Row>
+      <Row>
+        
       </Row>
       
       

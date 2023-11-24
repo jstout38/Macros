@@ -59,8 +59,8 @@ export default function Header() {
 
   return(
       <Row className="header">
-      <Navbar expand="lg" className="header bg-body-tertiary">
-        <Container>
+      <Navbar expand="lg">
+        <Container fluid>
           <Navbar.Brand href="/">Macros Tracker</Navbar.Brand>
           <Navbar.Text id="basic-navbar-nav">
               {renderContent()}
