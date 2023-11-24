@@ -62,7 +62,7 @@ export default function Header() {
       <Navbar expand="lg">        
         <Container fluid>
           <Navbar.Brand href="/">Macros Tracker</Navbar.Brand>
-          <Navbar.Toggle aria-cntrols="basic-navbar-nav" />
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse>
             <Navbar.Text id="basic-navbar-nav">
               {renderContent()}

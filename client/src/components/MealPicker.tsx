@@ -43,23 +43,22 @@ export default function MealPicker(props: any) {
           carbs += data[props.meal][i].food.carbs * data[props.meal][i].quantity
           protein += data[props.meal][i].food.protein * data[props.meal][i].quantity
         }
+        dispatch(update({
+          meal: props.meal,
+          calories: calories,
+          protein: protein,
+          carbs: carbs,
+          fat: fat,
+          fiber: fiber,
+        }));
       }
-      dispatch(update({
-        meal: props.meal,
-        calories: calories,
-        protein: protein,
-        carbs: carbs,
-        fat: fat,
-        fiber: fiber,
-      }));
+      
     }
   }, [data]);
 
-  if (error) {
-    console.log(error);
-  }
   
-  async function clickHandler(e: any) {
+  
+  function clickHandler(e: any) {
     var input = {
       date: props.date,
       food: e.target.id,
@@ -100,7 +99,7 @@ export default function MealPicker(props: any) {
 
   return (
     <Row className="mealPicker">
-    <Col>
+    <Col className="mealPickerColumn">
     <Row className="mealPickerHeader" xs="auto">      
       <Col xs={8} lg={10}>
         <h4>{props.meal.charAt(0).toUpperCase() + props.meal.slice(1)}</h4>
@@ -122,7 +121,7 @@ export default function MealPicker(props: any) {
     </Col>
       
     <Col className="mealTotalColumn" xs={3}>
-    <MealTotals calories={dailyTotals[props.meal].calories} protein={dailyTotals[props.meal].protein} carbs={dailyTotals[props.meal].carbs} fat={dailyTotals[props.meal].fat} fiber={dailyTotals[props.meal].fiber} />
+      <MealTotals calories={dailyTotals[props.meal].calories} protein={dailyTotals[props.meal].protein} carbs={dailyTotals[props.meal].carbs} fat={dailyTotals[props.meal].fat} fiber={dailyTotals[props.meal].fiber} />
     </Col>
     
     </Row>

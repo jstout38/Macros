@@ -70,6 +70,11 @@ export default function Journal() {
       
         
       </Row>
+      <Button className="mobileYourFoods">
+        <h4 className="mobileButtonText">
+          Update Your Foods
+        </h4>
+      </Button>
     </Container>
   )
 }

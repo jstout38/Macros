@@ -196,7 +196,26 @@ body, html, #root, .app , .dashboard-row, .dashboard, .journal, .foodPanel {
   margin-bottom: 20px;
 }
 
-@media (max-width: 1200px) {
+.journalContainer {
+  position: relative;
+}
+
+.mobileYourFoods {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  background-color: royalblue;
+  margin-left: auto;
+  margin-right: auto;
+  align-content: center;
+  width: auto;
+}
+
+.mobileButtonText {
+  text-align: center;
+}
+
+@media (max-width: 1199px) {
   .mealTotalColumn {
     display: none;
   }
@@ -205,4 +224,20 @@ body, html, #root, .app , .dashboard-row, .dashboard, .journal, .foodPanel {
     display: none;
   } 
 
+}
+
+@media (max-width: 575px) {
+  .foodPanel {
+    display: none;
+  }
+
+  .mealPickerColumn {
+    
+    padding-right: 0px;
+    
+  }
+
+  .mobileYourFoods {
+    display: flex;
+  }
 }

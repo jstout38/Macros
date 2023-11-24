@@ -133,7 +133,7 @@ export default function FoodPanel() {
   }
 
   return (
-    <div className="foodPanel">
+    <div>
       <div>        
         <Row className="foodHeader align-items-center" xs="auto">
           <Col xs={6} md={8}>
