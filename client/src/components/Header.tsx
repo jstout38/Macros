@@ -41,14 +41,14 @@ export default function Header() {
     } else {
       if (!data) {
         return(
-          <Nav className="flex-row">
+          <Nav className="me-auto">
             <Button className="mx-1 text-light" variant="success" href="/auth/google">Login With Google</Button>
           </Nav>
         )
       } else {
         
         return (
-        <Nav className="flex-row">
+        <Nav className="me-auto">
           <Nav.Link onClick={handleShow}>My Account </Nav.Link>
           <Nav.Link href="/api/logout">Logout</Nav.Link>
         </Nav>
@@ -59,12 +59,17 @@ export default function Header() {
 
   return(
       <Row className="header">
-      <Navbar expand="lg">
+      <Navbar expand="lg">        
         <Container fluid>
           <Navbar.Brand href="/">Macros Tracker</Navbar.Brand>
-          <Navbar.Text id="basic-navbar-nav">
+          <Navbar.Toggle aria-cntrols="basic-navbar-nav" />
+          <Navbar.Collapse>
+            <Navbar.Text id="basic-navbar-nav">
               {renderContent()}
-          </Navbar.Text>
+            </Navbar.Text>
+          </Navbar.Collapse>
+          
+
         </Container>
       </Navbar>
 

@@ -32,7 +32,7 @@ const App: React.FC = () => {
 
     return (
       <Col className="app d-flex flex-column">          
-            <Row classname="header-row">
+            <Row className="header-row">
               <Header />
             </Row>
             <Row className="dashboard-row"> 

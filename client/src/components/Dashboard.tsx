@@ -10,14 +10,14 @@ export default function Dashboard() {
     
     <Row className="dashboard position-relative g-0">
        
-       <Col xs={2} className="foodPanel g-0">
+       <Col xs={4} xl={2} className="foodPanel g-0">
         <FoodPanel />
       </Col>
 
-      <Col className= "macroColumn d-flex flex flex-column" xs={2}>
+      <Col className= "macroColumn" xs={2}>
         <MacroTotals />
       </Col>
-      
+
       <Col className="journal" xs={8}>
         <Journal />
       </Col>

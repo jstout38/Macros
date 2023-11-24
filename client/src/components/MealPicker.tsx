@@ -100,7 +100,7 @@ export default function MealPicker(props: any) {
 
   return (
     <Row className="mealPicker">
-    <Col xs={9}>
+    <Col>
     <Row className="mealPickerHeader" xs="auto">      
       <Col xs={10}>
         <h4>{props.meal.charAt(0).toUpperCase() + props.meal.slice(1)}</h4>
@@ -121,7 +121,7 @@ export default function MealPicker(props: any) {
     <ul className="mealPickerFoodList">{food_list}</ul>
     </Col>
       
-    <Col xs={3}>
+    <Col className="mealTotalColumn" xs={3}>
     <MealTotals calories={dailyTotals[props.meal].calories} protein={dailyTotals[props.meal].protein} carbs={dailyTotals[props.meal].carbs} fat={dailyTotals[props.meal].fat} fiber={dailyTotals[props.meal].fiber} />
     </Col>
     

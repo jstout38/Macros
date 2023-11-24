@@ -4,6 +4,8 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Popover from 'react-bootstrap/Popover';
 
 import { XSquareFill } from 'react-bootstrap-icons';
 
@@ -42,6 +44,33 @@ export default function MealItem(props: any) {
   var foodName = '';
   var existingQuantity = 1;
 
+  const popover = (
+    <Popover>
+      <Popover.Header as="h3">{props.food.name}</Popover.Header>
+      <Popover.Body>
+        <div>
+          {props.food.description}
+        </div>
+        <div>
+          Calories: {props.food.calories}
+        </div>
+        <div>
+          Protein: {props.food.protein}
+        </div>
+        <div>
+          Carbs: {props.food.carbs}
+        </div>
+        <div>
+          Fat: {props.food.fat}
+        </div>
+        <div>
+          Fiber: {props.food.fiber}
+        </div>
+      </Popover.Body>
+    </Popover>
+  );
+
+
   if (props.food) {
     foodName = props.food.name;
   }
@@ -57,7 +86,9 @@ export default function MealItem(props: any) {
           </Form>
         </Col>     
         <Col xs={8}>
-          {foodName}
+          <OverlayTrigger placement="right" overlay={popover}>
+            <span>{foodName}</span>
+          </OverlayTrigger>
         </Col>          
         <Col>
           <XSquareFill onClick={deleteFood} />

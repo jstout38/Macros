@@ -31,21 +31,7 @@ body, html, #root, .app , .dashboard-row, .dashboard, .journal, .foodPanel {
   margin-left: 10px;
 }
 
-.header-row{
-  padding-left: 0px;
-  margin-left: 0px;
-  margin-right: 0px;
-  width: 100%;
-}
 
-
-.foodPanel {
-  overflow-y: auto;
-  overflow: auto;
-  margin: 0px;
-  padding-right: 15px;
-  background-color: coral;
-}
 
 .dashboard, .macroColumn {
   overflow: hidden;
@@ -168,16 +154,23 @@ body, html, #root, .app , .dashboard-row, .dashboard, .journal, .foodPanel {
   margin-bottom: 20px;
 }
 
+.foodPanel {
+  overflow-y: auto;
+  overflow: auto;
+  margin: 0px;
+}
+
+
 .foodPanelItem {
-  background-color:coral;
   margin-left: 0px;
   margin-right: 0px;
   padding-top: 10px;
   padding-bottom: 10px;
-  padding-left: 10px;
+  padding-left: 0px;
  
   margin-top: 10px;
   margin-bottom: 10px;
+  padding-right: 20px;
 }
 
 .foodPanelList {
@@ -192,10 +185,24 @@ body, html, #root, .app , .dashboard-row, .dashboard, .journal, .foodPanel {
   padding-top: 10px;
   align-content: center;
   display: flex;
+  background-color: lightgray;
 }
 
-
+.custom-yellow {
+  background-color: #9b870c;
+}
 
 .mealPicker {
   margin-bottom: 20px;
+}
+
+@media (max-width: 1160px) {
+  .mealTotalColumn {
+    display: none;
+  }
+
+  .macroColumn {
+    display: none;
+  } 
+
 }
