@@ -1,4 +1,4 @@
 node_modules
-dev.js
+/src/config/dev.ts
 dev.ts
 dist
