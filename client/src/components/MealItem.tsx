@@ -6,17 +6,27 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
+import { foodType } from './FoodPanel';
 
 import { XSquareFill } from 'react-bootstrap-icons';
 
+type MealItemProps = {
+  key: string,
+  id: string,
+  date: string,
+  food: foodType,
+  meal: string,
+  quantity: number,
+}
 
+//Component for creating a line for each food for each meal, with options to change quantity and delete
+export default function MealItem(props: MealItemProps) {
 
-export default function MealItem(props: any) {
-
-  const [ currentQuantity, setCurrentQuantity ] = useState(1);
+  //RTK mutations for deleting and updating journal entries
   const [ deleteEntry, results ] = useDeleteEntryMutation();
   const [ updateEntry, updateResults ] = useUpdateJournalMutation();
 
+  //Delete food by ID with RTK Query
   function deleteFood() {
     var input = {
       date: props.date,
@@ -24,25 +34,20 @@ export default function MealItem(props: any) {
       meal: props.meal,
     }
     deleteEntry(input);
-  }
+  }  
 
-  function updateQuantity() {
-    
-  }
-
-  function handleChange(e: any) {
-    setCurrentQuantity(e.target.value);
+  //On quantity change, update the quantity in the database
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     var input = {
       date: props.date,
       food: props.food._id,
       meal: props.meal,
-      quantity: e.target.value,
+      quantity: Number(e.target.value),
     }
     updateEntry(input);
   }
 
   var foodName = '';
-  var existingQuantity = 1;
 
   const popover = (
     <Popover>
@@ -87,7 +92,7 @@ export default function MealItem(props: any) {
         </Col>     
         <Col xs={7} lg={8}>
           <OverlayTrigger placement="right" overlay={popover}>
-            <span>{foodName}</span>
+            <span>{props.food.name}</span>
           </OverlayTrigger>
         </Col>          
         <Col>

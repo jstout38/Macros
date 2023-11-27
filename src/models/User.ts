@@ -1,6 +1,8 @@
 import { Schema, model } from 'mongoose';
 import { IFood, foodSchema } from './Food';
 
+//Interface for json for creating user
+
 export interface IUser {
   googleId: string;
   firstName: string;

@@ -6,8 +6,25 @@ import { useState, useEffect } from 'react';
 import { FoodForm } from '../store/apis/foodApi';
 import { useAddFoodMutation, useEditFoodMutation } from '../store';
 
-export default function AddFood(props: any) {
+//Define type for component props
+type AddFoodProps = {
+  name: string,
+  description: string,
+  calories: number,
+  protein: number,
+  carbs: number,
+  fat: number,
+  fiber: number,
+  edit: string | null,
+  submit: Function
+}
+
+//Component for adding a food, is used in a modal pulled up from the FoodPanel compoenent. Is also used to add
+//a food found via the search by passing props from search compoent to the AddFood panel, and is also used to
+//edit existing foods when passed the edit prop (id of Food object to edit)
+export default function AddFood(props: AddFoodProps) {
   
+  //Form control for input
   const [fields, setFields] = useState<FoodForm>({
     formName: '',
     formDescription: '',
@@ -18,9 +35,11 @@ export default function AddFood(props: any) {
     formFiber: 0,
   });
 
+  //RTK Query mutations, addFood adds a new food to the mongoDB database, and editFood updates an existing record
   const [addFood, results] = useAddFoodMutation();
   const [editFood, editResults] = useEditFoodMutation();
 
+  //If props are passed to the component from search or edit, fill the form fields 
   useEffect(() => {
     setFields({
       formName: props.name ? props.name : '',
@@ -33,11 +52,13 @@ export default function AddFood(props: any) {
     });
   }, [props]);
 
-  const changeHandler = (e: any) => {
+  //Update form state on changes
+  const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFields({...fields, [e.target.id]: e.target.value});
   }
 
-  const handleAddFood = (e: any) => {
+  //Prevent default form behvior, instead use current state to add or edit, depending on whether the edit prop is set
+  const handleAddFood = (e: React.FormEvent) => {
     e.preventDefault();    
     if (props.edit) {
       var input = {
@@ -54,13 +75,14 @@ export default function AddFood(props: any) {
     } else {
       addFood(fields);
     }
+    //Close the modal
     if (props.submit) {
       props.submit();
     }
   }
 
-  return(
-    
+  //React Bootstrap form control component
+  return(    
     <Form>
       <Row className="align-items-center">
         <Col xs="auto">

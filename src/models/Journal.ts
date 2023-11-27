@@ -1,6 +1,8 @@
 import { Schema, model } from 'mongoose';
 import { IFood, foodSchema } from './Food';
 
+//Interface for json for journal
+
 export interface IJournal {
   user: Schema;
   date: string;
@@ -10,6 +12,8 @@ export interface IJournal {
   snacks: [Schema],  
 }
 
+//Interface for json for journal entry
+
 export interface Entry {
   food: Schema,
   quantity: number,
@@ -17,6 +21,8 @@ export interface Entry {
   meal: string,
   user: Schema,
 }
+
+//Entries are individual entires and include a quantity. The larger journal schema includes all meals for a day
 
 const entrySchema = new Schema<Entry>({
   food: {type: Schema.Types.ObjectId, ref: "foods"},
@@ -26,7 +32,7 @@ const entrySchema = new Schema<Entry>({
   user: {type: Schema.Types.ObjectId, ref: "users"}
 });
 
-//Create mongoose model for Users
+//Create mongoose model for Journal items
 const journalSchema = new Schema<IJournal>({
   user: {type: Schema.Types.ObjectId, ref: "users"},
   date: { type: String, required: true },  

@@ -26,7 +26,7 @@ module.exports = (app: Express) => {
           user: user_record._id,
         }).save();
         user_record.journal.push(entry);
-        user_record.save().then((user: any) => {
+        user_record.save().then((user: IUser) => {
           res.send(user);
         });
       } else {

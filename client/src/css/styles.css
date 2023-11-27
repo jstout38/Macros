@@ -31,8 +31,6 @@ body, html, #root, .app , .dashboard-row, .dashboard, .journal, .foodPanel {
   margin-left: 10px;
 }
 
-
-
 .dashboard, .macroColumn {
   overflow: hidden;
   display: flex;
@@ -100,7 +98,7 @@ body, html, #root, .app , .dashboard-row, .dashboard, .journal, .foodPanel {
   text-align: center;
 }
 
-.macroRow {
+.macroCol {
   margin-left: 0;
   margin-right: 0;
   padding-left: 0;

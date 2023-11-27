@@ -3,7 +3,7 @@ const keys = require('../config/keys');
 
 //External API call for searching for foods
 
-module.exports = (keyword: any) => {
+module.exports = (keyword: string) => {
  return axios({
     method: 'get',
     url: 'https://api.edamam.com/api/food-database/v2/parser',

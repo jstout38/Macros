@@ -13,6 +13,7 @@ export interface IFood {
 }
 
 //Create mongoose model for Users
+
 export const foodSchema = new Schema<IFood>({
   name: { type: String, required: true },
   description: { type: String },
@@ -24,4 +25,5 @@ export const foodSchema = new Schema<IFood>({
 });
 
 //Create model on require 
+
 module.exports = model<IFood>('foods', foodSchema);

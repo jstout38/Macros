@@ -1,6 +1,3 @@
-import React from 'react';
-import Update from './Update';
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import "../css/styles.css";
@@ -10,12 +7,13 @@ import { useFetchUserQuery } from '../store';
 import Header from './Header';
 import Dashboard from './Dashboard';
 
+//Root App component on index.html page
+export default function App() {    
 
-
-const App: React.FC = () => {    
-
+  //Fetch current user
   const { data, error, isLoading } = useFetchUserQuery();
 
+  //Only render app if user is logged in
   var displayApp;
 
   if (isLoading) {
@@ -30,16 +28,15 @@ const App: React.FC = () => {
     }
   };
 
-    return (
-      <Col className="app d-flex flex-column">          
-            <Row className="header-row">
-              <Header />
-            </Row>
-            <Row className="dashboard-row"> 
+  //Always render Header, render app dashboard only if logged in according to above logic
+  return (
+    <Col className="app">          
+        <Row className="header-row">
+            <Header />
+        </Row>
+        <Row className="dashboard-row"> 
               {displayApp}
-            </Row>
+        </Row>
       </Col>
     );
 };
-
-export default App;

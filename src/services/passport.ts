@@ -7,12 +7,12 @@ const keys = require("../config/keys");
 const User = mongoose.model('users');
 
 // Serialize user and get its MongoDB id
-passport.serializeUser((user:any, done) => {
+passport.serializeUser((user: any, done) => {
   done(null, user.id);
 });
 
 // Retrieve user from MongoDB id
-passport.deserializeUser((id, done) => {
+passport.deserializeUser((id: string, done) => {
   User.findById(id)
     .then(user => {
       done(null, user);
@@ -26,7 +26,8 @@ passport.use(new GoogleStrategy({
     callbackURL: '/auth/google/callback',
     proxy: true, 
     passReqToCallback : true,   
-  }, async (request: any, accessToken: any, refreshToken: any, profile:any, done:any) => {
+  }, async (request: Request, accessToken: string, refreshToken: string, profile: any, done: Function) => {
+    console.log(profile);
     //Check if there is existing user
     const existingUser = await User.findOne({ googleId: profile.id });
       //If user exists return existing user, else create new user in mongoose/MongoDB

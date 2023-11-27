@@ -1,24 +1,43 @@
 import AddFood from './AddFood';
 import SearchForm from './SearchForm';
-import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import { useState, useEffect } from 'react';
+import { useFetchUserFoodQuery, useDeleteFoodMutation } from '../store';
 
 import { PlusSquare, Search, XSquareFill, PencilSquare } from 'react-bootstrap-icons';
 
-import { useState, useEffect } from 'react';
+export type foodType = {
+  _id: string,
+  name: string,
+  description: string,
+  calories: number,
+  protein: number,
+  carbs: number,
+  fat: number,
+  fiber: number,
+}
 
-import { useFetchUserFoodQuery, useDeleteFoodMutation } from '../store';
+export default function FoodPanel() {  
 
-export default function FoodPanel() {
+  type foodTemplate = {
+    name: string,
+    description: string,
+    calories: number,
+    fat: number,
+    protein: number,
+    carbs: number,
+    fiber: number,
+    edit: string | null
+  }
   
   const { data, error, isLoading } = useFetchUserFoodQuery();
   const [ deleteFood, results ] = useDeleteFoodMutation();
 
   const [show, setShow] = useState(false);
   const [modalSearch, setModalSearch] = useState(false);
-  const [foodTemplate, setFoodTemplate] = useState({
+  const [foodTemplate, setFoodTemplate] = useState<foodTemplate>({
     name: '',
     description: '',
     calories: 0,
@@ -47,7 +66,7 @@ export default function FoodPanel() {
   var display = '';
   
   if (data) {
-    display = data.foods.map((entry: any) => (
+    display = data.foods.map((entry: foodType) => (
       <li className="foodPanelItem" key={entry._id.toString()}>
         <Row>
           <Col xs={8}>
@@ -64,12 +83,12 @@ export default function FoodPanel() {
     )
   };
 
-  function deleteUserFood(id: any) {
+  function deleteUserFood(id: string) {
     deleteFood(id);
   }
 
-  function editUserFood(id: any) {    
-    var editFood = data.foods.filter((entry: any) => entry._id === id);
+  function editUserFood(id: string) {    
+    var editFood = data.foods.filter((entry: foodType) => entry._id === id);
     console.log(editFood);
     setFoodTemplate({
       name: editFood[0].name,
@@ -163,3 +182,4 @@ export default function FoodPanel() {
   )
   
 }
+

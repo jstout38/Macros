@@ -8,9 +8,11 @@ import { useAddUserMutation } from '../store';
 import { FormData, FormUpdate } from '../store/apis/authApi';
 import { useFetchUserQuery } from '../store';
 
-//TODO: Production bug - height and weight and DOB not loading
+type RegisterProps = {
+  closeModal: Function,
+}
 
-export default function Register() {
+export default function Register(props: RegisterProps) {
   
 
   const [fields, setFields] = useState<FormData>({
@@ -56,7 +58,9 @@ export default function Register() {
   const handleRegister = (e: any) => {
     e.preventDefault();    
     addUser({fields, data});
+    props.closeModal();
   }
+
   return(
     <Form>
       <Row className="align-items-center">

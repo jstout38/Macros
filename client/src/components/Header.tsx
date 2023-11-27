@@ -10,16 +10,24 @@ import { setTargets } from '../store/slices/userSlice';
 import Modal from 'react-bootstrap/Modal';
 import Update from './Update';
 
+//Header component for logging in
+//This compoenent also sets state slices for macrotargets from the fields from the user's record so that they
+//can be retrieved later for macro totals
 export default function Header() {
+  //Fetch user data
   const { data, error, isLoading } = useFetchUserQuery();
     
+  //Create state for whether My Account modal is showing
   const [ show, setShow ] = useState(false);
 
+  //Handlers for opening and closing the modal
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  //Create dispatch modal for setting RTK slice for macro targets
   const dispatch = useDispatch();
 
+  //On retrieving user set RTK state for macro targets
   useEffect(() => {
     if (data && !isLoading) {
       dispatch(setTargets({
@@ -33,6 +41,7 @@ export default function Header() {
   }, [data]);
   
 
+  //If user is not logged in give them the option to do so, overwise show the My Account and Logout buttons
   function renderContent() {    
     if (isLoading) {
       return 'Still deciding';
@@ -45,8 +54,7 @@ export default function Header() {
             <Button className="mx-1 text-light" variant="success" href="/auth/google">Login With Google</Button>
           </Nav>
         )
-      } else {
-        
+      } else {        
         return (
         <Nav className="me-auto">
           <Nav.Link onClick={handleShow}>My Account </Nav.Link>
@@ -59,17 +67,15 @@ export default function Header() {
 
   return(
       <Row className="header">
-      <Navbar expand="lg">        
-        <Container fluid>
-          <Navbar.Brand href="/">Macros Tracker</Navbar.Brand>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse>
-            <Navbar.Text id="basic-navbar-nav">
-              {renderContent()}
-            </Navbar.Text>
-          </Navbar.Collapse>
-          
-
+        <Navbar expand="lg">        
+          <Container fluid>
+            <Navbar.Brand href="/">Macros Tracker</Navbar.Brand>
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar.Collapse>
+              <Navbar.Text id="basic-navbar-nav">
+                {renderContent()}
+              </Navbar.Text>
+            </Navbar.Collapse>
         </Container>
       </Navbar>
 
@@ -78,7 +84,7 @@ export default function Header() {
           <Modal.Title>Update Your Account!</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Update />
+          <Update closeModal={handleClose}/>
         </Modal.Body>        
       </Modal>
       </Row>

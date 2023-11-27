@@ -1,6 +1,6 @@
 import Dropdown from 'react-bootstrap/Dropdown';
 import { useUpdateJournalMutation, useFetchJournalQuery, useDeleteEntryMutation } from '../store';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import type { RootState } from '../store';
 import { useSelector, useDispatch } from 'react-redux';
 import { update } from '../store/slices/macroSlice';
@@ -8,8 +8,25 @@ import MealItem from './MealItem';
 import MealTotals from './MealTotals';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import { foodType } from './FoodPanel';
+import { DropdownItemProps } from 'react-bootstrap/esm/DropdownItem';
 
-export default function MealPicker(props: any) {
+type MealPickerProps = {
+  foods:[foodType],
+  date: string,
+  meal: string,
+}
+
+type EntryType = {
+  date: string,
+  food: foodType,
+  meal: string,
+  quantity: number,
+  user: string,
+  _id: string
+}
+
+export default function MealPicker(props: MealPickerProps) {
   
   const [ updateJournal, results ] = useUpdateJournalMutation();
   const [ deleteEntry, deleteResults ] = useDeleteEntryMutation();
@@ -58,10 +75,11 @@ export default function MealPicker(props: any) {
 
   
   
-  function clickHandler(e: any) {
+  function clickHandler(e: React.MouseEvent<HTMLElement>){
+    var T = e.target as HTMLElement;
     var input = {
       date: props.date,
-      food: e.target.id,
+      food: T.id,
       meal: props.meal,
       quantity: 1,
     }
@@ -72,7 +90,7 @@ export default function MealPicker(props: any) {
 
   if (data && !isLoading) {
     if (data[props.meal].length > 0) {
-      food_list = data[props.meal].map((entry: any) => {
+      food_list = data[props.meal].map((entry: EntryType) => {
         return <MealItem 
           key={entry._id}
           id={entry._id}
@@ -88,16 +106,18 @@ export default function MealPicker(props: any) {
     }
   }
   
-  var display = <Dropdown.Item>No foods added yet.</Dropdown.Item>;
+  var display;
 
   if (props.foods) {
-    display = props.foods.map((entry: any) => {
+    display = props.foods.map((entry: foodType) => {
       
       return <Dropdown.Item onClick={clickHandler} key={entry._id} id={entry._id}>{entry.name}</Dropdown.Item>
     })
-  } 
+  } else {
+    display = [<Dropdown.Item>No foods added yet.</Dropdown.Item>]
+  }
 
-  return (
+  return (  
     <Row className="mealPicker">
     <Col className="mealPickerColumn">
     <Row className="mealPickerHeader" xs="auto">      

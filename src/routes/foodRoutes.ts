@@ -18,8 +18,6 @@ module.exports = (app: Express) => {
   );
 
   //endpoint for adding a new food
-  //TODO: add error handling
-  //TODO: This should be post, add put for updating foods
   app.put('/food/add', async (req, res) => {
     const currentUser = req.user as IUser;
     const food = await new Food({ 
@@ -41,6 +39,7 @@ module.exports = (app: Express) => {
 
   });
 
+  //endpoint for updating a food's information
   app.post('/food/update', async (req, res) => {
     const currentUser = req.user as IUser;
     var user_record;
@@ -62,6 +61,7 @@ module.exports = (app: Express) => {
     res.send(currentFood);
   })
 
+  //endpoint for getting all of a user's foods
   app.get('/food/foodlist', async (req, res) => {
     const currentUser = req.user as IUser;
     var user_record = null;
@@ -73,6 +73,7 @@ module.exports = (app: Express) => {
     res.send(user_record);
   });
 
+  //endoint for deleting a food
   app.delete('/food/delete', async (req, res) => {
     const currentUser = req.user as IUser;
     var user_record;
