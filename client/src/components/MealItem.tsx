@@ -1,6 +1,4 @@
-import { useState, useEffect } from 'react';
 import { useDeleteEntryMutation, useUpdateJournalMutation } from '../store';
-import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -47,8 +45,7 @@ export default function MealItem(props: MealItemProps) {
     updateEntry(input);
   }
 
-  var foodName = '';
-
+  //React bootstrap popover to allow user to see food details quickly - new componenet?
   const popover = (
     <Popover>
       <Popover.Header as="h3">{props.food.name}</Popover.Header>
@@ -74,11 +71,6 @@ export default function MealItem(props: MealItemProps) {
       </Popover.Body>
     </Popover>
   );
-
-
-  if (props.food) {
-    foodName = props.food.name;
-  }
 
   return (
     <li className = "mealItem">

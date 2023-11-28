@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { userInfo } from 'os';
 
+//RTK Query API for fetching user and creating/updating user account
 export type FormData = {
   formFirstName: string;
   formLastName: string;
@@ -15,19 +15,38 @@ export type FormData = {
   formCalories: number;
 };
 
+export interface IUser {
+  googleId: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  DoB: Date;
+  weight: number;
+  height: number;
+  protein: number;
+  carbs: number;
+  calories: number;
+  fat: number;
+  fiber: number;
+  foods: [];
+  journal: [];
+}
+
 export type FormUpdate = {
-  fields: FormData;
-  data: any;
+  fields: FormData,
+  googleId: string,
 };
 
 const authApi = createApi({
   reducerPath: 'auth',
+  tagTypes: ['User'],
   baseQuery: fetchBaseQuery({
     baseUrl: '/',
   }),
   endpoints(builder) {
     return {
       addUser: builder.mutation<void, FormUpdate>({
+        invalidatesTags: ['User'],
         query: (formUpdate) => {
           return {
             url: 'auth/user',
@@ -36,7 +55,8 @@ const authApi = createApi({
           };
         },
       }),
-      fetchUser: builder.query<any, void>({
+      fetchUser: builder.query<IUser, void>({
+        providesTags: ['User'],
         query: () => {
           return {
             url: 'api/current_user',

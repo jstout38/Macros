@@ -1,8 +1,19 @@
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import { JsxElement } from 'typescript';
 
-export default function SearchResult(props: any) {
+type SearchResultProps = {
+  label: string,
+  calories: string,
+  protein: string,
+  fat: string,
+  carbs: string,
+  fiber: string,
+  foodImage: JSX.Element,
+  selectFood: Function,
+}
+
+//Component for creating clickable serach result - data is passed from parent element as props
+export default function SearchResult(props: SearchResultProps) {
   const submitFood = () => {    
     props.selectFood(props.label, props.calories, props.protein, props.fat, props.carbs, props.fiber);
   }

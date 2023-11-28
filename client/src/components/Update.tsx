@@ -12,9 +12,11 @@ type RegisterProps = {
   closeModal: Function,
 }
 
-export default function Register(props: RegisterProps) {
-  
+//Component for registration and updating account
 
+export default function Register(props: RegisterProps) {  
+
+  //Initialize form control state
   const [fields, setFields] = useState<FormData>({
     formFirstName: '',
     formLastName: '',
@@ -29,8 +31,11 @@ export default function Register(props: RegisterProps) {
     formDOB: null
     });
 
+  //Fetch existing user data
   const { data, error, isLoading } = useFetchUserQuery();
+  const [ googleId, setGoogleId ] = useState('');
 
+  //When user is fetch populate form with user's existing info
   useEffect(() => {
     if (data) {
       setFields({
@@ -45,19 +50,25 @@ export default function Register(props: RegisterProps) {
       formFiber: data.fiber,
       formCalories: data.calories,
       formFat: data.fat,        
-      })
+      });
+      setGoogleId(data.googleId);
     }}, [data]);
   
-
+  //RTK Query mutaiton for adding a new user
   const [addUser, results] = useAddUserMutation();
+  
+  //Initialize a state variable for showing a date as string when data is first loaded
   const [inputType, setInputType] = useState("text");
 
-  const changeHandler = (e: any) => {
+  //Update fields based on user input
+  const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFields({...fields, [e.target.id]: e.target.value});
   }
-  const handleRegister = (e: any) => {
+
+  //Update the user and close modal on clicking submit button
+  const handleRegister = (e: React.FormEvent) => {
     e.preventDefault();    
-    addUser({fields, data});
+    addUser({fields, googleId});
     props.closeModal();
   }
 

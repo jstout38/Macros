@@ -7,11 +7,18 @@ import { IUser } from '../models/User';
 const Food = mongoose.model("foods");
 const User = mongoose.model("users");
 
+type SearchResponse = {
+  hints: [],
+  parsed: [],
+  text: string,
+  _links: {},
+}
+
 module.exports = (app: Express) => {
   //endpoint for calling the external food search API
   app.get('/food/search', (req, res) => {
    foodAPI(req.query.keyword)
-    .then((response: any) => {
+    .then((response: SearchResponse) => {
       res.send(response);
     });    
   }
@@ -46,7 +53,6 @@ module.exports = (app: Express) => {
     if (currentUser) {
       user_record = await User.findOne({ googleId: currentUser.googleId });
     }
-    console.log(req.body.input);
     var currentFood = await Food.findOneAndUpdate({ _id: req.body.input.id }, {
       name: req.body.input.formName,
       description: req.body.input.formDescription,
@@ -57,7 +63,6 @@ module.exports = (app: Express) => {
       fiber: req.body.input.formFiber,
     });
     currentFood.save();
-    console.log(currentFood);
     res.send(currentFood);
   })
 

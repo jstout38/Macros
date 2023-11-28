@@ -36,7 +36,7 @@ module.exports = (app: Express) => {
 
   //endpoint for adding additional info for account on registration or on update  
   app.put('/auth/user', async (req, res) => {
-    const user = await User.findOneAndUpdate({ googleId: req.body.data.googleId },  
+    const user = await User.findOneAndUpdate({ googleId: req.body.googleId },  
     {
       firstName: req.body.fields.formFirstName,
       lastName: req.body.fields.formLastName,
@@ -50,7 +50,9 @@ module.exports = (app: Express) => {
       fiber: req.body.fields.formFiber,
       calories: req.body.fields.formCalories,
     }
-  );
+    );
+    user.save();
+    res.send(user);
   });
 
 };

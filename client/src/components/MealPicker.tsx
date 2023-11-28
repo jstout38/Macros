@@ -1,5 +1,5 @@
 import Dropdown from 'react-bootstrap/Dropdown';
-import { useUpdateJournalMutation, useFetchJournalQuery, useDeleteEntryMutation } from '../store';
+import { useUpdateJournalMutation, useFetchJournalQuery } from '../store';
 import React, { useEffect, useState } from 'react';
 import type { RootState } from '../store';
 import { useSelector, useDispatch } from 'react-redux';
@@ -9,7 +9,6 @@ import MealTotals from './MealTotals';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { foodType } from './FoodPanel';
-import { DropdownItemProps } from 'react-bootstrap/esm/DropdownItem';
 
 type MealPickerProps = {
   foods:[foodType],
@@ -26,25 +25,24 @@ type EntryType = {
   _id: string
 }
 
+//Component for rendering and totaling calories for a meal - this is where meal calories are totalled and sent back
+//to the RTK state
 export default function MealPicker(props: MealPickerProps) {
   
+  //Get updateJournal from state for updating journal records
   const [ updateJournal, results ] = useUpdateJournalMutation();
-  const [ deleteEntry, deleteResults ] = useDeleteEntryMutation();
+
+  //Fetch journal entries
   const { data, error, isLoading } = useFetchJournalQuery(props.date);
 
-  const [ mealTotals, setMealTotals ] = useState<{[key: string]: number}>({
-    'calories': 0,
-    'fiber': 0,
-    'fat': 0,
-    'carbs': 0,
-    'protein': 0,
-  });
-
-  
+  //Create dispatch action for updating state
   const dispatch = useDispatch();
   
+  //Load current daily totals from state
   var dailyTotals = useSelector((state: RootState) => state.macros);
 
+  //Whenever journal data is fetched for the meal, do the math to get the totals for the meal
+  //then dispatch to update thes state
   useEffect(() => {
     if (!isLoading) {
       var calories = 0;
@@ -73,8 +71,7 @@ export default function MealPicker(props: MealPickerProps) {
     }
   }, [data]);
 
-  
-  
+  //When dropdown item is clicked create new entry in the journal record  
   function clickHandler(e: React.MouseEvent<HTMLElement>){
     var T = e.target as HTMLElement;
     var input = {
@@ -86,8 +83,10 @@ export default function MealPicker(props: MealPickerProps) {
     updateJournal(input);
   }
 
+  //Default display if no foods are added/fetched yet
   var food_list = <div>Start adding foods!</div>;
 
+  //Create MealItem component for existing meals
   if (data && !isLoading) {
     if (data[props.meal].length > 0) {
       food_list = data[props.meal].map((entry: EntryType) => {
@@ -108,9 +107,9 @@ export default function MealPicker(props: MealPickerProps) {
   
   var display;
 
+  //Accept the user's overall foodlist via props and create dropdown component via React Bootstrap
   if (props.foods) {
-    display = props.foods.map((entry: foodType) => {
-      
+    display = props.foods.map((entry: foodType) => {      
       return <Dropdown.Item onClick={clickHandler} key={entry._id} id={entry._id}>{entry.name}</Dropdown.Item>
     })
   } else {
@@ -119,31 +118,33 @@ export default function MealPicker(props: MealPickerProps) {
 
   return (  
     <Row className="mealPicker">
-    <Col className="mealPickerColumn">
-    <Row className="mealPickerHeader" xs="auto">      
-      <Col xs={8} lg={10}>
-        <h4>{props.meal.charAt(0).toUpperCase() + props.meal.slice(1)}</h4>
+      <Col className="mealPickerColumn">
+        <Row className="mealPickerHeader" xs="auto">      
+          <Col xs={8} lg={10}>
+            <h4>{props.meal.charAt(0).toUpperCase() + props.meal.slice(1)}</h4>
+          </Col>
+          <Col xs={4} lg={2}>
+            <Dropdown>
+              <Dropdown.Toggle variant="success">
+                Add
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                {display}
+              </Dropdown.Menu>
+            </Dropdown>
+          </Col>
+        </Row>    
+        <ul className="mealPickerFoodList">{food_list}</ul>
       </Col>      
-      
-      <Col xs={4} lg={2}>
-        <Dropdown>
-          <Dropdown.Toggle variant="success">
-            Add
-          </Dropdown.Toggle>
-          <Dropdown.Menu>
-            {display}
-          </Dropdown.Menu>
-        </Dropdown>
-      </Col>
-    </Row>
-    
-    <ul className="mealPickerFoodList">{food_list}</ul>
-    </Col>
-      
-    <Col className="mealTotalColumn" xs={3}>
-      <MealTotals calories={dailyTotals[props.meal].calories} protein={dailyTotals[props.meal].protein} carbs={dailyTotals[props.meal].carbs} fat={dailyTotals[props.meal].fat} fiber={dailyTotals[props.meal].fiber} />
-    </Col>
-    
+      <Col className="mealTotalColumn" xs={3}>
+        <MealTotals 
+          calories={dailyTotals[props.meal].calories} 
+          protein={dailyTotals[props.meal].protein} 
+          carbs={dailyTotals[props.meal].carbs} 
+          fat={dailyTotals[props.meal].fat} 
+          fiber={dailyTotals[props.meal].fiber} 
+        />
+      </Col>    
     </Row>
   )
 }

@@ -6,6 +6,7 @@ const keys = require("../config/keys");
 // Get user class from mongoose
 const User = mongoose.model('users');
 
+  
 // Serialize user and get its MongoDB id
 passport.serializeUser((user: any, done) => {
   done(null, user.id);
@@ -26,8 +27,7 @@ passport.use(new GoogleStrategy({
     callbackURL: '/auth/google/callback',
     proxy: true, 
     passReqToCallback : true,   
-  }, async (request: Request, accessToken: string, refreshToken: string, profile: any, done: Function) => {
-    console.log(profile);
+  }, async (request: any, accessToken: string, refreshToken: string, profile: any, done: Function) => {
     //Check if there is existing user
     const existingUser = await User.findOne({ googleId: profile.id });
       //If user exists return existing user, else create new user in mongoose/MongoDB
