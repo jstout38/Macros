@@ -22,6 +22,47 @@ type EditForm = {
   id: string;
 }
 
+export type ExternalFoodData = {
+  food: {
+    category: string,
+    categoryLabel: string,
+    foodId: string,
+    image: string,
+    knownAs: string,
+    label: string,
+    nutrients: {
+      ENERC_KCAL: number,
+      FAT: number,
+      PROCNT: number,
+      CHOCDF: number,
+      FIBTG: number,
+    },
+  },
+  measures: [],
+}
+
+export type SearchResponse = {
+  hints: [ExternalFoodData],
+  parsed: [],
+  text: string,
+  _links: {},
+}  
+
+export type Food = {
+  _id: string,
+  name: string,
+  description: string,
+  calories: number,
+  protein: number,
+  carbs: number,
+  fat: number,
+  fiber: number,
+}
+
+export type FoodList = [
+  Food,
+]
+
 const foodApi = createApi({
   reducerPath: 'food',
   baseQuery: fetchBaseQuery({
@@ -40,7 +81,7 @@ const foodApi = createApi({
           };
         },
       }),
-      fetchFood: builder.query<any, string>({
+      fetchFood: builder.query<SearchResponse, string>({
         query: (keyword) => {
           return {
             url: 'food/search',
@@ -51,7 +92,7 @@ const foodApi = createApi({
           }
         }
       }),
-      fetchUserFood: builder.query<any, void>({
+      fetchUserFood: builder.query<FoodList, void>({
         providesTags: ['Food'],
         query: () => {
           return {

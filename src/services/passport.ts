@@ -2,13 +2,38 @@ import passport from 'passport';
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 import mongoose from 'mongoose';
 const keys = require("../config/keys");
+import { Schema } from 'mongoose';
 
 // Get user class from mongoose
 const User = mongoose.model('users');
 
-  
+type User = {
+  id?: number,
+}
+
+type GoogleProfile = {
+  id: string,
+  displayName: string,
+  name: {
+    familyName: string,
+    givenName: string,
+  },
+  emails: [
+    {
+      value: string,
+      verified: boolean,
+    }
+  ],
+  photos: [
+    {
+      value: string,
+    }
+  ],
+  provier: string,
+}
+ 
 // Serialize user and get its MongoDB id
-passport.serializeUser((user: any, done) => {
+passport.serializeUser((user: User, done) => {
   done(null, user.id);
 });
 
@@ -27,8 +52,9 @@ passport.use(new GoogleStrategy({
     callbackURL: '/auth/google/callback',
     proxy: true, 
     passReqToCallback : true,   
-  }, async (request: any, accessToken: string, refreshToken: string, profile: any, done: Function) => {
+  }, async (request: Request, accessToken: string, refreshToken: string, profile: GoogleProfile, done: Function) => {
     //Check if there is existing user
+    console.log(profile);
     const existingUser = await User.findOne({ googleId: profile.id });
       //If user exists return existing user, else create new user in mongoose/MongoDB
       if (existingUser) {

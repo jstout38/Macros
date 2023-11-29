@@ -5,19 +5,9 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { useState, useEffect } from 'react';
 import { useFetchUserFoodQuery, useDeleteFoodMutation } from '../store';
+import { Food } from '../store/apis/foodApi';
 
 import { PlusSquare, Search, XSquareFill, PencilSquare } from 'react-bootstrap-icons';
-
-export type foodType = {
-  _id: string,
-  name: string,
-  description: string,
-  calories: number,
-  protein: number,
-  carbs: number,
-  fat: number,
-  fiber: number,
-}
 
 export default function FoodPanel() {  
 
@@ -63,24 +53,26 @@ export default function FoodPanel() {
   }
   const handleShow = () => setShow(true);
 
-  var display = '';
-  
-  if (data) {
-    display = data.foods.map((entry: foodType) => (
-      <li className="foodPanelItem" key={entry._id.toString()}>
-        <Row>
-          <Col xs={8}>
-            {entry.name}
-          </Col>
-          <Col xs={2}>          
-            <PencilSquare onClick={() => editUserFood(entry._id)} />
-          </Col>
-          <Col xs={2}>
-            <XSquareFill onClick={() => deleteUserFood(entry._id)} />          
-          </Col>
-        </Row>
-      </li>)
-    )
+  var display = () => {  
+    if (data) {
+      return data.map((entry: Food) => (
+        (<li className="foodPanelItem" key={entry._id}>
+          <Row>
+            <Col xs={8}>
+              {entry.name}
+            </Col>
+            <Col xs={2}>          
+              <PencilSquare onClick={() => editUserFood(entry._id)} />
+            </Col>
+            <Col xs={2}>
+              <XSquareFill onClick={() => deleteUserFood(entry._id)} />          
+            </Col>
+          </Row>
+        </li>)
+      ));
+    } else {
+      return [<div key="blank"></div>];
+    }
   };
 
   function deleteUserFood(id: string) {
@@ -88,18 +80,20 @@ export default function FoodPanel() {
   }
 
   function editUserFood(id: string) {    
-    var editFood = data.foods.filter((entry: foodType) => entry._id === id);
-    console.log(editFood);
-    setFoodTemplate({
-      name: editFood[0].name,
-      description: editFood[0].description,
-      calories: editFood[0].calories,
-      fat: editFood[0].fat,
-      protein: editFood[0].protein,
-      carbs: editFood[0].carbs,
-      fiber: editFood[0].fiber,
-      edit: id,
-    });
+    if (data) {
+      var editFood = data.filter((entry: Food) => entry._id === id);
+      
+      setFoodTemplate({
+        name: editFood[0].name,
+        description: editFood[0].description,
+        calories: editFood[0].calories,
+        fat: editFood[0].fat,
+        protein: editFood[0].protein,
+        carbs: editFood[0].carbs,
+        fiber: editFood[0].fiber,
+        edit: id,
+      });
+    }
     setModalSearch(false);
     handleShow();
   }
@@ -165,12 +159,12 @@ export default function FoodPanel() {
             <Search onClick={startSearch} size={24}/>
           </Col>
         </Row>
-        <ul className="foodPanelList">{display}</ul>
+        <ul className="foodPanelList">{display()}</ul>
         
         
       </div>
 
-      <Modal show={show} onHide={handleClose}>
+      <Modal fullscreen show={show} onHide={handleClose}>
         <Modal.Header closeButton>
             <Modal.Title>Update Your Foods!</Modal.Title>
         </Modal.Header>

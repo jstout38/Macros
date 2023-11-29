@@ -4,7 +4,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
-import { foodType } from './FoodPanel';
+import { Food } from '../store/apis/foodApi';
 
 import { XSquareFill } from 'react-bootstrap-icons';
 
@@ -12,7 +12,7 @@ type MealItemProps = {
   key: string,
   id: string,
   date: string,
-  food: foodType,
+  food: Food,
   meal: string,
   quantity: number,
 }

@@ -15,7 +15,7 @@ export type FormData = {
   formCalories: number;
 };
 
-export interface IUser {
+export interface User {
   googleId: string;
   firstName: string;
   lastName: string;
@@ -37,6 +37,9 @@ export type FormUpdate = {
   googleId: string,
 };
 
+//Endpoints:
+//useFetchUserQuery - fetch current user
+//useAddUserMutation - add or edit user
 const authApi = createApi({
   reducerPath: 'auth',
   tagTypes: ['User'],
@@ -55,7 +58,7 @@ const authApi = createApi({
           };
         },
       }),
-      fetchUser: builder.query<IUser, void>({
+      fetchUser: builder.query<User, void>({
         providesTags: ['User'],
         query: () => {
           return {

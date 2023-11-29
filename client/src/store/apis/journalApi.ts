@@ -1,4 +1,19 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { Food } from './foodApi';
+
+export type EntryType = {
+  date: string,
+  food: Food,
+  meal: string,
+  quantity: number,
+  user: string,
+  _id: string
+}
+
+export type EntryList = {
+  [index: string]: [EntryType] | string,
+}
+
 
 export type FoodInput = {
   date: string;
@@ -13,6 +28,11 @@ export type DeleteInput = {
   meal: string;
 }
 
+//Endpoints:
+//useAddJournalMutation - Add new journal for date
+//useUpdateJournalMutation - Upate journal entries for day
+//useFetchJournalQuery - Get all journal entries for date
+//useDeleteEntryMutation - Deelte an individual journal entry
 const journalApi = createApi({
   reducerPath: 'journal',
   baseQuery: fetchBaseQuery({
@@ -45,7 +65,7 @@ const journalApi = createApi({
           };
         },        
       }),
-      fetchJournal: builder.query<any, string>({
+      fetchJournal: builder.query<EntryList, string>({
         providesTags: ['Journal'],
         query: (date) => {
           return {

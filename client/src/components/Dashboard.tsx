@@ -17,6 +17,12 @@ export default function Dashboard() {
   const handleClose = () => setShowModal(false);
   const clickHandler = () => setShowModal(true);
 
+   //State for showing macro total modal in mobile resolutions
+   const [ macroShow, setMacroShow] = useState(false);
+
+   const handleMacroClose = () => setMacroShow(false);
+   const handleMacroShow = () => setMacroShow(true);
+
   //Three columns - at larger sizes the macro column displays macro totals and foodpanel shows user's foods
   //At mobile resolutions only the journal column is visible and the other columns are visible via modal
   return (
@@ -25,12 +31,12 @@ export default function Dashboard() {
         <FoodPanel />
       </Col>
       <Col className= "macroColumn" xs={2}>
-        <MacroTotals />
+        <MacroTotals modalClose={handleMacroClose} show={macroShow} />
       </Col>
       <Col className="journal" xs={12} sm={8}>
-        <Journal />
+        <Journal showMacroModal={handleMacroShow} />
       </Col>
-      <Button onClick={clickHandler} className="mobileYourFoods">
+      <Button onClick={clickHandler} className="justify-content-center mobileYourFoods">
         <h4 className="mobileButtonText">
           Update Your Foods
         </h4>

@@ -202,15 +202,24 @@ body, html, #root, .app , .dashboard-row, .dashboard, .journal, .foodPanel {
   display: none;
   position: fixed;
   bottom: 0;
+  right: 0;
   background-color: royalblue;
   margin-left: auto;
   margin-right: auto;
   align-content: center;
-  width: auto;
+  width: 100%;
 }
 
 .mobileButtonText {
   text-align: center;
+}
+
+.macroShowButton {
+  display: none;
+}
+
+.mealTotalsButton {
+  display: none;
 }
 
 @media (max-width: 1199px) {
@@ -221,6 +230,14 @@ body, html, #root, .app , .dashboard-row, .dashboard, .journal, .foodPanel {
   .macroColumn {
     display: none;
   } 
+
+  .macroShowButton {
+    display: flex;
+  }
+
+  .mealTotalsButton {
+    display: flex;
+  }
 
 }
 
@@ -238,4 +255,11 @@ body, html, #root, .app , .dashboard-row, .dashboard, .journal, .foodPanel {
   .mobileYourFoods {
     display: flex;
   }
+
+  html, body, .app {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
 }

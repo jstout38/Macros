@@ -2,6 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from '..';
 
+//Create an RTK QUery slice to track user targets for use in various components
+
 interface TargetState {
   [index: string]: number,
 }
@@ -25,10 +27,11 @@ export const userSlice = createSlice({
       state["fat"] = action.payload.fat;
       state["fiber"] = action.payload.fiber;
     },
-  },
+    resetTargets: () => initialState,
+  },  
 });
 
-export const { setTargets } = userSlice.actions
+export const { setTargets, resetTargets } = userSlice.actions
 
 export const selectTargets = (state: RootState) => state.targets
 

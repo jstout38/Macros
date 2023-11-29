@@ -1,4 +1,5 @@
 const { createProxyMiddleware } = require("http-proxy-middleware");
+//Proxy server for dev environment
 
 module.exports = function (app) {
   app.use(

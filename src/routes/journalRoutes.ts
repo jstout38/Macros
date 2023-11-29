@@ -10,6 +10,7 @@ const Journal = mongoose.model("journal");
 const Entry = mongoose.model("entry");
 
 module.exports = (app: Express) => {
+  //endpoint for adding a new journal date
   app.post('/journal/add', async (req, res) => {
     const currentUser = req.user as IUser;
     var user_record;
@@ -31,12 +32,11 @@ module.exports = (app: Express) => {
         });
       } else {
         res.send(existingEntry);
-      }
-     
-    }
-    
+      }     
+    }    
   });
 
+  //Endpoint for adding entries to a journal by date
   app.put('/journal/update', async (req, res) => {
     const currentUser = req.user as IUser;
     var user_record;
@@ -58,6 +58,7 @@ module.exports = (app: Express) => {
     }
   });
 
+  //Endpoint for deleting a journal entry
   app.delete('/journal/delete', async (req, res) => {
     const currentUser = req.user as IUser;
     var user_record;
@@ -68,7 +69,7 @@ module.exports = (app: Express) => {
     res.status(200).send("Delete successful!");
   });
 
-
+  //Endpoint for fetching journal entries
   app.get('/journal/entries', async (req, res) => {
     const currentUser = req.user as IUser;
     var user_record;

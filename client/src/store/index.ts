@@ -6,6 +6,8 @@ import { journalApi } from './apis/journalApi';
 import macroReducer from './slices/macroSlice';
 import userReducer from './slices/userSlice';
 
+//Setup for all slices and APIs
+
 export const store = configureStore({
   reducer: {
     [authApi.reducerPath]: authApi.reducer,

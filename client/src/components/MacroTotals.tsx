@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import GaugeChart from 'react-gauge-chart';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Modal from 'react-bootstrap/Modal'
 
 //Component for displaying macro totals - uses Gaugechart component found on github - thanks to Martin36
 //https://github.com/Martin36/react-gauge-chart
@@ -29,7 +30,12 @@ import Col from 'react-bootstrap/Col';
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-export default function MacroTotals() {
+type MacroTotalsProps = {
+  show: boolean,
+  modalClose: () => void,
+}
+
+export default function MacroTotals(props: MacroTotalsProps) {
   
   //Retrieve state from RTK for daily totals and targets
   var dailyTotals = useSelector((state: RootState) => state.macros);
@@ -53,6 +59,14 @@ export default function MacroTotals() {
     "fat": 0,
     "fiber": 0
   });
+
+  const [ macroPercents, setMacroPercents ] = useState<macroList>({
+    "calories" : 0,
+    "protein" : 0,
+    "carbs" : 0,
+    "fat" : 0,
+    "fiber" : 0
+  }) 
 
   //When daily totals are fetched add up the meals for each macro
   useEffect(() => {
@@ -84,8 +98,17 @@ export default function MacroTotals() {
           dailyTotals["snacks"].fiber),
     };
     setMacroTotals(newTotals);  
-    
   }, [dailyTotals]);
+
+  useEffect(() => {
+    setMacroPercents({
+      'calories': targets['calories'] === 0 ? 0 : macroTotals['calories'] / targets['calories'],
+      'protein': targets['calories'] === 0 ? 0 : macroTotals['protein'] / targets['protein'],
+      'carbs': targets['calories'] === 0 ? 0 : macroTotals['carbs'] / targets['carbs'],
+      'fat': targets['calories'] === 0 ? 0 : macroTotals['fat'] / targets['fat'],
+      'fiber': targets['calories'] === 0 ? 0 : macroTotals['fiber'] / targets['fiber'],
+    });
+  }, [targets, macroTotals]);
 
   //Create the macro display element for each meal - could be broken out into a new component
   const macros = ['calories', 'protein', 'carbs', 'fat', 'fiber'];
@@ -97,7 +120,7 @@ export default function MacroTotals() {
         <Row className="justify-content-center macroItem">
           <GaugeChart id={"gaugeChart-" + i}  className="gaugeChart" style={chartStyle}
             nrOfLevels={2} 
-            percent={macroTotals[macros[i]] / targets[macros[i]]} 
+            percent={macroPercents[macros[i]]} 
             arcsLength={[.95,.05]}
           />
         </Row>
@@ -114,6 +137,15 @@ export default function MacroTotals() {
   return (
     <Col className= "flex-column justify-content-evenly macroCol">
         {containers}
+
+      <Modal fullscreen show={props.show} onHide={props.modalClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Dailly Macro Totals</Modal.Title>
+        </Modal.Header>
+          <Modal.Body>
+            {containers}
+          </Modal.Body>        
+      </Modal>
     </Col>
   )
 

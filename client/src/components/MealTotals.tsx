@@ -19,5 +19,5 @@ export default function MealTotals (props: MealTotalsProps) {
     );
   };
 
-  return <Col className="mealTotalColumn">{containers}</Col>
+  return <Col>{containers}</Col>
 }

@@ -75,7 +75,7 @@ module.exports = (app: Express) => {
       .populate('foods')
       .exec();
     }
-    res.send(user_record);
+    res.send(user_record.foods);
   });
 
   //endoint for deleting a food

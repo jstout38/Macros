@@ -3,6 +3,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { useState, useEffect } from 'react';
 import { useFetchFoodQuery } from '../store';
+import { ExternalFoodData, SearchResponse } from '../store/apis/foodApi';
 import SearchResult from './SearchResult';
 
 type SearchProps = {
@@ -31,41 +32,15 @@ export default function SearchForm(props: SearchProps) {
     e.preventDefault();
   }
 
-  type SearchResponse = {
-    hints: [FoodElement],
-    parsed: [],
-    text: string,
-    _links: {},
-  }
-
-  type FoodElement = {
-    food: {
-      category: string,
-      categoryLabel: string,
-      foodId: string,
-      image: string,
-      knownAs: string,
-      label: string,
-      nutrients: {
-        ENERC_KCAL: number,
-        FAT: number,
-        PROCNT: number,
-        CHOCDF: number,
-        FIBTG: number,
-      },
-    },
-    measures: [],
-  }
-
   //Main logic for searching - pulls the first five autocomplete results and turns them into clickable SearchResult
   //components
-  const autoComplete = (searchData: SearchResponse) => {
-    if (isLoading || !searchData.text) {
+  const autoComplete = (searchData: SearchResponse | undefined) => {
+    if (isLoading || !searchData) {
       return;
     } else {      
       return (
         <ul className="searchContainer">
-          {searchData.hints.slice(0, 5).map((food: FoodElement, index: number) => {        
+          {searchData.hints.slice(0, 5).map((food: ExternalFoodData, index: number) => {        
             console.log(food);
             var foodImage;
             if (!food.food.image) {

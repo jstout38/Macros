@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from '..';
 
+//Create an RTK slick to track meal totals to pull in other components
 interface MacroState {
   [index: string]: {
     calories: number,
@@ -63,10 +64,11 @@ export const macroSlice = createSlice({
       state[action.payload.meal].fat = action.payload.fat;
       state[action.payload.meal].fiber = action.payload.fiber;
     },
+    resetMacros: () => initialState,
   },
 });
 
-export const { update } = macroSlice.actions
+export const { update, resetMacros } = macroSlice.actions
 
 export const selectMacros = (state: RootState) => state.macros
 

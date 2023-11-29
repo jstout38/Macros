@@ -8,23 +8,16 @@ import MealItem from './MealItem';
 import MealTotals from './MealTotals';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import { foodType } from './FoodPanel';
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
+import { Food } from '../store/apis/foodApi';
+import { EntryType } from '../store/apis/journalApi';
 
 type MealPickerProps = {
-  foods:[foodType],
+  foods:[Food],
   date: string,
   meal: string,
 }
-
-type EntryType = {
-  date: string,
-  food: foodType,
-  meal: string,
-  quantity: number,
-  user: string,
-  _id: string
-}
-
 //Component for rendering and totaling calories for a meal - this is where meal calories are totalled and sent back
 //to the RTK state
 export default function MealPicker(props: MealPickerProps) {
@@ -41,6 +34,13 @@ export default function MealPicker(props: MealPickerProps) {
   //Load current daily totals from state
   var dailyTotals = useSelector((state: RootState) => state.macros);
 
+  //State for showing modal for meal totals in mobile resolutions
+
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleOpen = () => setShow(true);
+
   //Whenever journal data is fetched for the meal, do the math to get the totals for the meal
   //then dispatch to update thes state
   useEffect(() => {
@@ -52,11 +52,12 @@ export default function MealPicker(props: MealPickerProps) {
       var protein = 0;
       if (data && data[props.meal].length > 0) {
         for (var i = 0; i < data[props.meal].length; i++) {
-          calories += data[props.meal][i].food.calories * data[props.meal][i].quantity
-          fiber += data[props.meal][i].food.fiber * data[props.meal][i].quantity
-          fat += data[props.meal][i].food.fat * data[props.meal][i].quantity
-          carbs += data[props.meal][i].food.carbs * data[props.meal][i].quantity
-          protein += data[props.meal][i].food.protein * data[props.meal][i].quantity
+          var mealData = data[props.meal][i] as EntryType;
+          calories += mealData.food.calories * mealData.quantity
+          fiber += mealData.food.fiber * mealData.quantity
+          fat += mealData.food.fat * mealData.quantity
+          carbs += mealData.food.carbs * mealData.quantity
+          protein += mealData.food.protein * mealData.quantity
         }
         dispatch(update({
           meal: props.meal,
@@ -84,24 +85,23 @@ export default function MealPicker(props: MealPickerProps) {
   }
 
   //Default display if no foods are added/fetched yet
-  var food_list = <div>Start adding foods!</div>;
-
-  //Create MealItem component for existing meals
-  if (data && !isLoading) {
-    if (data[props.meal].length > 0) {
-      food_list = data[props.meal].map((entry: EntryType) => {
-        return <MealItem 
-          key={entry._id}
-          id={entry._id}
-          date={props.date}
-          food={entry.food}
-          meal={props.meal}
-          quantity={entry.quantity}
-        />;
-      });
-      
+  var food_list = () => {
+    if (data && !isLoading) {
+      if (data[props.meal].length > 0) {
+        var mealData = data[props.meal] as [EntryType];
+        return mealData.map((entry: EntryType) => {
+          return <MealItem 
+            key={entry._id}
+            id={entry._id}
+            date={props.date}
+            food={entry.food}
+            meal={props.meal}
+            quantity={entry.quantity}
+          />;
+        });
+      }
     } else {
-      food_list = <div>Start adding foods!</div>;
+        return <div>Start adding foods!</div>;
     }
   }
   
@@ -109,7 +109,7 @@ export default function MealPicker(props: MealPickerProps) {
 
   //Accept the user's overall foodlist via props and create dropdown component via React Bootstrap
   if (props.foods) {
-    display = props.foods.map((entry: foodType) => {      
+    display = props.foods.map((entry: Food) => {      
       return <Dropdown.Item onClick={clickHandler} key={entry._id} id={entry._id}>{entry.name}</Dropdown.Item>
     })
   } else {
@@ -134,7 +134,8 @@ export default function MealPicker(props: MealPickerProps) {
             </Dropdown>
           </Col>
         </Row>    
-        <ul className="mealPickerFoodList">{food_list}</ul>
+        <ul className="mealPickerFoodList">{food_list()}</ul>
+        <Button onClick={handleOpen} className="bg-success mealTotalsButton">See {props.meal.charAt(0).toUpperCase() + props.meal.slice(1)} Totals</Button>
       </Col>      
       <Col className="mealTotalColumn" xs={3}>
         <MealTotals 
@@ -144,7 +145,21 @@ export default function MealPicker(props: MealPickerProps) {
           fat={dailyTotals[props.meal].fat} 
           fiber={dailyTotals[props.meal].fiber} 
         />
-      </Col>    
+      </Col>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>{props.meal.charAt(0).toUpperCase() + props.meal.slice(1)}</Modal.Title>
+        </Modal.Header>
+          <Modal.Body>
+            <MealTotals
+              calories={dailyTotals[props.meal].calories} 
+              protein={dailyTotals[props.meal].protein} 
+              carbs={dailyTotals[props.meal].carbs} 
+              fat={dailyTotals[props.meal].fat} 
+              fiber={dailyTotals[props.meal].fiber} 
+            />
+          </Modal.Body>        
+      </Modal>    
     </Row>
   )
 }
