@@ -164,7 +164,7 @@ export default function FoodPanel() {
         
       </div>
 
-      <Modal fullscreen show={show} onHide={handleClose}>
+      <Modal fullscreen='sm-down' show={show} onHide={handleClose}>
         <Modal.Header closeButton>
             <Modal.Title>Update Your Foods!</Modal.Title>
         </Modal.Header>

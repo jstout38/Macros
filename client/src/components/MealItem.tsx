@@ -45,7 +45,7 @@ export default function MealItem(props: MealItemProps) {
     updateEntry(input);
   }
 
-  //React bootstrap popover to allow user to see food details quickly - new componenet?
+  //React bootstrap popover to allow user to see food details quickly
   const popover = (
     <Popover>
       <Popover.Header as="h3">{props.food.name}</Popover.Header>

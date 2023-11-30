@@ -59,14 +59,14 @@ module.exports = (app: Express) => {
   });
 
   //Endpoint for deleting a journal entry
-  app.delete('/journal/delete', async (req, res) => {
+  app.post('/journal/delete', async (req, res) => {
     const currentUser = req.user as IUser;
     var user_record;
     if (currentUser) {
       user_record = await User.findOne({ googleId: currentUser.googleId });
     }
-    await Entry.findOneAndDelete( {_id: req.query.id });    
-    res.status(200).send("Delete successful!");
+    const deletedEntry = await Entry.findOneAndDelete( {_id: req.query.id });    
+    res.status(200).send(deletedEntry);
   });
 
   //Endpoint for fetching journal entries

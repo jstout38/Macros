@@ -72,6 +72,7 @@ export default function Journal(props: JournalProps) {
             <Form.Control onChange={changeHandler} type="Date" />
           </Form.Group>
         </Form>
+        
         <Button onClick={props.showMacroModal} className="bg-success macroShowButton">See Your Daily Totals</Button>
       </Row>
       

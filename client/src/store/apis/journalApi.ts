@@ -12,6 +12,7 @@ export type EntryType = {
 
 export type EntryList = {
   [index: string]: [EntryType] | string,
+  _id: string,
 }
 
 
@@ -82,12 +83,13 @@ const journalApi = createApi({
         query: (input) => {
           return {
             url: 'journal/delete',
-            method: 'DELETE',
+            method: 'POST',
             params: {
               date: input.date,
               meal: input.meal,
               id: input.id,
             },
+            
           };
         },
       }),

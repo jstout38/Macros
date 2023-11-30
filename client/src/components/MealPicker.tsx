@@ -50,7 +50,7 @@ export default function MealPicker(props: MealPickerProps) {
       var fat = 0;
       var carbs = 0;
       var protein = 0;
-      if (data && data[props.meal].length > 0) {
+      if (data) {
         for (var i = 0; i < data[props.meal].length; i++) {
           var mealData = data[props.meal][i] as EntryType;
           calories += mealData.food.calories * mealData.quantity
@@ -68,7 +68,6 @@ export default function MealPicker(props: MealPickerProps) {
           fiber: fiber,
         }));
       }
-      
     }
   }, [data]);
 
@@ -99,11 +98,11 @@ export default function MealPicker(props: MealPickerProps) {
             quantity={entry.quantity}
           />;
         });
-      }
-    } else {
+      } else {
         return <div>Start adding foods!</div>;
+      }
     }
-  }
+  } 
   
   var display;
 
