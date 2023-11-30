@@ -6,6 +6,7 @@ import { useFetchUserQuery } from '../store';
 
 import Header from './Header';
 import Dashboard from './Dashboard';
+import Landing from './Landing';
 
 //Root App component on index.html page
 export default function App() {    
@@ -22,7 +23,7 @@ export default function App() {
     displayApp = <h1>Error loggin in</h1>
   } else {
     if (!data) {
-      displayApp = <h1>Log in to get started!</h1>
+      displayApp = <Landing />
     } else {
       displayApp = <Dashboard />
     }

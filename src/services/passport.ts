@@ -54,7 +54,6 @@ passport.use(new GoogleStrategy({
     passReqToCallback : true,   
   }, async (request: Request, accessToken: string, refreshToken: string, profile: GoogleProfile, done: Function) => {
     //Check if there is existing user
-    console.log(profile);
     const existingUser = await User.findOne({ googleId: profile.id });
       //If user exists return existing user, else create new user in mongoose/MongoDB
       if (existingUser) {

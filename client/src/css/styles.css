@@ -210,6 +210,18 @@ body, html, #root, .app , .dashboard-row, .dashboard, .journal, .foodPanel {
   width: 100%;
 }
 
+.landingLogo {
+  object-fit: contain;
+  max-width: 30%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+}
+
+.landingText {
+  text-align: center;
+}
+
 .mobileButtonText {
   text-align: center;
 }
