@@ -212,10 +212,9 @@ body, html, #root, .app , .dashboard-row, .dashboard, .journal, .foodPanel {
 
 .landingLogo {
   object-fit: contain;
-  max-width: 30%;
+  max-width:30%;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 20px;
 }
 
 .landingText {
@@ -251,6 +250,9 @@ body, html, #root, .app , .dashboard-row, .dashboard, .journal, .foodPanel {
     display: flex;
   }
 
+  .landingLogo {
+    max-width: 60%;
+  }
 }
 
 @media (max-width: 575px) {
