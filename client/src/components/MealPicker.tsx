@@ -107,12 +107,12 @@ export default function MealPicker(props: MealPickerProps) {
   var display;
 
   //Accept the user's overall foodlist via props and create dropdown component via React Bootstrap
-  if (props.foods) {
+  if (props.foods.length > 0) {
     display = props.foods.map((entry: Food) => {      
       return <Dropdown.Item onClick={clickHandler} key={entry._id} id={entry._id}>{entry.name}</Dropdown.Item>
     })
   } else {
-    display = [<Dropdown.Item>No foods added yet.</Dropdown.Item>]
+    display = <Dropdown.Item>No foods added yet.</Dropdown.Item>
   }
 
   return (  
@@ -146,7 +146,7 @@ export default function MealPicker(props: MealPickerProps) {
         />
       </Col>
       <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
+        <Modal.Header className="modalHeader" closeButton>
           <Modal.Title>{props.meal.charAt(0).toUpperCase() + props.meal.slice(1)}</Modal.Title>
         </Modal.Header>
           <Modal.Body>

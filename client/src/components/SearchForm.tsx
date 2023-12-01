@@ -35,9 +35,7 @@ export default function SearchForm(props: SearchProps) {
   //Main logic for searching - pulls the first five autocomplete results and turns them into clickable SearchResult
   //components
   const autoComplete = (searchData: SearchResponse | undefined) => {
-    if (isLoading || !searchData) {
-      return;
-    } else {      
+    if (searchData && keyword.length > 0) {      
       return (
         <ul className="searchContainer">
           {searchData.hints.slice(0, 5).map((food: ExternalFoodData, index: number) => {        

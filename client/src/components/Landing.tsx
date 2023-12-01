@@ -4,7 +4,7 @@ import Row from 'react-bootstrap/Row';
 
 export default function Landing() {
   return (
-  <Col className="d-flex flex-column justify-content-evenly" xs={12}>
+  <Col className="d-flex flex-column justify-content-evenly landingColumn" xs={12}>
     <Row className= "d-flex" xs={12}>
       <img className="landingLogo" src={require('../images/m.png')} />
     </Row>

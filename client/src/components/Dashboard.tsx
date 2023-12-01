@@ -42,7 +42,7 @@ export default function Dashboard() {
         </h4>
       </Button>
       <Modal show={showModal} onHide={handleClose}>
-        <Modal.Header closeButton>
+        <Modal.Header className="modalHeader" closeButton>
             <Modal.Title>Your Foods</Modal.Title>
         </Modal.Header>
         <Modal.Body>

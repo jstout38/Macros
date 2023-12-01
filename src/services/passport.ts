@@ -64,9 +64,14 @@ passport.use(new GoogleStrategy({
           firstName: profile.name.givenName, 
           lastName: profile.name.familyName, 
           email: profile.emails[0].value,
-          DoB: null,
-          height: null,
-          weight: null
+          DoB: new Date(),
+          height: 0,
+          weight: 0,
+          calories: 0,
+          fat: 0,
+          carbs: 0,
+          protein: 0,
+          fiber: 0,
         }).save();
         done(null, user);
         } 

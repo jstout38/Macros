@@ -160,12 +160,10 @@ export default function FoodPanel() {
           </Col>
         </Row>
         <ul className="foodPanelList">{display()}</ul>
-        
-        
       </div>
 
       <Modal fullscreen='sm-down' show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
+        <Modal.Header className="modalHeader" closeButton>
             <Modal.Title>Update Your Foods!</Modal.Title>
         </Modal.Header>
         <Modal.Body>

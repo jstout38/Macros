@@ -12,9 +12,16 @@ type RegisterProps = {
   closeModal: Function,
 }
 
+interface ValidateFormType extends HTMLFormElement {
+  checkValidity: () => boolean,
+}
+
+
 //Component for registration and updating account
 
 export default function Register(props: RegisterProps) {  
+
+  const [validated, setValidated] = useState(false);
 
   //Initialize form control state
   const [fields, setFields] = useState<FormData>({
@@ -28,7 +35,7 @@ export default function Register(props: RegisterProps) {
     formFat: 0,
     formFiber: 0,
     formCalories: 0,
-    formDOB: null
+    formDOB: new Date()
     });
 
   //Fetch existing user data
@@ -66,89 +73,77 @@ export default function Register(props: RegisterProps) {
   }
 
   //Update the user and close modal on clicking submit button
-  const handleRegister = (e: React.FormEvent) => {
+  const handleRegister = (e: React.FormEvent<ValidateFormType>) => {
     e.preventDefault();    
-    addUser({fields, googleId});
-    props.closeModal();
+    const form = e.currentTarget;
+    if (form.checkValidity()) {
+      addUser({fields, googleId});
+      props.closeModal();
+    }
+    setValidated(true);
   }
 
   return(
-    <Form>
-      <Row className="align-items-center">
-        <Col xs="auto">
+    <Form noValidate validated={validated} onSubmit={handleRegister}>
+      <Row>
+        <Col xs={6}>
           <Form.Group className="mb-3" controlId="formFirstName">
             <Form.Label>First Name</Form.Label>
-            <Form.Control onChange={changeHandler} type="text" value={fields.formFirstName}/>
+            <Form.Control required onChange={changeHandler} type="text" value={fields.formFirstName}/>
+            <Form.Control.Feedback type="invalid">Required</Form.Control.Feedback>
           </Form.Group>
         </Col>
-        <Col xs="auto">
+        <Col xs={6}>
           <Form.Group className="mb-3" controlId="formLastName">
             <Form.Label>Last Name</Form.Label>
-            <Form.Control onChange={changeHandler} type="text" value={fields.formLastName}/>
+            <Form.Control required onChange={changeHandler} type="text" value={fields.formLastName}/>
+            <Form.Control.Feedback type="invalid">Required</Form.Control.Feedback>
           </Form.Group>
         </Col>
-        <Col xs="auto">
+        <Col xs={6}>
           <Form.Group className="mb-3" controlId="formEmail">
             <Form.Label>Email Address</Form.Label>
-            <Form.Control onChange={changeHandler} type="email" value={fields.formEmail}/>
+            <Form.Control required onChange={changeHandler} type="email" value={fields.formEmail}/>
+            <Form.Control.Feedback type="invalid">Required</Form.Control.Feedback>
           </Form.Group>
-        </Col>
-      </Row>
-      <Row>
-        <Col xs="auto">
-          <Form.Group className="mb-3" controlId="formWeight">
-            <Form.Label>Current Weight (in pounds)</Form.Label>
-            <Form.Control onChange={changeHandler} type="number" value={fields.formWeight}/>
-          </Form.Group>
-        </Col>
-        <Col xs="auto">
-          <Form.Group className="mb-3" controlId="formHeight">
-            <Form.Label>Current Height (in inches)</Form.Label>
-            <Form.Control onChange={changeHandler} type="number" value={fields.formHeight}/>
-          </Form.Group>
-        </Col>
-        <Col xs="auto">
-          <Form.Group className="mb-3" controlId="formDOB">
-            <Form.Label>Date of Birth</Form.Label>
-            <Form.Control onChange={changeHandler} type={inputType} placeholder={fields.formDOB ? moment(fields?.formDOB).utc().format('MM/DD/YYYY') : ''} onFocus={() => setInputType("date")}/>
-          </Form.Group>
-        </Col>
-      </Row>
-      <Row>
-        <Col xs="auto">
+        </Col>      
+        <Col xs={6}>
           <Form.Group className="mb-3" controlId="formProtein">
             <Form.Label>Target Protein</Form.Label>
-            <Form.Control onChange={changeHandler} type="number" value={fields.formProtein}/>
+            <Form.Control required onChange={changeHandler} type="number" value={fields.formProtein}/>
+            <Form.Control.Feedback type="invalid">Required</Form.Control.Feedback>
           </Form.Group>
         </Col>
-        <Col xs="auto">
+        <Col xs={6}>
           <Form.Group className="mb-3" controlId="formCarbs">
             <Form.Label>Target Carbs</Form.Label>
-            <Form.Control onChange={changeHandler} type="number" value={fields.formCarbs}/>
+            <Form.Control required onChange={changeHandler} type="number" value={fields.formCarbs}/>
+            <Form.Control.Feedback type="invalid">Required</Form.Control.Feedback>
           </Form.Group>
         </Col>
-        <Col xs="auto">
+        <Col xs={6}>
           <Form.Group className="mb-3" controlId="formFat">
             <Form.Label>Target Fat</Form.Label>
-            <Form.Control onChange={changeHandler} type="number" value={fields.formFat}/>
+            <Form.Control required onChange={changeHandler} type="number" value={fields.formFat}/>
+            <Form.Control.Feedback type="invalid">Required</Form.Control.Feedback>
           </Form.Group>
         </Col>
-      </Row>
-      <Row>
-        <Col xs="auto">
+        <Col xs={6}>
           <Form.Group className="mb-3" controlId="formFiber">
             <Form.Label>Target Fiber</Form.Label>
-            <Form.Control onChange={changeHandler} type="number" value={fields.formFiber}/>
+            <Form.Control required onChange={changeHandler} type="number" value={fields.formFiber}/>
+            <Form.Control.Feedback type="invalid">Required</Form.Control.Feedback>
           </Form.Group>
         </Col>
-        <Col xs="auto">
+        <Col xs={6}>
           <Form.Group className="mb-3" controlId="formCalories">
             <Form.Label>Target Calories</Form.Label>
-            <Form.Control onChange={changeHandler} type="number" value={fields.formCalories}/>
+            <Form.Control required onChange={changeHandler} type="number" value={fields.formCalories}/>
+            <Form.Control.Feedback type="invalid">Required</Form.Control.Feedback>
           </Form.Group>
         </Col>
       </Row>
-      <Button onClick={handleRegister} variant="primary" type="submit">Update</Button>
+      <Button variant="primary" type="submit">Update</Button>
     </Form>
     
   )

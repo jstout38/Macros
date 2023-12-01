@@ -103,10 +103,10 @@ export default function MacroTotals(props: MacroTotalsProps) {
   useEffect(() => {
     setMacroPercents({
       'calories': targets['calories'] === 0 ? 0 : macroTotals['calories'] / targets['calories'],
-      'protein': targets['calories'] === 0 ? 0 : macroTotals['protein'] / targets['protein'],
-      'carbs': targets['calories'] === 0 ? 0 : macroTotals['carbs'] / targets['carbs'],
-      'fat': targets['calories'] === 0 ? 0 : macroTotals['fat'] / targets['fat'],
-      'fiber': targets['calories'] === 0 ? 0 : macroTotals['fiber'] / targets['fiber'],
+      'protein': targets['protein'] === 0 ? 0 : macroTotals['protein'] / targets['protein'],
+      'carbs': targets['carbs'] === 0 ? 0 : macroTotals['carbs'] / targets['carbs'],
+      'fat': targets['fat'] === 0 ? 0 : macroTotals['fat'] / targets['fat'],
+      'fiber': targets['fiber'] === 0 ? 0 : macroTotals['fiber'] / targets['fiber'],
     });
   }, [targets, macroTotals]);
 
@@ -139,7 +139,7 @@ export default function MacroTotals(props: MacroTotalsProps) {
         {containers}
 
       <Modal fullscreen show={props.show} onHide={props.modalClose}>
-        <Modal.Header closeButton>
+        <Modal.Header className="modalHeader" closeButton>
           <Modal.Title>Dailly Macro Totals</Modal.Title>
         </Modal.Header>
           <Modal.Body>

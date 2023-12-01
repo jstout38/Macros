@@ -221,6 +221,10 @@ body, html, #root, .app , .dashboard-row, .dashboard, .journal, .foodPanel {
   text-align: center;
 }
 
+.landingColumn {
+  padding-bottom: 50px;
+}
+
 .mobileButtonText {
   text-align: center;
 }
@@ -232,6 +236,12 @@ body, html, #root, .app , .dashboard-row, .dashboard, .journal, .foodPanel {
 .mealTotalsButton {
   display: none;
 }
+
+
+.modalHeader {
+  background-color: coral;
+}
+
 
 @media (max-width: 1199px) {
   .mealTotalColumn {

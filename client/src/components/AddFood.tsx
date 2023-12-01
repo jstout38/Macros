@@ -2,7 +2,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, HtmlHTMLAttributes } from 'react';
 import { FoodForm } from '../store/apis/foodApi';
 import { useAddFoodMutation, useEditFoodMutation } from '../store';
 
@@ -19,11 +19,17 @@ type AddFoodProps = {
   submit: Function
 }
 
+interface ValidateFormType extends HTMLFormElement {
+  checkValidity: () => boolean,
+}
+
 //Component for adding a food, is used in a modal pulled up from the FoodPanel compoenent. Is also used to add
 //a food found via the search by passing props from search compoent to the AddFood panel, and is also used to
 //edit existing foods when passed the edit prop (id of Food object to edit)
 export default function AddFood(props: AddFoodProps) {
   
+  const [validated, setValidated] = useState(false);
+
   //Form control for input
   const [fields, setFields] = useState<FoodForm>({
     formName: '',
@@ -58,79 +64,93 @@ export default function AddFood(props: AddFoodProps) {
   }
 
   //Prevent default form behvior, instead use current state to add or edit, depending on whether the edit prop is set
-  const handleAddFood = (e: React.FormEvent) => {
+  const handleAddFood = (e: React.FormEvent<ValidateFormType>) => {
     e.preventDefault();    
-    if (props.edit) {
-      var input = {
-        formName: fields.formName,
-        formDescription: fields.formDescription,
-        formCals: fields.formCals,
-        formProt: fields.formProt,
-        formCarbs: fields.formCarbs,
-        formFat: fields.formFat,
-        formFiber: fields.formFiber,
-        id: props.edit,
+    const form = e.currentTarget;
+    if (form.checkValidity()) {
+      if (props.edit) {
+        var input = {
+          formName: fields.formName,
+          formDescription: fields.formDescription,
+          formCals: fields.formCals,
+          formProt: fields.formProt,
+          formCarbs: fields.formCarbs,
+          formFat: fields.formFat,
+          formFiber: fields.formFiber,
+          id: props.edit,
+        }
+        editFood(input);
+      } else {
+        addFood(fields);
       }
-      editFood(input);
-    } else {
-      addFood(fields);
+      //Close the modal
+      if (props.submit) {
+        props.submit();
+      }
     }
-    //Close the modal
-    if (props.submit) {
-      props.submit();
-    }
+
+    setValidated(true);
+
   }
 
   //React Bootstrap form control component
   return(    
-    <Form>
+    <Form noValidate validated={validated} onSubmit={handleAddFood}>
       <Row className="align-items-center">
-        <Col xs="auto">
+        <Col xs="12">
           <Form.Group className="mb-3" controlId="formName">
             <Form.Label>Name</Form.Label>
-            <Form.Control onChange={changeHandler} type="text" value={fields.formName}/>
-          </Form.Group>
+            <Form.Control required onChange={changeHandler} type="text" value={fields.formName}/>
+            <Form.Control.Feedback type="invalid">Required</Form.Control.Feedback>
+          </Form.Group>          
         </Col>
-        <Col xs="auto">
+        <Col xs="12">
           <Form.Group className="mb-3" controlId="formDescription">
             <Form.Label>Description</Form.Label>
-            <Form.Control onChange={changeHandler} type="text" value={fields.formDescription}/>
-          </Form.Group>
-        </Col>
-        <Col xs="auto">
-          <Form.Group className="mb-3" controlId="formCals">
-            <Form.Label>Calories</Form.Label>
-            <Form.Control onChange={changeHandler} type="number" value={fields.formCals}/>
+            <Form.Control onChange={changeHandler} type="text" as="textarea" value={fields.formDescription}/>
           </Form.Group>
         </Col>
       </Row>
       <Row>
-        <Col xs="auto">
+        <Col xs="6">
+          <Form.Group className="mb-3" controlId="formCals">
+            <Form.Label>Calories</Form.Label>
+            <Form.Control required onChange={changeHandler} type="number" value={fields.formCals}/>
+            <Form.Control.Feedback type="invalid">Required</Form.Control.Feedback>
+          </Form.Group>
+        </Col>
+        <Col xs="6">
           <Form.Group className="mb-3" controlId="formProt">
             <Form.Label>Protein</Form.Label>
-            <Form.Control onChange={changeHandler} type="number" value={fields.formProt}/>
+            <Form.Control required onChange={changeHandler} type="number" value={fields.formProt}/>
+            <Form.Control.Feedback type="invalid">Required</Form.Control.Feedback>
           </Form.Group>
         </Col>
-        <Col xs="auto">
+      </Row>      
+      <Row>        
+        <Col xs="6">
           <Form.Group className="mb-3" controlId="formCarbs">
             <Form.Label>Carbs</Form.Label>
-            <Form.Control onChange={changeHandler} type="number" value={fields.formCarbs}/>
+            <Form.Control required onChange={changeHandler} type="number" value={fields.formCarbs}/>
+            <Form.Control.Feedback type="invalid">Required</Form.Control.Feedback>
           </Form.Group>
         </Col>
-        <Col xs="auto">
+        <Col xs="6">
           <Form.Group className="mb-3" controlId="formFat">
             <Form.Label>Fat</Form.Label>
-            <Form.Control onChange={changeHandler} type="number" value={fields.formFat}/>
+            <Form.Control required onChange={changeHandler} type="number" value={fields.formFat}/>
+            <Form.Control.Feedback type="invalid">Required</Form.Control.Feedback>
           </Form.Group>
         </Col>
         <Col xs="auto">
           <Form.Group className="mb-3" controlId="formFiber">
             <Form.Label>Fiber</Form.Label>
-            <Form.Control onChange={changeHandler} type="number" value={fields.formFiber}/>
+            <Form.Control required onChange={changeHandler} type="number" value={fields.formFiber}/>
+            <Form.Control.Feedback type="invalid">Required</Form.Control.Feedback>
           </Form.Group>
         </Col>
       </Row>
-      <Button onClick={handleAddFood} variant="primary" type="submit">Save</Button>
+      <Button variant="primary" type="submit">Save</Button>
     </Form>
     
   )

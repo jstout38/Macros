@@ -80,7 +80,7 @@ export default function Header() {
       </Navbar>
 
       <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
+        <Modal.Header className="modalHeader" closeButton>
           <Modal.Title>Update Your Account!</Modal.Title>
         </Modal.Header>
         <Modal.Body>
