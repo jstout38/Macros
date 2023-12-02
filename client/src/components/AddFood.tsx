@@ -2,7 +2,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import { useState, useEffect, HtmlHTMLAttributes } from 'react';
+import { useState, useEffect } from 'react';
 import { FoodForm } from '../store/apis/foodApi';
 import { useAddFoodMutation, useEditFoodMutation } from '../store';
 
@@ -42,8 +42,8 @@ export default function AddFood(props: AddFoodProps) {
   });
 
   //RTK Query mutations, addFood adds a new food to the mongoDB database, and editFood updates an existing record
-  const [addFood, results] = useAddFoodMutation();
-  const [editFood, editResults] = useEditFoodMutation();
+  const [addFood] = useAddFoodMutation();
+  const [editFood] = useEditFoodMutation();
 
   //If props are passed to the component from search or edit, fill the form fields 
   useEffect(() => {
@@ -142,7 +142,7 @@ export default function AddFood(props: AddFoodProps) {
             <Form.Control.Feedback type="invalid">Required</Form.Control.Feedback>
           </Form.Group>
         </Col>
-        <Col xs="auto">
+        <Col xs="6">
           <Form.Group className="mb-3" controlId="formFiber">
             <Form.Label>Fiber</Form.Label>
             <Form.Control required onChange={changeHandler} type="number" value={fields.formFiber}/>
@@ -150,7 +150,9 @@ export default function AddFood(props: AddFoodProps) {
           </Form.Group>
         </Col>
       </Row>
-      <Button variant="primary" type="submit">Save</Button>
+      <Row className="justify-content-end">
+        <Button className="w-25 m-2" variant="primary" type="submit">Save</Button>
+      </Row>
     </Form>
     
   )

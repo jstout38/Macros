@@ -2,10 +2,9 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import moment from 'moment';
 import { useState, useEffect } from 'react';
 import { useAddUserMutation } from '../store';
-import { FormData, FormUpdate } from '../store/apis/authApi';
+import { FormData } from '../store/apis/authApi';
 import { useFetchUserQuery } from '../store';
 
 type RegisterProps = {
@@ -39,7 +38,7 @@ export default function Register(props: RegisterProps) {
     });
 
   //Fetch existing user data
-  const { data, error, isLoading } = useFetchUserQuery();
+  const { data } = useFetchUserQuery();
   const [ googleId, setGoogleId ] = useState('');
 
   //When user is fetch populate form with user's existing info
@@ -62,11 +61,8 @@ export default function Register(props: RegisterProps) {
     }}, [data]);
   
   //RTK Query mutaiton for adding a new user
-  const [addUser, results] = useAddUserMutation();
+  const [addUser] = useAddUserMutation();
   
-  //Initialize a state variable for showing a date as string when data is first loaded
-  const [inputType, setInputType] = useState("text");
-
   //Update fields based on user input
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFields({...fields, [e.target.id]: e.target.value});
@@ -143,7 +139,9 @@ export default function Register(props: RegisterProps) {
           </Form.Group>
         </Col>
       </Row>
-      <Button variant="primary" type="submit">Update</Button>
+      <Row className="justify-content-end">
+        <Button className="w-25 m-2" variant="primary" type="submit">Update</Button>
+      </Row>
     </Form>
     
   )

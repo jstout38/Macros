@@ -21,8 +21,8 @@ type MealItemProps = {
 export default function MealItem(props: MealItemProps) {
 
   //RTK mutations for deleting and updating journal entries
-  const [ deleteEntry, results ] = useDeleteEntryMutation();
-  const [ updateEntry, updateResults ] = useUpdateJournalMutation();
+  const [ deleteEntry] = useDeleteEntryMutation();
+  const [ updateEntry] = useUpdateJournalMutation();
 
   //Delete food by ID with RTK Query
   function deleteFood() {

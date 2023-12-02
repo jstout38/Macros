@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import type { RootState } from '../store';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import GaugeChart from 'react-gauge-chart';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Modal from 'react-bootstrap/Modal'
+import Modal from 'react-bootstrap/Modal';
+import { PatchQuestionFill } from 'react-bootstrap-icons';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 //Component for displaying macro totals - uses Gaugechart component found on github - thanks to Martin36
 //https://github.com/Martin36/react-gauge-chart
@@ -42,9 +44,9 @@ export default function MacroTotals(props: MacroTotalsProps) {
   var targets = useSelector((state: RootState) => state.targets);
 
   //Styling for Guagechart component
-  const chartStyle = {
-    height: 50,
-    width: 125,
+  const chartStyle = {    
+    width: '50%',
+    'margin-bottom': 0
   }
 
   type macroList = {
@@ -110,27 +112,46 @@ export default function MacroTotals(props: MacroTotalsProps) {
     });
   }, [targets, macroTotals]);
 
+  const macroTooltip = (
+    <OverlayTrigger
+      placement={"left"}
+      overlay={
+      <Tooltip>
+        Make sure to input your daily targets for your macros under My Account to see your daily percentages!
+      </Tooltip>
+      }
+    >
+    <PatchQuestionFill size={24} className="m-0 macroHelp"/>
+    </OverlayTrigger>
+  )
+
   //Create the macro display element for each meal - could be broken out into a new component
   const macros = ['calories', 'protein', 'carbs', 'fat', 'fiber'];
   const colors = ['bg-danger', 'bg-success', 'bg-primary', 'custom-yellow', 'bg-secondary'];
   const containers = [];
   for (var i = 0; i < macros.length; i++) {
     containers.push(
-      <Row key={i} className = {colors[i] + " text-light macroItem"}>       
-        <Row className="justify-content-center macroItem">
+      <Row key={i} className = {colors[i] + " text-light macroItem"}>               
+        <Row className="justify-content-center macroItem">          
           <GaugeChart id={"gaugeChart-" + i}  className="gaugeChart" style={chartStyle}
             nrOfLevels={2} 
             percent={macroPercents[macros[i]]} 
             arcsLength={[.95,.05]}
           />
         </Row>
-        <Row className="macroItem">
-            <h4 className="macro-item">Total {macros[i]}</h4>
-            </Row>
-            <Row className="macroItem">
-              <h4 className="macro-item">{macroTotals[macros[i]]}</h4>
-            </Row>           
+        <Row className="macroItem justify-content-center" xs={12}>            
+          <h4 className="macro-item">Total {macros[i]}</h4>
         </Row>
+        <Row className="macroItem">
+          <Col xs="3"></Col>
+          <Col xs="6">
+            <h4 className="macro-item">{macroTotals[macros[i]]}</h4>
+          </Col>
+          <Col xs="3">
+            {i === 0 ? macroTooltip : <div></div>}
+          </Col>
+        </Row>           
+      </Row>
     );
   };
 
@@ -138,6 +159,8 @@ export default function MacroTotals(props: MacroTotalsProps) {
     <Col className= "flex-column justify-content-evenly macroCol">
         {containers}
 
+      
+      
       <Modal fullscreen show={props.show} onHide={props.modalClose}>
         <Modal.Header className="modalHeader" closeButton>
           <Modal.Title>Dailly Macro Totals</Modal.Title>
@@ -146,6 +169,7 @@ export default function MacroTotals(props: MacroTotalsProps) {
             {containers}
           </Modal.Body>        
       </Modal>
+
     </Col>
   )
 

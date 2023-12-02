@@ -1,7 +1,7 @@
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useFetchFoodQuery } from '../store';
 import { ExternalFoodData, SearchResponse } from '../store/apis/foodApi';
 import SearchResult from './SearchResult';
@@ -9,6 +9,8 @@ import SearchResult from './SearchResult';
 type SearchProps = {
   selectFood: Function,
 }
+
+
 
 //Component that houses the search form for Food API
 //The food API I am using is not ideal but it's free. I use the hints supplied by the response to create
@@ -20,7 +22,7 @@ export default function SearchForm(props: SearchProps) {
   const [keyword, setKeyword] = useState<string>('');
 
   //RTK Query for the food API
-  const { data, error, isLoading } = useFetchFoodQuery(keyword); 
+  const { data } = useFetchFoodQuery(keyword); 
   
   //Form control
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,15 +44,16 @@ export default function SearchForm(props: SearchProps) {
             console.log(food);
             var foodImage;
             if (!food.food.image) {
-              foodImage = <img className="searchImage" src={require('../images/m.png')} />;
+              foodImage = <img alt={food.food.label} className="searchImage" src={require('../images/m.png')} />;
             } else {
               foodImage = <img 
+                alt={food.food.label}
                 className="searchImage"
                 onError={({ currentTarget }) => {
                   currentTarget.onerror = null;
                   currentTarget.src=require('../images/m.png');
                 }} 
-                src={food.food.image} />;
+                src={food.food.image} />
             }   
             var calories = food.food.nutrients.ENERC_KCAL.toFixed(0);
             var fat = food.food.nutrients.FAT.toFixed(2);

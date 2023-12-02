@@ -6,8 +6,9 @@ import Col from 'react-bootstrap/Col';
 import { useState, useEffect } from 'react';
 import { useFetchUserFoodQuery, useDeleteFoodMutation } from '../store';
 import { Food } from '../store/apis/foodApi';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
-import { PlusSquare, Search, XSquareFill, PencilSquare } from 'react-bootstrap-icons';
+import { PlusSquare, Search, XSquareFill, PencilSquare, PatchQuestionFill } from 'react-bootstrap-icons';
 
 export default function FoodPanel() {  
 
@@ -148,15 +149,30 @@ export default function FoodPanel() {
   return (
     <div>
       <div>        
-        <Row className="foodHeader align-items-center" xs="auto">
-          <Col xs={6} md={8}>
-            <h3>Your Foods</h3>
+        <Row className="foodHeader justify-contend-end m-0" xs="auto">
+          <Col xs={8} >
+            <Row className="g-0">
+            <Col xs="auto">
+                <OverlayTrigger
+                  placement={"right"}
+                  overlay={
+                    <Tooltip>
+                      Add custom foods or use the search to find food information from the database.
+                    </Tooltip>
+                  }
+                >      
+                  <PatchQuestionFill size={14} className="m-1 p-0 g-0 foodHelp"/>
+                </OverlayTrigger>
+              </Col>
+              <Col xs="auto">
+                <h4 className="g-0" >Foods</h4>
+              </Col>
+              
+            </Row>
           </Col>
-          <Col xs={3} md={2} className="align-items-right">
-            <PlusSquare onClick={startAdd} size={24}/>
-          </Col>
-          <Col xs={3} md={2} className="align-items-right">
-            <Search onClick={startSearch} size={24}/>
+          <Col xs={4} className="d-flex p-0 flex-row justify-content-end">
+            <PlusSquare className="m-1" onClick={startAdd} size={20}/>          
+            <Search className="m-1" onClick={startSearch} size={20}/>
           </Col>
         </Row>
         <ul className="foodPanelList">{display()}</ul>

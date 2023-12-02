@@ -12,6 +12,8 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import { Food } from '../store/apis/foodApi';
 import { EntryType } from '../store/apis/journalApi';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { PatchQuestionFill } from 'react-bootstrap-icons';
 
 type MealPickerProps = {
   foods:[Food],
@@ -23,10 +25,10 @@ type MealPickerProps = {
 export default function MealPicker(props: MealPickerProps) {
   
   //Get updateJournal from state for updating journal records
-  const [ updateJournal, results ] = useUpdateJournalMutation();
+  const [ updateJournal ] = useUpdateJournalMutation();
 
   //Fetch journal entries
-  const { data, error, isLoading } = useFetchJournalQuery(props.date);
+  const { data, isLoading } = useFetchJournalQuery(props.date);
 
   //Create dispatch action for updating state
   const dispatch = useDispatch();
@@ -115,22 +117,44 @@ export default function MealPicker(props: MealPickerProps) {
     display = <Dropdown.Item>No foods added yet.</Dropdown.Item>
   }
 
+  const displayPickerTooltip = (
+    <OverlayTrigger
+      placement={"left"}
+      overlay={
+        <Tooltip>
+          Add foods to your account first, then you will be able to select them for each meal.
+        </Tooltip>
+      }
+    >      
+      <PatchQuestionFill size={24} className="pickerHelp"/>
+    </OverlayTrigger>
+  )
+
   return (  
     <Row className="mealPicker">
       <Col className="mealPickerColumn">
+        
         <Row className="mealPickerHeader" xs="auto">      
-          <Col xs={8} lg={10}>
+        
+          <Col xs={7}>
             <h4>{props.meal.charAt(0).toUpperCase() + props.meal.slice(1)}</h4>
           </Col>
-          <Col xs={4} lg={2}>
-            <Dropdown>
-              <Dropdown.Toggle variant="success">
-                Add
-              </Dropdown.Toggle>
-              <Dropdown.Menu>
-                {display}
-              </Dropdown.Menu>
-            </Dropdown>
+          <Col xs={5}>
+            <Row className="d-flex flex-row justify-content-end">
+            <Col xs="auto">
+              <Dropdown>
+                <Dropdown.Toggle variant="success">
+                  Add
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  {display}
+                </Dropdown.Menu>
+              </Dropdown>
+            </Col>
+            <Col xs="auto">
+              {props.meal === "breakfast" ? displayPickerTooltip : <div></div>}          
+            </Col>
+            </Row>
           </Col>
         </Row>    
         <ul className="mealPickerFoodList">{food_list()}</ul>

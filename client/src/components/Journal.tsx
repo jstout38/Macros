@@ -26,10 +26,10 @@ export default function Journal(props: JournalProps) {
   );   
     
   //Use RTK Query to add new journal entries for newly accessed dates
-  const [ addJournal, results ] = useAddJournalMutation();
+  const [ addJournal ] = useAddJournalMutation();
 
   //RTK Query for fetching all of a user's foods for a date
-  const { data, error, isLoading } = useFetchUserFoodQuery();  
+  const { data } = useFetchUserFoodQuery();  
 
   //Dispatch for resetting slices
   const dispatch = useDispatch();
@@ -46,7 +46,7 @@ export default function Journal(props: JournalProps) {
   //Create a new journal entry for the current date if it does not exist on load
   useEffect(() => {   
     addJournal(currentDate);
-  }, []);
+  }, [currentDate, addJournal]);
 
   //Whenever a user selects a new date create a normalized string for that date and create a new journal entry
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,15 +64,14 @@ export default function Journal(props: JournalProps) {
   } 
 
   return (
-    <Container className="journalContainer">
+    <Container fluid className="journalContainer">
       <Row className="journalHeader">
         <h4 >{currentDate}</h4>
         <Form>
           <Form.Group className="mb-3" controlId="DOB">            
             <Form.Control onChange={changeHandler} type="Date" />
           </Form.Group>
-        </Form>
-        
+        </Form>        
         <Button onClick={props.showMacroModal} className="bg-success macroShowButton">See Your Daily Totals</Button>
       </Row>
       
