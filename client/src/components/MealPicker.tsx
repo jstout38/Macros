@@ -141,6 +141,9 @@ export default function MealPicker(props: MealPickerProps) {
           </Col>
           <Col xs={5}>
             <Row className="d-flex flex-row justify-content-end">
+            <Col xs="auto" className="align-self-center">
+              {props.meal === "breakfast" ? displayPickerTooltip : <div></div>}          
+            </Col>
             <Col xs="auto">
               <Dropdown>
                 <Dropdown.Toggle variant="success">
@@ -151,9 +154,7 @@ export default function MealPicker(props: MealPickerProps) {
                 </Dropdown.Menu>
               </Dropdown>
             </Col>
-            <Col xs="auto">
-              {props.meal === "breakfast" ? displayPickerTooltip : <div></div>}          
-            </Col>
+            
             </Row>
           </Col>
         </Row>    
